@@ -1,0 +1,197 @@
+---
+title: "MXB107 R Code Snippets"
+author: "Dan Tran"
+date: "2022-09-01"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    theme: bootstrap
+    df_print: paged
+    highlight: zenburn
+  pdf_document:
+    toc: true
+    toc_depth: 3
+    df_print: kable
+    highlight: zenburn
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Assignment 1
+
+**This document is intended to help with R Programming only. For mathematical explanation, please refer to the weekly [[Readings]](https://blackboard.qut.edu.au/bbcswebdav/pid-1481644-dt-announcement-rid-58665563_1/courses/MXB107_22se2/_site/index.html).**
+
+Set up the MXB107 package and load the `episodes` data set. The first line (commented) can be used to install dependencies (only when required by R). 
+
+```{r}
+# install.packages(c( "tidyverse", "knitr", "rmarkdown", "pander",
+# "ggforce", "kableExtra", "gridExtra"))
+install.packages("MXB107_1.0.0.2022.zip", repos = NULL, type="source")
+library(MXB107)
+data(episodes)
+```
+
+## Part 1: Summarising Data
+
+### Question 1
+
+Shows the IMDB rankings for each series of *Star Trek*. 
+
+```{r}
+ggplot(episodes, aes(x = Series.Name, y = IMDB.Ranking))+
+  geom_boxplot()
+```
+
+Add title, labels using `title()`, `xlab()` and `ylab()`.
+**Please change the labels and title in your assignment**
+
+```{r}
+ggplot(episodes, aes(y = Series.Name, x = IMDB.Ranking))+ # Changed x and y order for horizontal
+  geom_boxplot()+                                         # Add boxplot
+  xlab("IMDB")+                                           # Add x-label
+  ylab("Series")+                                         # Add y-label
+  ggtitle("IMDB Ranking of Star Trek Series")+            # Add title
+  theme(plot.title=element_text(hjust=0.5))               # Adjust title to middle
+```
+
+Create pair of histograms for IMDB rankings of **Star Trek: The Next Generation** based on Bechdel-Wallace Test status. The `aes(y=..density..)` is used to display the density rather than count.
+
+```{r}
+filter(episodes,Series.Name=="The Next Generation")%>%
+  ggplot(aes(x=IMDB.Ranking))+
+  geom_histogram(aes(y=..density..), bins = 30)+
+  facet_wrap(~Bechdel.Wallace.Test)
+```
+
+### Question 2
+
+Find the total number of rows in the `episodes` table. The `<-` operator assigns the value of the right hand side to the variable on the left-hand side (can be named anything, not just `n`).
+
+```{r}
+n <- nrow(episodes)
+n # To display the value of a variable, call it like this, or print(n)
+```
+
+Find the mean IMDB ranking. __`episodes$IMDB.Ranking` selects the `IMDB.Ranking` column from the `episodes` dataframe.__
+```{r}
+mean <- mean(episodes$IMDB.Ranking)
+mean
+```
+
+Find the sum of squared distances from the mean IMDB Ranking, with `mean` already found above. Equivalent to
+$$
+\sum_{i=1}^n{(x_i-\bar{x})^2}
+$$
+```{r}
+x <- episodes$IMDB.Ranking
+sum_of_squared_distances <- sum((x - mean)^2)
+sum_of_squared_distances
+```
+
+Display the histogram of the episode's IMDB rankings. 
+
+```{r}
+episodes %>%
+  ggplot(aes(x = IMDB.Ranking))+
+  geom_histogram(aes(y = ..density..), bins = 30)
+```
+
+## Part 2: Computing Basic Probabilities for Events
+
+### Question 1,2 & 3
+_Basically counting things_
+
+Find the number of episodes passing the Bechdel Wallace Test.
+
+```{r}
+pass_count <- sum(episodes$Bechdel.Wallace.Test == TRUE)
+pass_count
+```
+The condition `episodes$Bechdel.Wallace.Test == TRUE` can be changed to any other condition, such as:
+Number of episodes from *Star Trek: The Original Series*.
+```{r}
+original_count <- sum(episodes$Series.Name == "The Original Series")
+original_count
+```
+
+Or the number of episodes from *Star Trek: The Original Series* and pass the Bechdel-Wallace Test. You can apply multiple conditions using the `&` operator between the two comparisons.
+```{r}
+original_pass_count <- sum(episodes$Series.Name == "The Original Series" & 
+                             episodes$Bechdel.Wallace.Test == TRUE)
+original_pass_count
+```
+
+### Question 4
+_More advanced counting by accounting for categorical data_
+
+The number of episodes of each season for each series, that already passed the Bechdel Wallace Test.
+_Don't worry if the last two lines don't make sense._
+```{r}
+episodes%>% 
+  filter(Bechdel.Wallace.Test == TRUE)%>% # Remove this filter for all episodes
+  group_by(Series.Name, Season)%>%
+  tally()%>%
+  pivot_wider(names_from = Series.Name, values_from = n)%>%
+  bind_rows(summarise_all(., ~sum(., na.rm=TRUE)))%>% # Total column
+  mutate(Total = rowSums(.[setdiff(names(.),"Season")], na.rm = TRUE)) # Total row
+```
+
+## Part 3: Modelling with Probability Distributions
+
+### Question 1 & 2
+
+_In R, given any distribution (Binomial, Geometric, Poisson, Normal, etc.), the Probability Density Function $Pr(X = x)$ can be found using `d<distribution name>`, and the cumulative probability can be found using `p<distribution name>`. I show the Geometric distribution as an example._
+
+Given $X \sim Geom(0.5)$, find $Pr(X=2)$. 
+
+```{r}
+dgeom(2, prob = 0.5)
+```
+
+
+Given $X \sim Geom(0.5)$, find $Pr(X \leq 2)$.
+```{r}
+pgeom(2, prob = 0.5)
+```
+
+
+For other distributions, please refer to the documentation [[here]](https://cran.r-project.org/web/views/Distributions.html), or a slightly more visually engaging example [[here]](https://rstudio-pubs-static.s3.amazonaws.com/100906_8e3a32dd11c14b839468db756cee7400.html).
+
+### Question 3
+
+Plot the probability distributions for the number of successes out of 10 trials, with a success probability of 0.5; using the Binomial $X_B \sim Binom(10,0.5)$ and Poisson $X_P \sim Pois(10\times0.5)$.
+
+```{r}
+n <- 10
+p <- 0.5
+
+number_of_successes <- 1:n
+
+# Generate the dataframe with 3 columns: Successes, Binomial, Poisson
+data <- data.frame(Successes = number_of_successes,
+                   Binomial = dbinom(number_of_successes,n,p),
+                   Poisson = dpois(number_of_successes,n*p))
+# Plot side-by-side plots
+data %>%
+  pivot_longer(cols = -c(Successes), names_to = "Distribution") %>%
+  ggplot(aes(x = Successes, y = value))+
+  scale_x_continuous(breaks=data$Successes)+
+  geom_bar(stat="identity")+
+  facet_wrap(~Distribution)
+```
+
+## Extra
+
+### Embed an image
+
+Use `![](path\to\image)`. Replace the `path\to\image` with the actual path to your image. For example. I have a `QUT_Logo.jpg` in the same folder as my `R Markdown` file, which can be added using `![](QUT_Logo.jpg)`.
+
+![](QUT_Logo.jpg)
+
+### R Markdown Cheatsheet
+
+Access RStudio's R Markdown Cheatsheet [[Here]](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf).
+

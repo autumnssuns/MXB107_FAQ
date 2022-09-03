@@ -73,8 +73,8 @@ jobs:
         run: install.packages("rcmdcheck")
         shell: Rscript {0}
 
-      - name: Check package
-        uses: r-lib/actions/check-r-package@v2
+      # - name: Check package
+      #   uses: r-lib/actions/check-r-package@v2
 
       - name: Render document to html
         shell: Rscript {0}

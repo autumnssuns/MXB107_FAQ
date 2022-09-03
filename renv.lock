@@ -28,8 +28,14 @@
     "MXB107": {
       "Package": "MXB107",
       "Version": "1.0.0.2022",
-      "Source": "unknown",
-      "Hash": "8dcd9b44c8bc4894bfcbc052dbaa0187",
+      "Source": "GitHub",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteUsername": "gentrywhite",
+      "RemoteRepo": "MXB107",
+      "RemoteRef": "main",
+      "RemoteSha": "8bcede2ebbc19f14cbb9a67e4d7fd8a2afbce2d7",
+      "Hash": "11d92108a822733d5bbc9d4b6235245a",
       "Requirements": [
         "ggforce",
         "gridExtra",

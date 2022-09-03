@@ -3,16 +3,16 @@ title: "MXB107 R Code Snippets"
 author: "Dan Tran"
 date: "2022-09-01"
 output:
-  pdf_document:
-    toc: true
-    toc_depth: 3
-    df_print: kable
-    highlight: zenburn
   html_document:
     toc: true
     toc_float: true
     theme: bootstrap
     df_print: paged
+    highlight: zenburn
+  pdf_document:
+    toc: true
+    toc_depth: 3
+    df_print: kable
     highlight: zenburn
 ---
 

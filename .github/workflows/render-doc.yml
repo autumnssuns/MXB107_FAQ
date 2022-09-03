@@ -26,7 +26,9 @@ jobs:
       - name: Set up Git repository
         uses: actions/checkout@v3
       # - uses: r-lib/actions/setup-r@v1
-
+      - name: Install libcurl
+        run: |
+          sudo apt-get install libcurl4-openssl-dev
       - name: Set RENV_PATHS_ROOT
         shell: bash
         run: |

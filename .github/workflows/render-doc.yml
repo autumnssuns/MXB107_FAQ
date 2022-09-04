@@ -80,7 +80,7 @@ jobs:
         shell: Rscript {0}
         run: |
           library("rmarkdown")
-          rmarkdown::render("index.Rmd", output_format = "html_document")
+          rmarkdown::render("index.Rmd", output_format = "all")
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
@@ -88,3 +88,33 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: .
+
+      - name: Save artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: MXB107_R_Tips
+          path: index.pdf
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: MXB107_R_Tips
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: index.pdf
+          asset_name: MXB107_R_Tips
+          asset_content_type: application/pdf

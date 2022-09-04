@@ -88,6 +88,8 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: .
+      - name: Setup PDF render
+        run: sudo apt-get install texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra
 
       - name: Save artifacts
         uses: actions/upload-artifact@v3

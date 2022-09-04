@@ -20,8 +20,6 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Assignment 1
-
 **This document is intended to help with R Programming only. For mathematical explanation, please refer to the weekly [[Readings]](https://blackboard.qut.edu.au/bbcswebdav/pid-1481644-dt-announcement-rid-58665563_1/courses/MXB107_22se2/_site/index.html).**
 
 Set up the MXB107 package and load the `episodes` data set. The first line (commented) can be used to install dependencies (only when required by R). 
@@ -33,6 +31,10 @@ install.packages("MXB107_1.0.0.2022.zip", repos = NULL, type="source")
 library(MXB107)
 data(episodes)
 ```
+
+
+
+# Assignment 1
 
 ## Part 1: Summarising Data
 

@@ -80,7 +80,7 @@ jobs:
         shell: Rscript {0}
         run: |
           library("rmarkdown")
-          rmarkdown::render("index.Rmd", output_format = "all")
+          rmarkdown::render("index.Rmd", output_format = "html_document")
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
@@ -88,8 +88,14 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: .
+
       - name: Setup PDF render
         run: sudo apt-get install texlive-latex-base texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra
+
+      - name: Render document to pdf
+        shell: Rscript {0}
+        run: |
+          rmarkdown::render("index.Rmd", output_format = "pdf_document")
 
       - name: Save artifacts
         uses: actions/upload-artifact@v3

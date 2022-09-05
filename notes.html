@@ -2764,8 +2764,147 @@ div.tocify {
 
 <p>Workshop Recordings can be found on the Learning Resources Site: <a href="https://blackboard.qut.edu.au/bbcswebdav/pid-1481644-dt-announcement-rid-58665563_1/courses/MXB107_22se2/_site/videos.html" class="uri">https://blackboard.qut.edu.au/bbcswebdav/pid-1481644-dt-announcement-rid-58665563_1/courses/MXB107_22se2/_site/videos.html</a>.</p>
 <p>In this document, I’ll only write things that are not included in the official Workshop resources (above).</p>
-<div id="workshop-5" class="section level2">
-<h2>Workshop 5</h2>
+<div id="workshop-4-23822" class="section level2">
+<h2>Workshop 4 (23/8/22)</h2>
+<div id="largest-dice-roll" class="section level3">
+<h3>Largest Dice Roll</h3>
+<p>Imagine everyone in this class is lost in a far-away desert. There is not enough food, so we decide who get to eat by rolling two dices.</p>
+<p>Team A would win if the largest face rolled between the two is 1,2,3 or 4.</p>
+<p>Team B win otherwise (if the largest face is 5 or 6).</p>
+<p>Let <span class="math inline">\(A\)</span> be the event that team A win, and <span class="math inline">\(B\)</span> the event that team B win.</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>1</strong></td>
+<td>A</td>
+<td>A</td>
+<td>A</td>
+<td>A</td>
+<td>B</td>
+<td>B</td>
+</tr>
+<tr class="even">
+<td><strong>2</strong></td>
+<td>A</td>
+<td>A</td>
+<td>A</td>
+<td>A</td>
+<td>B</td>
+<td>B</td>
+</tr>
+<tr class="odd">
+<td><strong>3</strong></td>
+<td>A</td>
+<td>A</td>
+<td>A</td>
+<td>A</td>
+<td>B</td>
+<td>B</td>
+</tr>
+<tr class="even">
+<td><strong>4</strong></td>
+<td>A</td>
+<td>A</td>
+<td>A</td>
+<td>A</td>
+<td>B</td>
+<td>B</td>
+</tr>
+<tr class="odd">
+<td><strong>5</strong></td>
+<td>B</td>
+<td>B</td>
+<td>B</td>
+<td>B</td>
+<td>B</td>
+<td>B</td>
+</tr>
+<tr class="even">
+<td><strong>6</strong></td>
+<td>B</td>
+<td>B</td>
+<td>B</td>
+<td>B</td>
+<td>B</td>
+<td>B</td>
+</tr>
+</tbody>
+</table>
+<p>By counting, we observe that:</p>
+<p><span class="math display">\[
+\begin{align}
+Pr(A) &amp;= \dfrac{16}{36} \approx 44.4\% \\
+Pr(B) &amp;= \dfrac{20}{36} \approx 55.6\%
+\end{align}
+\]</span> We see that team B actually wins more often than team A.</p>
+</div>
+<div id="bayesian-rare-disease" class="section level3">
+<h3>Bayesian: Rare Disease</h3>
+<p>There is a rare yet deadly disease that affects 0.1% of the population. To diagnose the disease, scientists have made a test kit with 99% accuracy. This is, if the patient indeed has the disease, it will test positive 99% of the time (and if you are sick, there is a 1% chance that it says negative). This also means that even if you are not sick, it can give positive result 1% of the time.</p>
+<div id="positive-once" class="section level4">
+<h4>Positive Once</h4>
+<p>What is the probability that you have the disease given that you tested positive once?</p>
+<p><strong>Answer</strong></p>
+<p>Let <span class="math inline">\(S\)</span> be the event that you are sick, and <span class="math inline">\(P\)</span> be the event that you test positive.</p>
+<p><span class="math display">\[
+\begin{align}
+Pr(S) &amp;= 0.001 \\
+Pr(P | S) &amp;= 0.99 \\
+Pr(P | S^c) &amp;= 0.01 \\
+Pr(P^c |S) &amp;= 0.01
+\end{align}
+\]</span> We need to find <span class="math inline">\(Pr(S|P)\)</span>, Bayesian Theorem would state that:</p>
+<p><span class="math display">\[
+\begin{align}
+Pr(S|P) &amp;= \dfrac{Pr(P|S)Pr(S)}{Pr(P)} \\
+Pr(P) &amp;= Pr(P|S)Pr(S) + Pr(P|S^c)Pr(S^c) &amp; (\text{Law of total probability}) \\
+\\ \text{Substitution:} \\
+\Rightarrow Pr(S|P) &amp;= \dfrac{Pr(P|S)Pr(S)}{Pr(P|S)Pr(S) + Pr(P|S^c)Pr(S^c)} \\
+&amp;= \dfrac{0.99\times0.001}{0.99\times 0.001 + 0.01\times0.999} \\
+&amp;\approx 0.0901\approx9.01\%
+\end{align}
+\]</span> Hence, if you tested positive once, the probability that you actually have the disease is 9.01% (which is not that bad!).</p>
+</div>
+<div id="positive-twice" class="section level4">
+<h4>Positive Twice*</h4>
+<p>*This is a challenging question for extension.</p>
+<p>Now, you took another test and got a positive result. What is the probability that you have the disease now?</p>
+<p><strong>Answer</strong></p>
+<p>Renamed the above <span class="math inline">\(P\)</span> to <span class="math inline">\(P_1\)</span>, we have:</p>
+<p><span class="math display">\[
+Pr(S|P_1) \approx 0.0901
+\]</span> For two tests, we have:</p>
+<p><span class="math display">\[
+Pr(S|P_2 \cap P_1) = \dfrac{Pr(P_2 \cap P_1 | S)Pr(S)}{Pr(P2\cap P_1|S)Pr(S) + Pr(P_2 \cap P_1|S^c)Pr(S^c)}
+\]</span> Realise that <span class="math inline">\(P_1\)</span> and <span class="math inline">\(P_2\)</span> are independent, we see that <span class="math display">\[
+Pr(P_2\cap P_1|S)=Pr(P_2|S)Pr(P_1|S)\\
+Pr(P_2\cap P_2|S^c)=Pr(P_2|S^c)Pr(P_1|S^c)
+\]</span></p>
+<p>Hence,</p>
+<p><span class="math display">\[
+\begin{align}
+Pr(S|P_2 \cap P_1) &amp;= \dfrac{Pr(P_2 \cap P_1 | S)Pr(S)}{Pr(P2\cap P_1|S)Pr(S) + Pr(P_2 \cap P_1|S^c)Pr(S^c)}\\
+&amp;=\dfrac{Pr(P_2|S)Pr(P_1|S)Pr(S)}{Pr(P_2|S)Pr(P_1|S)Pr(S) + Pr(P_2|S^c)Pr(P_1|S^c)Pr(S^c)}\\
+&amp;=\dfrac{0.99\times0.99\times0.001}{0.99\times0.99\times0.001 + 0.01\times0.01\times0.99}\\
+&amp;\approx0.9082 \approx 90.82\%
+\end{align}
+\]</span> So the new probability is now 90.82%.</p>
+</div>
+</div>
+</div>
+<div id="workshop-5-30822" class="section level2">
+<h2>Workshop 5 (30/8/22)</h2>
 <div id="sum-of-two-dices" class="section level3">
 <h3>Sum of Two Dices</h3>
 <p>Let X be the random variable generated by summing the results of two dices.</p>
@@ -2857,10 +2996,10 @@ p(x)=\begin{cases}
 <p><strong>b. Find the mean</strong></p>
 <p><span class="math display">\[
 \begin{align}
-E[X] =&amp; \sum_{S}xp(x)\\
-=&amp; \sum_{x=2}^{12}xp(x)\\
-=&amp; \dfrac{1}{36} \times 2 + \dfrac{2}{36} \times 3 + \dfrac{3}{36} \times 4 + \dfrac{4}{36} \times 5 + \dfrac{5}{36} \times 6 + \dfrac{6}{36} \times 7 \\ &amp;+ \dfrac{5}{36} \times 8 + \dfrac{4}{36} \times 9 + \dfrac{3}{36} \times 10 + \dfrac{2}{36} \times 11 + \dfrac{1}{36} \times 12\\
-=&amp; 7
+E[X] &amp;= \sum_{S}xp(x)\\
+&amp;= \sum_{x=2}^{12}xp(x)\\
+&amp;= \dfrac{1}{36} \times 2 + \dfrac{2}{36} \times 3 + \dfrac{3}{36} \times 4 + \dfrac{4}{36} \times 5 + \dfrac{5}{36} \times 6 + \dfrac{6}{36} \times 7 \\ &amp;+ \dfrac{5}{36} \times 8 + \dfrac{4}{36} \times 9 + \dfrac{3}{36} \times 10 + \dfrac{2}{36} \times 11 + \dfrac{1}{36} \times 12\\
+&amp;= 7
 \end{align}
 \]</span></p>
 <p>Hence the mean is 7.</p>
@@ -2871,11 +3010,11 @@ E[X] =&amp; \sum_{S}xp(x)\\
 <p>Try <span class="math inline">\(x = 8\)</span>:</p>
 <p><span class="math display">\[
 \begin{align}
-Pr(X \leq 8) =&amp; Pr(X=1)+Pr(X=2)+Pr(X=3)+\cdots+Pr(X=8)\\
-=&amp; \dfrac{1}{36} + \dfrac{2}{36} + \dfrac{3}{36} + \dfrac{4}{36} + \dfrac{5}{36} + \dfrac{6}{36} + \dfrac{5}{36}\\
+Pr(X \leq 8) &amp;= Pr(X=1)+Pr(X=2)+Pr(X=3)+\cdots+Pr(X=8)\\
+&amp;= \dfrac{1}{36} + \dfrac{2}{36} + \dfrac{3}{36} + \dfrac{4}{36} + \dfrac{5}{36} + \dfrac{6}{36} + \dfrac{5}{36}\\
 \approx&amp;0.72 \geq \dfrac{1}{2}\\
-Pr(X \geq 8) =&amp; Pr(X=8)+Pr(X=9)+Pr(X=10)+Pr(X=11)+Pr(X=12)\\
-=&amp; \dfrac{5}{36} + \dfrac{4}{36} + \dfrac{3}{36} + \dfrac{2}{36} + \dfrac{1}{36} \\
+Pr(X \geq 8) &amp;= Pr(X=8)+Pr(X=9)+Pr(X=10)+Pr(X=11)+Pr(X=12)\\
+&amp;= \dfrac{5}{36} + \dfrac{4}{36} + \dfrac{3}{36} + \dfrac{2}{36} + \dfrac{1}{36} \\
 \approx&amp;0.42 \leq \dfrac{1}{2}
 \end{align}
 \]</span></p>
@@ -2883,11 +3022,11 @@ Pr(X \geq 8) =&amp; Pr(X=8)+Pr(X=9)+Pr(X=10)+Pr(X=11)+Pr(X=12)\\
 <p>Try <span class="math inline">\(x = 7\)</span>:</p>
 <p><span class="math display">\[
 \begin{align}
-Pr(X \leq 7) =&amp; Pr(X=1)+Pr(X=2)+Pr(X=3)+\cdots+Pr(X=8)\\
-=&amp; \dfrac{1}{36} + \dfrac{2}{36} + \dfrac{3}{36} + \dfrac{4}{36} + \dfrac{5}{36} + \dfrac{6}{36}\\
+Pr(X \leq 7) &amp;= Pr(X=1)+Pr(X=2)+Pr(X=3)+\cdots+Pr(X=8)\\
+&amp;= \dfrac{1}{36} + \dfrac{2}{36} + \dfrac{3}{36} + \dfrac{4}{36} + \dfrac{5}{36} + \dfrac{6}{36}\\
 \approx&amp;0.58 \geq \dfrac{1}{2}\\
-Pr(X \geq 7) =&amp; Pr(X=8)+Pr(X=9)+Pr(X=10)+Pr(X=11)+Pr(X=12)\\
-=&amp; \dfrac{6}{36} + \dfrac{5}{36} + \dfrac{4}{36} + \dfrac{3}{36} + \dfrac{2}{36} + \dfrac{1}{36} \\
+Pr(X \geq 7) &amp;= Pr(X=8)+Pr(X=9)+Pr(X=10)+Pr(X=11)+Pr(X=12)\\
+&amp;= \dfrac{6}{36} + \dfrac{5}{36} + \dfrac{4}{36} + \dfrac{3}{36} + \dfrac{2}{36} + \dfrac{1}{36} \\
 \approx&amp;0.58 \geq \dfrac{1}{2}
 \end{align}
 \]</span></p>
@@ -2906,16 +3045,37 @@ S = \{2,3,4,5,6,7,8,9,10,11,12\}
 <p><strong>e. Find the variance and standard deviation</strong></p>
 <p><span class="math display">\[
 \begin{align}
-Var[X] =&amp; E[(X-\mu]^2]\\
-=&amp; \sum_S(x-\mu)^2p(x)\\
-=&amp; \sum_{x=2}^{12}(x-7)^2p(x)\\
-=&amp; (2-7)^2 \times \dfrac{1}{36} + (3-7)^2 \times \dfrac{2}{36} + (4-7)^2 \times \dfrac{3}{36} + \cdots + (11-7)^2 \times \dfrac{2}{36} + (12-7)^2 \times \dfrac{1}{36}\\
+Var[X] &amp;= E[(X-\mu]^2]\\
+&amp;= \sum_S(x-\mu)^2p(x)\\
+&amp;= \sum_{x=2}^{12}(x-7)^2p(x)\\
+&amp;= (2-7)^2 \times \dfrac{1}{36} + (3-7)^2 \times \dfrac{2}{36} + (4-7)^2 \times \dfrac{3}{36} + \cdots + (11-7)^2 \times \dfrac{2}{36} + (12-7)^2 \times \dfrac{1}{36}\\
 \approx&amp; 5.83\\
 \sigma\approx&amp; \sqrt{5.83} \approx2.41
 \end{align}
 \]</span></p>
 <p>Hence the variance of X is 5.83 and the standard deviation is 2.41.</p>
 </div>
+</div>
+<div id="workshop-6-6922" class="section level2">
+<h2>Workshop 6 (6/9/22)</h2>
+</div>
+<div id="workshop-7-13922" class="section level2">
+<h2>Workshop 7 (13/9/22)</h2>
+</div>
+<div id="workshop-8-20922" class="section level2">
+<h2>Workshop 8 (20/9/22)</h2>
+</div>
+<div id="workshop-9-41022" class="section level2">
+<h2>Workshop 9 (4/10/22)</h2>
+</div>
+<div id="workshop-10-111022" class="section level2">
+<h2>Workshop 10 (11/10/22)</h2>
+</div>
+<div id="workshop-11-181022" class="section level2">
+<h2>Workshop 11 (18/10/22)</h2>
+</div>
+<div id="workshop-12-231022" class="section level2">
+<h2>Workshop 12 (23/10/22)</h2>
 </div>
 
 

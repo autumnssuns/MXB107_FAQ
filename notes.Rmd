@@ -24,7 +24,107 @@ Workshop Recordings can be found on the Learning Resources Site: <https://blackb
 
 In this document, I'll only write things that are not included in the official Workshop resources (above).
 
-## Workshop 5
+## Workshop 4 (23/8/22)
+
+### Largest Dice Roll
+
+Imagine everyone in this class is lost in a far-away desert. There is not enough food, so we decide who get to eat by rolling two dices.
+
+Team A would win if the largest face rolled between the two is 1,2,3 or 4.
+
+Team B win otherwise (if the largest face is 5 or 6).
+
+Let $A$ be the event that team A win, and $B$ the event that team B win.
+
+|       | 1   | 2   | 3   | 4   | 5   | 6   |
+|-------|-----|-----|-----|-----|-----|-----|
+| **1** | A   | A   | A   | A   | B   | B   |
+| **2** | A   | A   | A   | A   | B   | B   |
+| **3** | A   | A   | A   | A   | B   | B   |
+| **4** | A   | A   | A   | A   | B   | B   |
+| **5** | B   | B   | B   | B   | B   | B   |
+| **6** | B   | B   | B   | B   | B   | B   |
+
+By counting, we observe that:
+
+$$
+\begin{align}
+Pr(A) &= \dfrac{16}{36} \approx 44.4\% \\
+Pr(B) &= \dfrac{20}{36} \approx 55.6\%
+\end{align}
+$$ We see that team B actually wins more often than team A.
+
+### Bayesian: Rare Disease
+
+There is a rare yet deadly disease that affects 0.1% of the population. To diagnose the disease, scientists have made a test kit with 99% accuracy. This is, if the patient indeed has the disease, it will test positive 99% of the time (and if you are sick, there is a 1% chance that it says negative). This also means that even if you are not sick, it can give positive result 1% of the time.
+
+#### Positive Once
+
+What is the probability that you have the disease given that you tested positive once?
+
+**Answer**
+
+Let $S$ be the event that you are sick, and $P$ be the event that you test positive.
+
+$$
+\begin{align}
+Pr(S) &= 0.001 \\
+Pr(P | S) &= 0.99 \\
+Pr(P | S^c) &= 0.01 \\
+Pr(P^c |S) &= 0.01
+\end{align}
+$$
+We need to find $Pr(S|P)$, Bayesian Theorem would state that:
+
+$$
+\begin{align}
+Pr(S|P) &= \dfrac{Pr(P|S)Pr(S)}{Pr(P)} \\
+Pr(P) &= Pr(P|S)Pr(S) + Pr(P|S^c)Pr(S^c) & (\text{Law of total probability}) \\
+\\ \text{Substitution:} \\
+\Rightarrow Pr(S|P) &= \dfrac{Pr(P|S)Pr(S)}{Pr(P|S)Pr(S) + Pr(P|S^c)Pr(S^c)} \\
+&= \dfrac{0.99\times0.001}{0.99\times 0.001 + 0.01\times0.999} \\
+&\approx 0.0901\approx9.01\%
+\end{align}
+$$
+Hence, if you tested positive once, the probability that you actually have the disease is 9.01% (which is not that bad!).
+
+#### Positive Twice*
+
+*This is a challenging question for extension.
+
+Now, you took another test and got a positive result. What is the probability that you have the disease now?
+
+**Answer**
+
+Renamed the above $P$ to $P_1$, we have:
+
+$$
+Pr(S|P_1) \approx 0.0901
+$$
+For two tests, we have:
+
+$$
+Pr(S|P_2 \cap P_1) = \dfrac{Pr(P_2 \cap P_1 | S)Pr(S)}{Pr(P2\cap P_1|S)Pr(S) + Pr(P_2 \cap P_1|S^c)Pr(S^c)}
+$$
+Realise that $P_1$ and $P_2$ are independent, we see that
+$$
+Pr(P_2\cap P_1|S)=Pr(P_2|S)Pr(P_1|S)\\
+Pr(P_2\cap P_2|S^c)=Pr(P_2|S^c)Pr(P_1|S^c)
+$$
+
+Hence,
+
+$$
+\begin{align}
+Pr(S|P_2 \cap P_1) &= \dfrac{Pr(P_2 \cap P_1 | S)Pr(S)}{Pr(P2\cap P_1|S)Pr(S) + Pr(P_2 \cap P_1|S^c)Pr(S^c)}\\
+&=\dfrac{Pr(P_2|S)Pr(P_1|S)Pr(S)}{Pr(P_2|S)Pr(P_1|S)Pr(S) + Pr(P_2|S^c)Pr(P_1|S^c)Pr(S^c)}\\
+&=\dfrac{0.99\times0.99\times0.001}{0.99\times0.99\times0.001 + 0.01\times0.01\times0.99}\\
+&\approx0.9082 \approx 90.82\%
+\end{align}
+$$
+So the new probability is now 90.82%.
+
+## Workshop 5 (30/8/22)
 
 ### Sum of Two Dices
 
@@ -64,10 +164,10 @@ $$
 
 $$
 \begin{align}
-E[X] =& \sum_{S}xp(x)\\
-=& \sum_{x=2}^{12}xp(x)\\
-=& \dfrac{1}{36} \times 2 + \dfrac{2}{36} \times 3 + \dfrac{3}{36} \times 4 + \dfrac{4}{36} \times 5 + \dfrac{5}{36} \times 6 + \dfrac{6}{36} \times 7 \\ &+ \dfrac{5}{36} \times 8 + \dfrac{4}{36} \times 9 + \dfrac{3}{36} \times 10 + \dfrac{2}{36} \times 11 + \dfrac{1}{36} \times 12\\
-=& 7
+E[X] &= \sum_{S}xp(x)\\
+&= \sum_{x=2}^{12}xp(x)\\
+&= \dfrac{1}{36} \times 2 + \dfrac{2}{36} \times 3 + \dfrac{3}{36} \times 4 + \dfrac{4}{36} \times 5 + \dfrac{5}{36} \times 6 + \dfrac{6}{36} \times 7 \\ &+ \dfrac{5}{36} \times 8 + \dfrac{4}{36} \times 9 + \dfrac{3}{36} \times 10 + \dfrac{2}{36} \times 11 + \dfrac{1}{36} \times 12\\
+&= 7
 \end{align}
 $$
 
@@ -83,11 +183,11 @@ Try $x = 8$:
 
 $$
 \begin{align}
-Pr(X \leq 8) =& Pr(X=1)+Pr(X=2)+Pr(X=3)+\cdots+Pr(X=8)\\
-=& \dfrac{1}{36} + \dfrac{2}{36} + \dfrac{3}{36} + \dfrac{4}{36} + \dfrac{5}{36} + \dfrac{6}{36} + \dfrac{5}{36}\\
+Pr(X \leq 8) &= Pr(X=1)+Pr(X=2)+Pr(X=3)+\cdots+Pr(X=8)\\
+&= \dfrac{1}{36} + \dfrac{2}{36} + \dfrac{3}{36} + \dfrac{4}{36} + \dfrac{5}{36} + \dfrac{6}{36} + \dfrac{5}{36}\\
 \approx&0.72 \geq \dfrac{1}{2}\\
-Pr(X \geq 8) =& Pr(X=8)+Pr(X=9)+Pr(X=10)+Pr(X=11)+Pr(X=12)\\
-=& \dfrac{5}{36} + \dfrac{4}{36} + \dfrac{3}{36} + \dfrac{2}{36} + \dfrac{1}{36} \\
+Pr(X \geq 8) &= Pr(X=8)+Pr(X=9)+Pr(X=10)+Pr(X=11)+Pr(X=12)\\
+&= \dfrac{5}{36} + \dfrac{4}{36} + \dfrac{3}{36} + \dfrac{2}{36} + \dfrac{1}{36} \\
 \approx&0.42 \leq \dfrac{1}{2}
 \end{align}
 $$
@@ -98,11 +198,11 @@ Try $x = 7$:
 
 $$
 \begin{align}
-Pr(X \leq 7) =& Pr(X=1)+Pr(X=2)+Pr(X=3)+\cdots+Pr(X=8)\\
-=& \dfrac{1}{36} + \dfrac{2}{36} + \dfrac{3}{36} + \dfrac{4}{36} + \dfrac{5}{36} + \dfrac{6}{36}\\
+Pr(X \leq 7) &= Pr(X=1)+Pr(X=2)+Pr(X=3)+\cdots+Pr(X=8)\\
+&= \dfrac{1}{36} + \dfrac{2}{36} + \dfrac{3}{36} + \dfrac{4}{36} + \dfrac{5}{36} + \dfrac{6}{36}\\
 \approx&0.58 \geq \dfrac{1}{2}\\
-Pr(X \geq 7) =& Pr(X=8)+Pr(X=9)+Pr(X=10)+Pr(X=11)+Pr(X=12)\\
-=& \dfrac{6}{36} + \dfrac{5}{36} + \dfrac{4}{36} + \dfrac{3}{36} + \dfrac{2}{36} + \dfrac{1}{36} \\
+Pr(X \geq 7) &= Pr(X=8)+Pr(X=9)+Pr(X=10)+Pr(X=11)+Pr(X=12)\\
+&= \dfrac{6}{36} + \dfrac{5}{36} + \dfrac{4}{36} + \dfrac{3}{36} + \dfrac{2}{36} + \dfrac{1}{36} \\
 \approx&0.58 \geq \dfrac{1}{2}
 \end{align}
 $$
@@ -131,13 +231,27 @@ Since mean = median = mode, we say $X$ is defined by a symmetric, uni-modal dist
 
 $$
 \begin{align}
-Var[X] =& E[(X-\mu]^2]\\
-=& \sum_S(x-\mu)^2p(x)\\
-=& \sum_{x=2}^{12}(x-7)^2p(x)\\
-=& (2-7)^2 \times \dfrac{1}{36} + (3-7)^2 \times \dfrac{2}{36} + (4-7)^2 \times \dfrac{3}{36} + \cdots + (11-7)^2 \times \dfrac{2}{36} + (12-7)^2 \times \dfrac{1}{36}\\
+Var[X] &= E[(X-\mu]^2]\\
+&= \sum_S(x-\mu)^2p(x)\\
+&= \sum_{x=2}^{12}(x-7)^2p(x)\\
+&= (2-7)^2 \times \dfrac{1}{36} + (3-7)^2 \times \dfrac{2}{36} + (4-7)^2 \times \dfrac{3}{36} + \cdots + (11-7)^2 \times \dfrac{2}{36} + (12-7)^2 \times \dfrac{1}{36}\\
 \approx& 5.83\\
 \sigma\approx& \sqrt{5.83} \approx2.41
 \end{align}
 $$
 
 Hence the variance of X is 5.83 and the standard deviation is 2.41.
+
+## Workshop 6 (6/9/22)
+
+## Workshop 7 (13/9/22)
+
+## Workshop 8 (20/9/22)
+
+## Workshop 9 (4/10/22)
+
+## Workshop 10 (11/10/22)
+
+## Workshop 11 (18/10/22)
+
+## Workshop 12 (23/10/22)

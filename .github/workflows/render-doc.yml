@@ -76,11 +76,11 @@ jobs:
       # - name: Check package
       #   uses: r-lib/actions/check-r-package@v2
 
-      - name: Render document to html
+      - name: Render documents to html
         shell: Rscript {0}
         run: |
           library("rmarkdown")
-          rmarkdown::render("index.Rmd", output_format = "html_document")
+          lapply(list.files(".", pattern="*.Rmd", full.names=TRUE), function(filename) rmarkdown::render(filename, output_format = "html_document"))
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3

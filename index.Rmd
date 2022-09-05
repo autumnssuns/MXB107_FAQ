@@ -1,7 +1,7 @@
 ---
 title: "MXB107 R Code Snippets"
 author: "Dan Tran"
-date: "2022-09-01"
+date: "`r Sys.Date()`"
 output:
   html_document:
     toc: true
@@ -22,7 +22,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 **This document is intended to help with R Programming only. For mathematical explanation, please refer to the weekly [[Readings]](https://blackboard.qut.edu.au/bbcswebdav/pid-1481644-dt-announcement-rid-58665563_1/courses/MXB107_22se2/_site/index.html).**
 
-Set up the MXB107 package and load the `episodes` data set. The first line (commented) can be used to install dependencies (only when required by R). 
+Workshop notes (Tuesday 9-11am) can be found [[here (online only)]](notes.html).
+
+Set up the MXB107 package and load the `episodes` data set. The first line (commented) can be used to install dependencies (only when required by R).
 
 ```{r}
 # install.packages(c( "tidyverse", "knitr", "rmarkdown", "pander",
@@ -31,8 +33,6 @@ install.packages("MXB107_1.0.0.2022.zip", repos = NULL, type="source")
 library(MXB107)
 data(episodes)
 ```
-
-
 
 # Assignment 1
 

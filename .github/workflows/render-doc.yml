@@ -95,7 +95,7 @@ jobs:
       - name: Render document to pdf
         shell: Rscript {0}
         run: |
-          rmarkdown::render("index.Rmd", output_format = "pdf_document")
+          lapply(list.files(".", pattern="*.Rmd", full.names=TRUE), function(filename) rmarkdown::render(filename, output_format = "pdf_document"))
 
       - name: Save artifacts
         uses: actions/upload-artifact@v3

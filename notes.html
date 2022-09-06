@@ -11,7 +11,7 @@
 
 <meta name="author" content="Dan Tran" />
 
-<meta name="date" content="2022-09-05" />
+<meta name="date" content="2022-09-06" />
 
 <title>Workshop Notes</title>
 
@@ -2569,6 +2569,107 @@ window.onload = function() {
 
 
 
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  { color: #cccccc; background-color: #303030; }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ffcfaf; } /* Alert */
+code span.an { color: #7f9f7f; font-weight: bold; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bn { color: #dca3a3; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #f0dfaf; } /* ControlFlow */
+code span.ch { color: #dca3a3; } /* Char */
+code span.cn { color: #dca3a3; font-weight: bold; } /* Constant */
+code span.co { color: #7f9f7f; } /* Comment */
+code span.cv { color: #7f9f7f; font-weight: bold; } /* CommentVar */
+code span.do { color: #7f9f7f; } /* Documentation */
+code span.dt { color: #dfdfbf; } /* DataType */
+code span.dv { color: #dcdccc; } /* DecVal */
+code span.er { color: #c3bf9f; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #c0bed1; } /* Float */
+code span.fu { color: #efef8f; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #7f9f7f; font-weight: bold; } /* Information */
+code span.kw { color: #f0dfaf; } /* Keyword */
+code span.op { color: #f0efd0; } /* Operator */
+code span.ot { color: #efef8f; } /* Other */
+code span.pp { color: #ffcfaf; font-weight: bold; } /* Preprocessor */
+code span.sc { color: #dca3a3; } /* SpecialChar */
+code span.ss { color: #cc9393; } /* SpecialString */
+code span.st { color: #cc9393; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #cc9393; } /* VerbatimString */
+code span.wa { color: #7f9f7f; font-weight: bold; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -2757,7 +2858,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Workshop Notes</h1>
 <h4 class="author">Dan Tran</h4>
-<h4 class="date">2022-09-05</h4>
+<h4 class="date">2022-09-06</h4>
 
 </div>
 
@@ -3058,6 +3159,80 @@ Var[X] &amp;= E[(X-\mu]^2]\\
 </div>
 <div id="workshop-6-6922" class="section level2">
 <h2>Workshop 6 (6/9/22)</h2>
+<div id="butter-weight" class="section level3">
+<h3>Butter weight</h3>
+<p>Example: A dairy produces packages of butter using a machine that is set to produce 250 g block of butter with a standard deviation of 10 g. A sample of size n=13 blocks of butter produce an average weight of <span class="math inline">\(\bar{x}\)</span>=253 g. What is the probability of observing a sample average weight of 253 g or more?</p>
+<p>Set up the solution by hand and use R to compute the probability.</p>
+<p><strong>Answer</strong></p>
+<p>What we have known:</p>
+<p><span class="math display">\[
+\mu = 250g\\
+\sigma = 10g\\
+n=13 \text{ blocks}
+\]</span> Apply the central limit theorem:</p>
+<p><span class="math display">\[
+\bar{x} \sim N\left(\mu, \dfrac{\sigma^2}{n}\right)\\
+\bar{x} \sim N\left(250, \dfrac{10^2}{13}\right)\\
+\]</span> In a normal distribution, the first parameter is the mean, and second is the variance.</p>
+<p>And the standard deviation of the distribution of means is <span class="math display">\[
+\begin{align}
+s &amp;= \sqrt{\dfrac{\sigma^2}{n}} \\
+&amp;= \dfrac{\sigma}{\sqrt{n}} \\
+&amp;= \dfrac{10}{\sqrt{13}}
+\end{align}
+\]</span></p>
+<p>To convert from any random variable to Z score:</p>
+<p><span class="math display">\[
+Z = \dfrac{X - \mu}{s}
+\]</span></p>
+<p>$$</p>
+<p><span class="math display">\[\begin{align}
+Pr(\bar{x} \geq 253) &amp;= Pr\left(\dfrac{\bar{x} - \mu}{s} \geq \dfrac{253 - \mu}{s}\right)\\
+&amp;= Pr\left(Z \geq \dfrac{253 - \mu}{s}\right)\\
+&amp;= Pr\left(Z \geq \dfrac{253 - \mu}{\sigma / \sqrt{n}}\right)\\
+&amp;= Pr\left(Z \geq \dfrac{253-250}{10/\sqrt{13}}\right)\\
+&amp;= Pr\left(Z \geq 1.08167\right)
+\end{align}\]</span> $$ For a number <span class="math inline">\(t\)</span> up table shows <span class="math inline">\(Pr(Z &lt; t)\)</span>. We want <span class="math inline">\(Pr(Z \geq t) = 1 - Pr(Z &lt; t)\)</span></p>
+<p>From lookup table: <span class="math display">\[
+Pr(Z &lt; 1.08) \approx 0.85993\\
+Pr(Z &gt; 1.08) \approx 1 - 0.85993\approx0.14007
+\]</span></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">pnorm</span>(<span class="dv">253</span>, <span class="dt">mean =</span> <span class="dv">250</span>, <span class="dt">sd =</span> <span class="dv">10</span><span class="op">/</span><span class="kw">sqrt</span>(<span class="dv">13</span>), <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<pre><code>## [1] 0.1397006</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">pnorm</span>(<span class="fl">1.08167</span>, <span class="dt">mean =</span> <span class="dv">0</span>, <span class="dt">sd =</span> <span class="dv">1</span>, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<pre><code>## [1] 0.1396996</code></pre>
+<p>Therefore, the probability of observing a sample average weight of 253g or more is approximately 0.14.</p>
+</div>
+<div id="online-workshop-preference" class="section level3">
+<h3>Online Workshop Preference</h3>
+<p><strong>Example</strong></p>
+<p>Assume that in Semester 2 of a sample of 100 QUT students living in the Greater Brisbane Area, 47 replied that they preferred on-line workshops. Results of previous surveys from Semester 1 indicated that 35% of students preferred on-line workshops. What is the probability of observing the proportion from Semester 2, or more given the Semester 1 results are accurate?</p>
+<p><span class="math display">\[
+n = 100\\
+\mu = 0.35\\
+\sigma^2 = np(1-p) = 100\times0.35\times(1-0.35) = 22.75\\
+\sigma = \sqrt{22.75}
+\]</span></p>
+<p>Let <span class="math inline">\(\bar{x}\)</span> be the proportion of students who prefer online workshops in semester 2</p>
+<p>Remember that in a binomial distribution: <span class="math display">\[
+E[X]=np\\
+\bar{x} = np\\
+p = \dfrac{\bar{x}}{n}
+\]</span> Since we are not looking at the real (population) proportion we need to use the <span class="math inline">\(\hat{p}=\dfrac{x}{n}\)</span>.</p>
+<p>Variance of <span class="math inline">\(\hat{p} = \dfrac{p(1-p)}{n}=\dfrac{0.35\times(1-0.35)}{100}=0.002275\)</span>. And the standard deviation of <span class="math inline">\(\hat{p}\)</span> is <span class="math inline">\(s = \sqrt{0.002275}\)</span></p>
+<p><span class="math display">\[
+\begin{align}
+Pr(\hat{p} &gt; \dfrac{x}{n}) &amp;= Pr(\hat{p} &gt; \dfrac{47}{100})\\
+&amp;= Pr(\hat{p} &gt; 0.47)\\
+&amp;= Pr(\dfrac{\hat{p} - 0.35}{\sqrt{0.002275}} &gt; \dfrac{0.47 - 0.35}{\sqrt{0.002275}})\\
+&amp;= Pr(Z &gt; 2.515)\\
+&amp;\approx 0.0062 
+\end{align}
+\]</span></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">pnorm</span>(<span class="fl">2.5</span>, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<pre><code>## [1] 0.006209665</code></pre>
+<p>Therefore, the probability of observing the proportion from semester 2 (0.47) or more, givne the results from semester 1 is accurate is approximately 0.0062 or 0.62%.</p>
+</div>
 </div>
 <div id="workshop-7-13922" class="section level2">
 <h2>Workshop 7 (13/9/22)</h2>

@@ -11,7 +11,7 @@
 
 <meta name="author" content="Dan Tran" />
 
-<meta name="date" content="2022-09-06" />
+<meta name="date" content="2022-09-12" />
 
 <title>Workshop Notes</title>
 
@@ -2858,7 +2858,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Workshop Notes</h1>
 <h4 class="author">Dan Tran</h4>
-<h4 class="date">2022-09-06</h4>
+<h4 class="date">2022-09-12</h4>
 
 </div>
 
@@ -2944,10 +2944,10 @@ div.tocify {
 </table>
 <p>By counting, we observe that:</p>
 <p><span class="math display">\[
-\begin{align}
+\begin{aligned}
 Pr(A) &amp;= \dfrac{16}{36} \approx 44.4\% \\
 Pr(B) &amp;= \dfrac{20}{36} \approx 55.6\%
-\end{align}
+\end{aligned}
 \]</span> We see that team B actually wins more often than team A.</p>
 </div>
 <div id="bayesian-rare-disease" class="section level3">
@@ -2959,22 +2959,22 @@ Pr(B) &amp;= \dfrac{20}{36} \approx 55.6\%
 <p><strong>Answer</strong></p>
 <p>Let <span class="math inline">\(S\)</span> be the event that you are sick, and <span class="math inline">\(P\)</span> be the event that you test positive.</p>
 <p><span class="math display">\[
-\begin{align}
+\begin{aligned}
 Pr(S) &amp;= 0.001 \\
 Pr(P | S) &amp;= 0.99 \\
 Pr(P | S^c) &amp;= 0.01 \\
 Pr(P^c |S) &amp;= 0.01
-\end{align}
+\end{aligned}
 \]</span> We need to find <span class="math inline">\(Pr(S|P)\)</span>, Bayesian Theorem would state that:</p>
 <p><span class="math display">\[
-\begin{align}
+\begin{aligned}
 Pr(S|P) &amp;= \dfrac{Pr(P|S)Pr(S)}{Pr(P)} \\
 Pr(P) &amp;= Pr(P|S)Pr(S) + Pr(P|S^c)Pr(S^c) &amp; (\text{Law of total probability}) \\
 \\ \text{Substitution:} \\
 \Rightarrow Pr(S|P) &amp;= \dfrac{Pr(P|S)Pr(S)}{Pr(P|S)Pr(S) + Pr(P|S^c)Pr(S^c)} \\
 &amp;= \dfrac{0.99\times0.001}{0.99\times 0.001 + 0.01\times0.999} \\
 &amp;\approx 0.0901\approx9.01\%
-\end{align}
+\end{aligned}
 \]</span> Hence, if you tested positive once, the probability that you actually have the disease is 9.01% (which is not that bad!).</p>
 </div>
 <div id="positive-twice" class="section level4">
@@ -2994,12 +2994,12 @@ Pr(P_2\cap P_2|S^c)=Pr(P_2|S^c)Pr(P_1|S^c)
 \]</span></p>
 <p>Hence,</p>
 <p><span class="math display">\[
-\begin{align}
+\begin{aligned}
 Pr(S|P_2 \cap P_1) &amp;= \dfrac{Pr(P_2 \cap P_1 | S)Pr(S)}{Pr(P2\cap P_1|S)Pr(S) + Pr(P_2 \cap P_1|S^c)Pr(S^c)}\\
 &amp;=\dfrac{Pr(P_2|S)Pr(P_1|S)Pr(S)}{Pr(P_2|S)Pr(P_1|S)Pr(S) + Pr(P_2|S^c)Pr(P_1|S^c)Pr(S^c)}\\
 &amp;=\dfrac{0.99\times0.99\times0.001}{0.99\times0.99\times0.001 + 0.01\times0.01\times0.99}\\
 &amp;\approx0.9082 \approx 90.82\%
-\end{align}
+\end{aligned}
 \]</span> So the new probability is now 90.82%.</p>
 </div>
 </div>
@@ -3096,12 +3096,12 @@ p(x)=\begin{cases}
 \]</span></p>
 <p><strong>b. Find the mean</strong></p>
 <p><span class="math display">\[
-\begin{align}
+\begin{aligned}
 E[X] &amp;= \sum_{S}xp(x)\\
 &amp;= \sum_{x=2}^{12}xp(x)\\
 &amp;= \dfrac{1}{36} \times 2 + \dfrac{2}{36} \times 3 + \dfrac{3}{36} \times 4 + \dfrac{4}{36} \times 5 + \dfrac{5}{36} \times 6 + \dfrac{6}{36} \times 7 \\ &amp;+ \dfrac{5}{36} \times 8 + \dfrac{4}{36} \times 9 + \dfrac{3}{36} \times 10 + \dfrac{2}{36} \times 11 + \dfrac{1}{36} \times 12\\
 &amp;= 7
-\end{align}
+\end{aligned}
 \]</span></p>
 <p>Hence the mean is 7.</p>
 <p><strong>c. Find the median</strong></p>
@@ -3110,26 +3110,26 @@ E[X] &amp;= \sum_{S}xp(x)\\
 \]</span></p>
 <p>Try <span class="math inline">\(x = 8\)</span>:</p>
 <p><span class="math display">\[
-\begin{align}
+\begin{aligned}
 Pr(X \leq 8) &amp;= Pr(X=1)+Pr(X=2)+Pr(X=3)+\cdots+Pr(X=8)\\
 &amp;= \dfrac{1}{36} + \dfrac{2}{36} + \dfrac{3}{36} + \dfrac{4}{36} + \dfrac{5}{36} + \dfrac{6}{36} + \dfrac{5}{36}\\
 \approx&amp;0.72 \geq \dfrac{1}{2}\\
 Pr(X \geq 8) &amp;= Pr(X=8)+Pr(X=9)+Pr(X=10)+Pr(X=11)+Pr(X=12)\\
 &amp;= \dfrac{5}{36} + \dfrac{4}{36} + \dfrac{3}{36} + \dfrac{2}{36} + \dfrac{1}{36} \\
 \approx&amp;0.42 \leq \dfrac{1}{2}
-\end{align}
+\end{aligned}
 \]</span></p>
 <p>Hence <span class="math inline">\(x = 8\)</span> is not the median of X.</p>
 <p>Try <span class="math inline">\(x = 7\)</span>:</p>
 <p><span class="math display">\[
-\begin{align}
+\begin{aligned}
 Pr(X \leq 7) &amp;= Pr(X=1)+Pr(X=2)+Pr(X=3)+\cdots+Pr(X=8)\\
 &amp;= \dfrac{1}{36} + \dfrac{2}{36} + \dfrac{3}{36} + \dfrac{4}{36} + \dfrac{5}{36} + \dfrac{6}{36}\\
 \approx&amp;0.58 \geq \dfrac{1}{2}\\
 Pr(X \geq 7) &amp;= Pr(X=8)+Pr(X=9)+Pr(X=10)+Pr(X=11)+Pr(X=12)\\
 &amp;= \dfrac{6}{36} + \dfrac{5}{36} + \dfrac{4}{36} + \dfrac{3}{36} + \dfrac{2}{36} + \dfrac{1}{36} \\
 \approx&amp;0.58 \geq \dfrac{1}{2}
-\end{align}
+\end{aligned}
 \]</span></p>
 <p>Hence <span class="math inline">\(x = 7\)</span> is the median of X.</p>
 <p><strong>d. Find the mode</strong></p>
@@ -3145,14 +3145,14 @@ S = \{2,3,4,5,6,7,8,9,10,11,12\}
 <p>Since mean = median = mode, we say <span class="math inline">\(X\)</span> is defined by a symmetric, uni-modal distribution (i.e. no skew).</p>
 <p><strong>e. Find the variance and standard deviation</strong></p>
 <p><span class="math display">\[
-\begin{align}
+\begin{aligned}
 Var[X] &amp;= E[(X-\mu]^2]\\
 &amp;= \sum_S(x-\mu)^2p(x)\\
 &amp;= \sum_{x=2}^{12}(x-7)^2p(x)\\
 &amp;= (2-7)^2 \times \dfrac{1}{36} + (3-7)^2 \times \dfrac{2}{36} + (4-7)^2 \times \dfrac{3}{36} + \cdots + (11-7)^2 \times \dfrac{2}{36} + (12-7)^2 \times \dfrac{1}{36}\\
 \approx&amp; 5.83\\
 \sigma\approx&amp; \sqrt{5.83} \approx2.41
-\end{align}
+\end{aligned}
 \]</span></p>
 <p>Hence the variance of X is 5.83 and the standard deviation is 2.41.</p>
 </div>

@@ -3,16 +3,16 @@ title: "Workshop Notes"
 author: "Dan Tran"
 date: "`r Sys.Date()`"
 output:
+  pdf_document:
+    toc: true
+    toc_depth: 3
+    df_print: kable
+    highlight: zenburn
   html_document:
     toc: true
     toc_float: true
     theme: bootstrap
     df_print: paged
-    highlight: zenburn
-  pdf_document:
-    toc: true
-    toc_depth: 3
-    df_print: kable
     highlight: zenburn
 ---
 
@@ -48,10 +48,10 @@ Let $A$ be the event that team A win, and $B$ the event that team B win.
 By counting, we observe that:
 
 $$
-\begin{align}
+\begin{aligned}
 Pr(A) &= \dfrac{16}{36} \approx 44.4\% \\
 Pr(B) &= \dfrac{20}{36} \approx 55.6\%
-\end{align}
+\end{aligned}
 $$ We see that team B actually wins more often than team A.
 
 ### Bayesian: Rare Disease
@@ -67,24 +67,24 @@ What is the probability that you have the disease given that you tested positive
 Let $S$ be the event that you are sick, and $P$ be the event that you test positive.
 
 $$
-\begin{align}
+\begin{aligned}
 Pr(S) &= 0.001 \\
 Pr(P | S) &= 0.99 \\
 Pr(P | S^c) &= 0.01 \\
 Pr(P^c |S) &= 0.01
-\end{align}
+\end{aligned}
 $$
 We need to find $Pr(S|P)$, Bayesian Theorem would state that:
 
 $$
-\begin{align}
+\begin{aligned}
 Pr(S|P) &= \dfrac{Pr(P|S)Pr(S)}{Pr(P)} \\
 Pr(P) &= Pr(P|S)Pr(S) + Pr(P|S^c)Pr(S^c) & (\text{Law of total probability}) \\
 \\ \text{Substitution:} \\
 \Rightarrow Pr(S|P) &= \dfrac{Pr(P|S)Pr(S)}{Pr(P|S)Pr(S) + Pr(P|S^c)Pr(S^c)} \\
 &= \dfrac{0.99\times0.001}{0.99\times 0.001 + 0.01\times0.999} \\
 &\approx 0.0901\approx9.01\%
-\end{align}
+\end{aligned}
 $$
 Hence, if you tested positive once, the probability that you actually have the disease is 9.01% (which is not that bad!).
 
@@ -115,12 +115,12 @@ $$
 Hence,
 
 $$
-\begin{align}
+\begin{aligned}
 Pr(S|P_2 \cap P_1) &= \dfrac{Pr(P_2 \cap P_1 | S)Pr(S)}{Pr(P2\cap P_1|S)Pr(S) + Pr(P_2 \cap P_1|S^c)Pr(S^c)}\\
 &=\dfrac{Pr(P_2|S)Pr(P_1|S)Pr(S)}{Pr(P_2|S)Pr(P_1|S)Pr(S) + Pr(P_2|S^c)Pr(P_1|S^c)Pr(S^c)}\\
 &=\dfrac{0.99\times0.99\times0.001}{0.99\times0.99\times0.001 + 0.01\times0.01\times0.99}\\
 &\approx0.9082 \approx 90.82\%
-\end{align}
+\end{aligned}
 $$
 So the new probability is now 90.82%.
 
@@ -163,12 +163,12 @@ $$
 **b. Find the mean**
 
 $$
-\begin{align}
+\begin{aligned}
 E[X] &= \sum_{S}xp(x)\\
 &= \sum_{x=2}^{12}xp(x)\\
 &= \dfrac{1}{36} \times 2 + \dfrac{2}{36} \times 3 + \dfrac{3}{36} \times 4 + \dfrac{4}{36} \times 5 + \dfrac{5}{36} \times 6 + \dfrac{6}{36} \times 7 \\ &+ \dfrac{5}{36} \times 8 + \dfrac{4}{36} \times 9 + \dfrac{3}{36} \times 10 + \dfrac{2}{36} \times 11 + \dfrac{1}{36} \times 12\\
 &= 7
-\end{align}
+\end{aligned}
 $$
 
 Hence the mean is 7.
@@ -182,14 +182,14 @@ $$
 Try $x = 8$:
 
 $$
-\begin{align}
+\begin{aligned}
 Pr(X \leq 8) &= Pr(X=1)+Pr(X=2)+Pr(X=3)+\cdots+Pr(X=8)\\
 &= \dfrac{1}{36} + \dfrac{2}{36} + \dfrac{3}{36} + \dfrac{4}{36} + \dfrac{5}{36} + \dfrac{6}{36} + \dfrac{5}{36}\\
 \approx&0.72 \geq \dfrac{1}{2}\\
 Pr(X \geq 8) &= Pr(X=8)+Pr(X=9)+Pr(X=10)+Pr(X=11)+Pr(X=12)\\
 &= \dfrac{5}{36} + \dfrac{4}{36} + \dfrac{3}{36} + \dfrac{2}{36} + \dfrac{1}{36} \\
 \approx&0.42 \leq \dfrac{1}{2}
-\end{align}
+\end{aligned}
 $$
 
 Hence $x = 8$ is not the median of X.
@@ -197,14 +197,14 @@ Hence $x = 8$ is not the median of X.
 Try $x = 7$:
 
 $$
-\begin{align}
+\begin{aligned}
 Pr(X \leq 7) &= Pr(X=1)+Pr(X=2)+Pr(X=3)+\cdots+Pr(X=8)\\
 &= \dfrac{1}{36} + \dfrac{2}{36} + \dfrac{3}{36} + \dfrac{4}{36} + \dfrac{5}{36} + \dfrac{6}{36}\\
 \approx&0.58 \geq \dfrac{1}{2}\\
 Pr(X \geq 7) &= Pr(X=8)+Pr(X=9)+Pr(X=10)+Pr(X=11)+Pr(X=12)\\
 &= \dfrac{6}{36} + \dfrac{5}{36} + \dfrac{4}{36} + \dfrac{3}{36} + \dfrac{2}{36} + \dfrac{1}{36} \\
 \approx&0.58 \geq \dfrac{1}{2}
-\end{align}
+\end{aligned}
 $$
 
 Hence $x = 7$ is the median of X.
@@ -230,14 +230,14 @@ Since mean = median = mode, we say $X$ is defined by a symmetric, uni-modal dist
 **e. Find the variance and standard deviation**
 
 $$
-\begin{align}
+\begin{aligned}
 Var[X] &= E[(X-\mu]^2]\\
 &= \sum_S(x-\mu)^2p(x)\\
 &= \sum_{x=2}^{12}(x-7)^2p(x)\\
 &= (2-7)^2 \times \dfrac{1}{36} + (3-7)^2 \times \dfrac{2}{36} + (4-7)^2 \times \dfrac{3}{36} + \cdots + (11-7)^2 \times \dfrac{2}{36} + (12-7)^2 \times \dfrac{1}{36}\\
 \approx& 5.83\\
 \sigma\approx& \sqrt{5.83} \approx2.41
-\end{align}
+\end{aligned}
 $$
 
 Hence the variance of X is 5.83 and the standard deviation is 2.41.

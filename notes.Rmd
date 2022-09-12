@@ -244,6 +244,108 @@ Hence the variance of X is 5.83 and the standard deviation is 2.41.
 
 ## Workshop 6 (6/9/22)
 
+### Butter weight
+
+Example: A dairy produces packages of butter using a machine that is set to produce 250 g block of butter with a standard deviation of 10 g. A sample of size n=13 blocks of butter produce an average weight of $\bar{x}$=253 g. What is the probability of observing a sample average weight of 253 g or more?
+
+Set up the solution by hand and use R to compute the probability.
+
+**Answer**
+
+What we have known:
+
+$$
+\mu = 250g\\
+\sigma = 10g\\
+n=13 \text{ blocks}
+$$
+Apply the central limit theorem:
+
+$$
+\bar{x} \sim N\left(\mu, \dfrac{\sigma^2}{n}\right)\\
+\bar{x} \sim N\left(250, \dfrac{10^2}{13}\right)\\
+$$
+In a normal distribution, the first parameter is the mean, and second is the variance.
+
+And the standard deviation of the distribution of means is 
+$$
+\begin{align}
+s &= \sqrt{\dfrac{\sigma^2}{n}} \\
+&= \dfrac{\sigma}{\sqrt{n}} \\
+&= \dfrac{10}{\sqrt{13}}
+\end{align}
+$$
+
+To convert from any random variable to Z score:
+
+$$
+Z = \dfrac{X - \mu}{s}
+$$
+
+$$
+
+\begin{align}
+Pr(\bar{x} \geq 253) &= Pr\left(\dfrac{\bar{x} - \mu}{s} \geq \dfrac{253 - \mu}{s}\right)\\
+&= Pr\left(Z \geq \dfrac{253 - \mu}{s}\right)\\
+&= Pr\left(Z \geq \dfrac{253 - \mu}{\sigma / \sqrt{n}}\right)\\
+&= Pr\left(Z \geq \dfrac{253-250}{10/\sqrt{13}}\right)\\
+&= Pr\left(Z \geq 1.08167\right)
+\end{align}
+$$
+For a number $t$ up table shows $Pr(Z < t)$. We want $Pr(Z \geq t) = 1 - Pr(Z < t)$
+
+From lookup table:
+$$
+Pr(Z < 1.08) \approx 0.85993\\
+Pr(Z > 1.08) \approx 1 - 0.85993\approx0.14007
+$$
+
+```{r}
+pnorm(253, mean = 250, sd = 10/sqrt(13), lower.tail = FALSE)
+pnorm(1.08167, mean = 0, sd = 1, lower.tail = FALSE)
+```
+Therefore, the probability of observing a sample average weight of 253g or more is approximately 0.14.
+
+### Online Workshop Preference
+
+**Example**
+
+Assume that in Semester 2 of a sample of 100 QUT students living in the Greater Brisbane Area, 47 replied that they preferred on-line workshops. Results of previous surveys from Semester 1 indicated that 35% of students preferred on-line workshops. What is the probability of observing the proportion from Semester 2, or more given the Semester 1 results are accurate?
+
+$$
+n = 100\\
+\mu = 0.35\\
+\sigma^2 = np(1-p) = 100\times0.35\times(1-0.35) = 22.75\\
+\sigma = \sqrt{22.75}
+$$
+
+Let $\bar{x}$ be the proportion of students who prefer online workshops in semester 2
+
+Remember that in a binomial distribution:
+$$
+E[X]=np\\
+\bar{x} = np\\
+p = \dfrac{\bar{x}}{n}
+$$
+Since we are not looking at the real (population) proportion we need to use the $\hat{p}=\dfrac{x}{n}$.
+
+Variance of $\hat{p} = \dfrac{p(1-p)}{n}=\dfrac{0.35\times(1-0.35)}{100}=0.002275$. And the standard deviation of $\hat{p}$ is $s = \sqrt{0.002275}$
+
+$$
+\begin{align}
+Pr(\hat{p} > \dfrac{x}{n}) &= Pr(\hat{p} > \dfrac{47}{100})\\
+&= Pr(\hat{p} > 0.47)\\
+&= Pr(\dfrac{\hat{p} - 0.35}{\sqrt{0.002275}} > \dfrac{0.47 - 0.35}{\sqrt{0.002275}})\\
+&= Pr(Z > 2.515)\\
+&\approx 0.0062 
+\end{align}
+$$
+
+```{r}
+pnorm(2.5, lower.tail = FALSE)
+```
+Therefore, the probability of observing the proportion from semester 2 (0.47) or more, givne the results from semester 1 is accurate is approximately 0.0062 or 0.62%.
+
 ## Workshop 7 (13/9/22)
 
 ## Workshop 8 (20/9/22)

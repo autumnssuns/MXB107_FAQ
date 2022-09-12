@@ -196,4 +196,3 @@ Use `![](path\to\image)`. Replace the `path\to\image` with the actual path to yo
 ### R Markdown Cheatsheet
 
 Access RStudio's R Markdown Cheatsheet [[Here]](https://www.rstudio.com/wp-content/uploads/2015/02/rmarkdown-cheatsheet.pdf).
-

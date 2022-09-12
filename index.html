@@ -2827,6 +2827,12 @@ div.tocify {
   border-radius: 0px;
 }
 
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
 
 </style>
 
@@ -2863,8 +2869,20 @@ div.tocify {
 </div>
 
 
+<style type="text/css">
+.box {
+  width: 100%;
+  border: 1px solid black;
+  padding: 10px;
+  margin-top: 20px;
+  margin-bottom:20px
+}
+</style>
+<div class="box">
 <p><strong>This document is intended to help with R Programming only. For mathematical explanation, please refer to the weekly <a href="https://blackboard.qut.edu.au/bbcswebdav/pid-1481644-dt-announcement-rid-58665563_1/courses/MXB107_22se2/_site/index.html">[Readings]</a>.</strong></p>
-<p>Workshop notes (Tuesday 9-11am) can be found <strong><a href="notes.html">[here (online only)]</a></strong>.</p>
+<p>Workshop notes (Tuesday 9-11am) can be found <a href="notes.html"><strong>[here]</strong></a>.</p>
+<p>If you prefer the PDF, find them on my <a href="https://github.com/autumnssuns/MXB107_FAQ/releases/tag/auto-release"><strong>[GitHub]</strong></a> (then download <code>index.pdf</code> and <code>notes.pdf</code> from Assets).</p>
+</div>
 <p>Set up the MXB107 package. The commented lines can be used to install dependencies (only when required by R).</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># install.packages(c( &quot;tidyverse&quot;, &quot;knitr&quot;, &quot;rmarkdown&quot;, &quot;pander&quot;,</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="co"># &quot;ggforce&quot;, &quot;kableExtra&quot;, &quot;gridExtra&quot;))</span></span>
@@ -3014,7 +3032,7 @@ div.tocify {
 <h2>Part 3: Modelling with Probability Distributions</h2>
 <div id="question-1-2" class="section level3">
 <h3>Question 1 &amp; 2</h3>
-<p><em>In R, given any distribution (Binomial, Geometric, Poisson, Normal, etc.), the Probability Density Function <span class="math inline">\(Pr(X = x)\)</span> can be found using <code>d&lt;distribution name&gt;</code>, and the cumulative probability can be found using <code>p&lt;distribution name&gt;</code>. I show the Geometric distribution as an example.</em></p>
+<p><em>In R, given any distribution (Binomial, Geometric, Poisson, Normal, etc.), the Probability Density Function</em> <span class="math inline">\(Pr(X = x)\)</span> can be found using <code>d&lt;distribution name&gt;</code>, and the cumulative probability can be found using <code>p&lt;distribution name&gt;</code>. I show the Geometric distribution as an example.</p>
 <p>Given <span class="math inline">\(X \sim Geom(0.5)\)</span>, find <span class="math inline">\(Pr(X=2)\)</span>.</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="kw">dgeom</span>(<span class="dv">2</span>, <span class="dt">prob =</span> <span class="fl">0.5</span>)</span></code></pre></div>
 <pre><code>## [1] 0.125</code></pre>
@@ -3117,8 +3135,8 @@ $(document).ready(function ()  {
       ignoreSelector: ".toc-ignore",
       scrollTo: 0
     };
-    options.showAndHide = true;
-    options.smoothScroll = true;
+    options.showAndHide = false;
+    options.smoothScroll = false;
 
     // tocify
     var toc = $("#TOC").tocify(options).data("toc-tocify");

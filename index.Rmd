@@ -5,7 +5,9 @@ date: "`r Sys.Date()`"
 output:
   html_document:
     toc: true
-    toc_float: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
     theme: bootstrap
     df_print: paged
     highlight: zenburn
@@ -20,9 +22,23 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{css, echo = FALSE}
+.box {
+  width: 100%;
+  border: 1px solid black;
+  padding: 10px;
+  margin-top: 20px;
+  margin-bottom:20px
+}
+```
+
+::: box
 **This document is intended to help with R Programming only. For mathematical explanation, please refer to the weekly [[Readings]](https://blackboard.qut.edu.au/bbcswebdav/pid-1481644-dt-announcement-rid-58665563_1/courses/MXB107_22se2/_site/index.html).**
 
-Workshop notes (Tuesday 9-11am) can be found **[[here (online only)]](notes.html)**.
+Workshop notes (Tuesday 9-11am) can be found [**[here]**](notes.html).
+
+If you prefer the PDF, find them on my [**[GitHub]**](https://github.com/autumnssuns/MXB107_FAQ/releases/tag/auto-release) (then download `index.pdf` and `notes.pdf` from Assets).
+:::
 
 Set up the MXB107 package. The commented lines can be used to install dependencies (only when required by R).
 
@@ -50,10 +66,9 @@ Z_alpha_half <- qnorm(1 - alpha/2)
 Z_alpha_half
 ```
 
-
 # Assignment 1
 
-Load the `episodes` data set. 
+Load the `episodes` data set.
 
 ```{r}
 data(episodes)
@@ -63,15 +78,14 @@ data(episodes)
 
 ### Question 1
 
-Shows the IMDB rankings for each series of *Star Trek*. 
+Shows the IMDB rankings for each series of *Star Trek*.
 
 ```{r}
 ggplot(episodes, aes(x = Series.Name, y = IMDB.Ranking))+
   geom_boxplot()
 ```
 
-Add title, labels using `title()`, `xlab()` and `ylab()`.
-**Please change the labels and title in your assignment**
+Add title, labels using `title()`, `xlab()` and `ylab()`. **Please change the labels and title in your assignment**
 
 ```{r}
 ggplot(episodes, aes(y = Series.Name, x = IMDB.Ranking))+ # Changed x and y order for horizontal
@@ -100,23 +114,24 @@ n <- nrow(episodes)
 n # To display the value of a variable, call it like this, or print(n)
 ```
 
-Find the mean IMDB ranking. __`episodes$IMDB.Ranking` selects the `IMDB.Ranking` column from the `episodes` dataframe.__
+Find the mean IMDB ranking. **`episodes$IMDB.Ranking` selects the `IMDB.Ranking` column from the `episodes` dataframe.**
+
 ```{r}
 mean <- mean(episodes$IMDB.Ranking)
 mean
 ```
 
-Find the sum of squared distances from the mean IMDB Ranking, with `mean` already found above. Equivalent to
-$$
+Find the sum of squared distances from the mean IMDB Ranking, with `mean` already found above. Equivalent to $$
 \sum_{i=1}^n{(x_i-\bar{x})^2}
 $$
+
 ```{r}
 x <- episodes$IMDB.Ranking
 sum_of_squared_distances <- sum((x - mean)^2)
 sum_of_squared_distances
 ```
 
-Display the histogram of the episode's IMDB rankings. 
+Display the histogram of the episode's IMDB rankings.
 
 ```{r}
 episodes %>%
@@ -127,7 +142,8 @@ episodes %>%
 ## Part 2: Computing Basic Probabilities for Events
 
 ### Question 1,2 & 3
-_Basically counting things_
+
+*Basically counting things*
 
 Find the number of episodes passing the Bechdel Wallace Test.
 
@@ -135,14 +151,16 @@ Find the number of episodes passing the Bechdel Wallace Test.
 pass_count <- sum(episodes$Bechdel.Wallace.Test == TRUE)
 pass_count
 ```
-The condition `episodes$Bechdel.Wallace.Test == TRUE` can be changed to any other condition, such as:
-Number of episodes from *Star Trek: The Original Series*.
+
+The condition `episodes$Bechdel.Wallace.Test == TRUE` can be changed to any other condition, such as: Number of episodes from *Star Trek: The Original Series*.
+
 ```{r}
 original_count <- sum(episodes$Series.Name == "The Original Series")
 original_count
 ```
 
 Or the number of episodes from *Star Trek: The Original Series* and pass the Bechdel-Wallace Test. You can apply multiple conditions using the `&` operator between the two comparisons.
+
 ```{r}
 original_pass_count <- sum(episodes$Series.Name == "The Original Series" & 
                              episodes$Bechdel.Wallace.Test == TRUE)
@@ -150,10 +168,11 @@ original_pass_count
 ```
 
 ### Question 4
-_More advanced counting by accounting for categorical data_
 
-The number of episodes of each season for each series, that already passed the Bechdel Wallace Test.
-_Don't worry if the last two lines don't make sense._
+*More advanced counting by accounting for categorical data*
+
+The number of episodes of each season for each series, that already passed the Bechdel Wallace Test. *Don't worry if the last two lines don't make sense.*
+
 ```{r}
 episodes%>% 
   filter(Bechdel.Wallace.Test == TRUE)%>% # Remove this filter for all episodes
@@ -168,20 +187,19 @@ episodes%>%
 
 ### Question 1 & 2
 
-_In R, given any distribution (Binomial, Geometric, Poisson, Normal, etc.), the Probability Density Function $Pr(X = x)$ can be found using `d<distribution name>`, and the cumulative probability can be found using `p<distribution name>`. I show the Geometric distribution as an example._
+*In R, given any distribution (Binomial, Geometric, Poisson, Normal, etc.), the Probability Density Function* $Pr(X = x)$ can be found using `d<distribution name>`, and the cumulative probability can be found using `p<distribution name>`. I show the Geometric distribution as an example.
 
-Given $X \sim Geom(0.5)$, find $Pr(X=2)$. 
+Given $X \sim Geom(0.5)$, find $Pr(X=2)$.
 
 ```{r}
 dgeom(2, prob = 0.5)
 ```
 
-
 Given $X \sim Geom(0.5)$, find $Pr(X \leq 2)$.
+
 ```{r}
 pgeom(2, prob = 0.5)
 ```
-
 
 For other distributions, please refer to the documentation [[here]](https://cran.r-project.org/web/views/Distributions.html), or a slightly more visually engaging example [[here]](https://rstudio-pubs-static.s3.amazonaws.com/100906_8e3a32dd11c14b839468db756cee7400.html).
 

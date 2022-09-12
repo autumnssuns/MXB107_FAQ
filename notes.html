@@ -3175,25 +3175,29 @@ n=13 \text{ blocks}
 \bar{x} \sim N\left(250, \dfrac{10^2}{13}\right)\\
 \]</span> In a normal distribution, the first parameter is the mean, and second is the variance.</p>
 <p>And the standard deviation of the distribution of means is <span class="math display">\[
-\begin{align}
+\begin{aligned}
 s &amp;= \sqrt{\dfrac{\sigma^2}{n}} \\
 &amp;= \dfrac{\sigma}{\sqrt{n}} \\
 &amp;= \dfrac{10}{\sqrt{13}}
-\end{align}
+\end{aligned}
 \]</span></p>
 <p>To convert from any random variable to Z score:</p>
 <p><span class="math display">\[
 Z = \dfrac{X - \mu}{s}
 \]</span></p>
-<p>$$</p>
-<p><span class="math display">\[\begin{align}
+<p>Hence:</p>
+<p><span class="math display">\[
+\begin{aligned}
 Pr(\bar{x} \geq 253) &amp;= Pr\left(\dfrac{\bar{x} - \mu}{s} \geq \dfrac{253 - \mu}{s}\right)\\
 &amp;= Pr\left(Z \geq \dfrac{253 - \mu}{s}\right)\\
 &amp;= Pr\left(Z \geq \dfrac{253 - \mu}{\sigma / \sqrt{n}}\right)\\
 &amp;= Pr\left(Z \geq \dfrac{253-250}{10/\sqrt{13}}\right)\\
 &amp;= Pr\left(Z \geq 1.08167\right)
-\end{align}\]</span> $$ For a number <span class="math inline">\(t\)</span> up table shows <span class="math inline">\(Pr(Z &lt; t)\)</span>. We want <span class="math inline">\(Pr(Z \geq t) = 1 - Pr(Z &lt; t)\)</span></p>
-<p>From lookup table: <span class="math display">\[
+\end{aligned}
+\]</span></p>
+<p>For a number <span class="math inline">\(t\)</span> up table shows <span class="math inline">\(Pr(Z &lt; t)\)</span>. We want <span class="math inline">\(Pr(Z \geq t) = 1 - Pr(Z &lt; t)\)</span></p>
+<p>From lookup table:</p>
+<p><span class="math display">\[
 Pr(Z &lt; 1.08) \approx 0.85993\\
 Pr(Z &gt; 1.08) \approx 1 - 0.85993\approx0.14007
 \]</span></p>
@@ -3207,27 +3211,22 @@ Pr(Z &gt; 1.08) \approx 1 - 0.85993\approx0.14007
 <h3>Online Workshop Preference</h3>
 <p><strong>Example</strong></p>
 <p>Assume that in Semester 2 of a sample of 100 QUT students living in the Greater Brisbane Area, 47 replied that they preferred on-line workshops. Results of previous surveys from Semester 1 indicated that 35% of students preferred on-line workshops. What is the probability of observing the proportion from Semester 2, or more given the Semester 1 results are accurate?</p>
+<p>The central limit theorem for a sample proportion has that: <span class="math display">\[
+\hat{p} \sim N\left(p,\dfrac{p(1-p)}{n}\right)
+\]</span></p>
+<p>Given:</p>
 <p><span class="math display">\[
 n = 100\\
-\mu = 0.35\\
-\sigma^2 = np(1-p) = 100\times0.35\times(1-0.35) = 22.75\\
-\sigma = \sqrt{22.75}
+p = \dfrac{x}{n} = \dfrac{47}{100}= 0.47\\
 \]</span></p>
-<p>Let <span class="math inline">\(\bar{x}\)</span> be the proportion of students who prefer online workshops in semester 2</p>
-<p>Remember that in a binomial distribution: <span class="math display">\[
-E[X]=np\\
-\bar{x} = np\\
-p = \dfrac{\bar{x}}{n}
-\]</span> Since we are not looking at the real (population) proportion we need to use the <span class="math inline">\(\hat{p}=\dfrac{x}{n}\)</span>.</p>
+<p>Let <span class="math inline">\(\hat{p}\)</span> be the proportion of students who prefer online workshops in semester 2</p>
 <p>Variance of <span class="math inline">\(\hat{p} = \dfrac{p(1-p)}{n}=\dfrac{0.35\times(1-0.35)}{100}=0.002275\)</span>. And the standard deviation of <span class="math inline">\(\hat{p}\)</span> is <span class="math inline">\(s = \sqrt{0.002275}\)</span></p>
 <p><span class="math display">\[
-\begin{align}
-Pr(\hat{p} &gt; \dfrac{x}{n}) &amp;= Pr(\hat{p} &gt; \dfrac{47}{100})\\
-&amp;= Pr(\hat{p} &gt; 0.47)\\
-&amp;= Pr(\dfrac{\hat{p} - 0.35}{\sqrt{0.002275}} &gt; \dfrac{0.47 - 0.35}{\sqrt{0.002275}})\\
+\begin{aligned}
+Pr(\hat{p} &gt; 47) &amp;= Pr(\dfrac{\hat{p} - 0.35}{\sqrt{0.002275}} &gt; \dfrac{0.47 - 0.35}{\sqrt{0.002275}})\\
 &amp;= Pr(Z &gt; 2.515)\\
 &amp;\approx 0.0062 
-\end{align}
+\end{aligned}
 \]</span></p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">pnorm</span>(<span class="fl">2.5</span>, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
 <pre><code>## [1] 0.006209665</code></pre>

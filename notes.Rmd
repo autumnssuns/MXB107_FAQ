@@ -338,6 +338,237 @@ Therefore, the probability of observing the proportion from semester 2 (0.47) or
 
 ## Workshop 7 (13/9/22)
 
+### Method of Moments
+
+Find the method of moments estimator for the exponential distribution where
+
+$$
+f(x) = \lambda e^{-\lambda x}
+$$
+
+First moment is the mean of the sample:
+
+$$
+m_1 = \tilde{E[X]}
+$$
+
+Where X follows an exponential distribution. We can find E[X] in terms of $\lambda$, then solve for $\lambda$.
+
+$$
+E[X] = \int_{_x}{\lambda e^{-\lambda x} dx}\\
+= \dfrac{1}{\lambda}
+$$
+
+$$
+m_1 = \dfrac{1}{\lambda} \\
+\lambda = \dfrac{1}{m_1}
+$$
+Because we need to find an estimation from the sample mean, not an exact population mean, change the notation accordingly:
+
+$$
+\lambda \rightarrow \tilde{\lambda}\\
+m_1 \rightarrow \bar{x}
+$$
+
+Therefore, the method of moments estimator for the exponential distribution is:
+
+$$
+\tilde{\lambda} = \dfrac{1}{\bar{x}}
+$$
+
+### Method of Maximum Likelihood Estimation
+
+$$
+f(x) = \lambda e^{-\lambda x}
+$$
+
+This gives the maximum likelihood function:
+
+$$
+\begin{aligned}
+L(\lambda|\mathbf{x}) &= \prod_{i=1}^{n}f(x_i) \\
+&=e^{-\lambda x_1}e^{-\lambda x_2}\cdots e^{-\lambda x_n}
+\end{aligned}
+$$
+
+The log likelihood function:
+
+$$
+\begin{aligned}
+l(\lambda|\mathbf{x}) &= log(L(\lambda|\mathbf{x})) \\
+&= log(\lambda e^{-\lambda x_1}\lambda e^{-\lambda x_2}\cdots \lambda e^{-\lambda x_n})\\
+&= log(\lambda e^{-\lambda x_1}) + log(\lambda e^{-\lambda x_2}) + \cdots + log(\lambda e^{-\lambda x_n})\\
+&= \sum_{i=1}^{n}log(\lambda e^{-\lambda x_i})\\
+&= \sum_{i=1}^{n}(log(\lambda) + log(e^{-\lambda x_i}))\\
+&= \sum_{i=1}^{n}(log(\lambda) -\lambda x_i)\\
+&= n\log(\lambda) - \lambda \sum_{i=1}^{n}x_i
+\end{aligned}
+$$
+Find the derivative of the log likelihood function:
+
+$$
+\begin{aligned}
+\dfrac{d}{d\lambda}l(\lambda|\mathbf{x}) &= \dfrac{d}{d\lambda}nlog(\lambda) - \dfrac{d}{d\lambda}(\lambda\sum_{i=1}^{n}x_i) \\
+&= n \dfrac{1}{\lambda} - \sum_{i=1}^{n}x_i
+\end{aligned}
+$$
+
+Set the derivative to 0 and find $\lambda$.
+
+$$
+\begin{aligned}
+
+n \dfrac{1}{\lambda} - \sum_{i=1}^{n}x_i &= 0\\
+\dfrac{n}{\lambda} &= \sum_{i=1}^{n}x_i\\
+\lambda &= \dfrac{n}{\sum_{i=1}^{n}}\\
+\lambda &= \dfrac{1}{\dfrac{\sum_{i=1}^{n}x_i}{n}}\\
+\lambda &= \dfrac{1}{\bar{x}}
+\end{aligned}
+$$
+
+Because we are finding and estimation, $\lambda \rightarrow \hat{\lambda}$
+
+$$
+\hat{\lambda} = \dfrac{1}{\bar{x}}
+$$
+
+### Bonus: Finding log likelihood of Poisson
+
+$$\
+\begin{aligned}
+
+L(x|\mathbf{x}) &= \prod_{i=1}^{n}\dfrac{\lambda^{x_i}}{x_i!}e^{-\lambda} \\
+
+l(x|\mathbf{x}) &= \sum_{i=1}^{n}log(\dfrac{\lambda^{x_i}}{x_i!}e^{-\lambda})\\
+&= \sum_{i=1}^{n}(log(\lambda ^{x_i}) + log(\dfrac{1}{x_i!}) + log(e^{-\lambda}))\\
+&= \sum_{i=1}^{n}(x_ilog(\lambda) - log(x_i!) - \lambda)\\
+&= log(\lambda)\sum_{i=1}^{n}x_i- \sum_{i=1}^{n}log(x_i!)- n\lambda
+\end{aligned}
+$$
+
+Z-score transformation
+
+$$
+Z = \dfrac{X-\mu}{\sigma} \\
+Z\sigma=X - \mu
+$$
+
+Normal distribution of means from central limit theorem:
+
+$$
+\bar{x} \sim N\left(\mu, \dfrac{\sigma^2}{n}\right)\\
+Z\dfrac{\sigma}{\sqrt{n}} = \bar{x} - \mu\\
+\bar{x} = Z\dfrac{\sigma}{\sqrt n} + \mu
+$$
+
+For a type I error rate of $\alpha$, denoted $Z_\alpha$:
+
+$$
+Pr(Z > Z_\alpha) = 1 - \alpha
+$$
+
+A sample of n=50 adult men reveals that their average daily intake of protein is x¯=75.6 grams per day with a standard deviation of s=3.5 grams. Construct a 95% confidence interval for the average daily intake of protein for men.
+
+The confidence interval is
+
+$$
+n = 50 \\
+\bar{x} = 75.6 \\
+s = 3.5\\
+\alpha = 0.05 \\
+
+\bar{x} \pm Z_{\alpha/2}SE_{\bar{x}} \\
+
+SE_{\bar{x}} = \dfrac{s}{\sqrt{n}} = \dfrac{3.5}{\sqrt{50}} \\
+Z_{\alpha/2} = Z_{0.05/2} = 1.96\\
+
+\bar{x} \pm 1.96\dfrac{3.5}{\sqrt{50}} \\
+\bar{x} \pm 0.970 \\
+75.6 \pm 0.97 \\
+(74.63, 76.57)
+$$
+
+The 95% confidence interval is (74.63, 76.57).
+
+A random sample of n=985 Queensland residents seeking their opinions on how the Queensland State Government was handling the COVID-19 crisis. Of those surveyed, x=592 indicated that they approved of the current government’s handling of the COVID-19 crisis. Construct a 90% confidence interval for the proportion of the population that approves of the current government’s handling of the COVID-19 crisis.
+
+$$
+n = 985\\
+x = 592\\
+\Rightarrow \hat{p} = \dfrac{x}{n} = \dfrac{592}{985} \approx 0.60 \\
+
+\alpha = (1 - 0.9) = 0.1,  \text{90% confidence interval} \\
+
+SE_{\hat{p}} = \sqrt{\dfrac{\hat{p}(1-\hat{p})}{n}} \\
+= \sqrt{\dfrac{0.60(1 - 0.60)}{985}} \\
+\approx 0.0156\\
+Z_{\alpha/2} = Z_{0.1/2} \approx 1.645\\
+
+\hat{p} \pm Z_{\alpha/2}SE_{\hat{p}} \\
+0.60 \pm 1.645 \times 0.0156 \\
+0.60 \pm 0.0256\\
+
+(0.574, 0.625)
+$$
+
+```{r}
+0.6 + 1.645 * 0.0156
+```
+
+### Practical Question 2
+
+Find the confidence interval for the mean of the IMDB.Ranking for Star Trek (The Original Series).
+
+```{r}
+library(MXB107)
+data(episodes)
+
+original_episodes <- episodes %>% filter(Series.Name == "The Original Series")
+
+# Stating your variables
+x_bar <- original_episodes$IMDB.Ranking %>% mean()
+n <- nrow(original_episodes)
+s <- original_episodes$IMDB.Ranking %>% sd()
+
+# Find Standard Error
+se <- s / sqrt(n)
+print(se)
+
+# Find critical Z score
+alpha <- 0.05
+Z_alpha_half <- qnorm(1 - alpha/2)
+
+# Apply confidence interval formula
+upper_limit <- x_bar + Z_alpha_half * se
+lower_limit <- x_bar - Z_alpha_half * se
+
+# Display results
+lower_limit
+upper_limit
+```
+
+```{r}
+params<-episodes%>%
+  filter(Series == "TOS")%>%
+  summarise(xbar = mean(IMDB.Ranking),std_dev = sd(IMDB.Ranking), N = n())
+
+xbar <- pull(params,xbar)
+s <- pull(params,std_dev)
+n <- pull(params,N)
+
+SE<-s/sqrt(n)
+
+UCL<-xbar+1.96*SE
+
+LCL<-xbar-1.96*SE
+
+LCL
+UCL
+```
+
+$$
+$$
+
 ## Workshop 8 (20/9/22)
 
 ## Workshop 9 (4/10/22)

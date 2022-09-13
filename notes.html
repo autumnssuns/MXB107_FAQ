@@ -11,7 +11,7 @@
 
 <meta name="author" content="Dan Tran" />
 
-<meta name="date" content="2022-09-12" />
+<meta name="date" content="2022-09-13" />
 
 <title>Workshop Notes</title>
 
@@ -2858,7 +2858,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Workshop Notes</h1>
 <h4 class="author">Dan Tran</h4>
-<h4 class="date">2022-09-12</h4>
+<h4 class="date">2022-09-13</h4>
 
 </div>
 
@@ -3235,6 +3235,160 @@ Pr(\hat{p} &gt; 47) &amp;= Pr(\dfrac{\hat{p} - 0.35}{\sqrt{0.002275}} &gt; \dfra
 </div>
 <div id="workshop-7-13922" class="section level2">
 <h2>Workshop 7 (13/9/22)</h2>
+<div id="method-of-moments" class="section level3">
+<h3>Method of Moments</h3>
+<p>Find the method of moments estimator for the exponential distribution where</p>
+<p><span class="math display">\[
+f(x) = \lambda e^{-\lambda x}
+\]</span></p>
+<p>First moment is the mean of the sample:</p>
+<p><span class="math display">\[
+m_1 = \tilde{E[X]}
+\]</span></p>
+<p>Where X follows an exponential distribution. We can find E[X] in terms of <span class="math inline">\(\lambda\)</span>, then solve for <span class="math inline">\(\lambda\)</span>.</p>
+<p><span class="math display">\[
+E[X] = \int_{_x}{\lambda e^{-\lambda x} dx}\\
+= \dfrac{1}{\lambda}
+\]</span></p>
+<p><span class="math display">\[
+m_1 = \dfrac{1}{\lambda} \\
+\lambda = \dfrac{1}{m_1}
+\]</span> Because we need to find an estimation from the sample mean, not an exact population mean, change the notation accordingly:</p>
+<p><span class="math display">\[
+\lambda \rightarrow \tilde{\lambda}\\
+m_1 \rightarrow \bar{x}
+\]</span></p>
+<p>Therefore, the method of moments estimator for the exponential distribution is:</p>
+<p><span class="math display">\[
+\tilde{\lambda} = \dfrac{1}{\bar{x}}
+\]</span></p>
+</div>
+<div id="method-of-maximum-likelihood-estimation" class="section level3">
+<h3>Method of Maximum Likelihood Estimation</h3>
+<p><span class="math display">\[
+f(x) = \lambda e^{-\lambda x}
+\]</span></p>
+<p>This gives the maximum likelihood function:</p>
+<p><span class="math display">\[
+\begin{aligned}
+L(\lambda|\mathbf{x}) &amp;= \prod_{i=1}^{n}f(x_i) \\
+&amp;=e^{-\lambda x_1}e^{-\lambda x_2}\cdots e^{-\lambda x_n}
+\end{aligned}
+\]</span></p>
+<p>The log likelihood function:</p>
+<p><span class="math display">\[
+\begin{aligned}
+l(\lambda|\mathbf{x}) &amp;= log(L(\lambda|\mathbf{x})) \\
+&amp;= log(\lambda e^{-\lambda x_1}\lambda e^{-\lambda x_2}\cdots \lambda e^{-\lambda x_n})\\
+&amp;= log(\lambda e^{-\lambda x_1}) + log(\lambda e^{-\lambda x_2}) + \cdots + log(\lambda e^{-\lambda x_n})\\
+&amp;= \sum_{i=1}^{n}log(\lambda e^{-\lambda x_i})\\
+&amp;= \sum_{i=1}^{n}(log(\lambda) + log(e^{-\lambda x_i}))\\
+&amp;= \sum_{i=1}^{n}(log(\lambda) -\lambda x_i)\\
+&amp;= n\log(\lambda) - \lambda \sum_{i=1}^{n}x_i
+\end{aligned}
+\]</span> Find the derivative of the log likelihood function:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\dfrac{d}{d\lambda}l(\lambda|\mathbf{x}) &amp;= \dfrac{d}{d\lambda}nlog(\lambda) - \dfrac{d}{d\lambda}(\lambda\sum_{i=1}^{n}x_i) \\
+&amp;= n \dfrac{1}{\lambda} - \sum_{i=1}^{n}x_i
+\end{aligned}
+\]</span></p>
+<p>Set the derivative to 0 and find <span class="math inline">\(\lambda\)</span>.</p>
+<p>$$ \begin{aligned}</p>
+<p>n  - <em>{i=1}^{n}x_i &amp;= 0\  &amp;= </em>{i=1}^{n}x_i\ &amp;= \ &amp;= \ &amp;=  \end{aligned} $$</p>
+<p>Because we are finding and estimation, <span class="math inline">\(\lambda \rightarrow \hat{\lambda}\)</span></p>
+<p><span class="math display">\[
+\hat{\lambda} = \dfrac{1}{\bar{x}}
+\]</span></p>
+</div>
+<div id="bonus-finding-log-likelihood-of-poisson" class="section level3">
+<h3>Bonus: Finding log likelihood of Poisson</h3>
+<p>$$<br />
+\begin{aligned}</p>
+<p>L(x|) &amp;= _{i=1}<sup>{n}e</sup>{-} \</p>
+<p>l(x|) &amp;= <em>{i=1}<sup>{n}log(e</sup>{-})\ &amp;= </em>{i=1}<sup>{n}(log(</sup>{x_i}) + log() + log(e^{-}))\ &amp;= <em>{i=1}^{n}(x_ilog() - log(x_i!) - )\ &amp;= log()</em>{i=1}^{n}x_i- _{i=1}^{n}log(x_i!)- n \end{aligned} $$</p>
+<p>Z-score transformation</p>
+<p><span class="math display">\[
+Z = \dfrac{X-\mu}{\sigma} \\
+Z\sigma=X - \mu
+\]</span></p>
+<p>Normal distribution of means from central limit theorem:</p>
+<p><span class="math display">\[
+\bar{x} \sim N\left(\mu, \dfrac{\sigma^2}{n}\right)\\
+Z\dfrac{\sigma}{\sqrt{n}} = \bar{x} - \mu\\
+\bar{x} = Z\dfrac{\sigma}{\sqrt n} + \mu
+\]</span></p>
+<p>For a type I error rate of <span class="math inline">\(\alpha\)</span>, denoted <span class="math inline">\(Z_\alpha\)</span>:</p>
+<p><span class="math display">\[
+Pr(Z &gt; Z_\alpha) = 1 - \alpha
+\]</span></p>
+<p>A sample of n=50 adult men reveals that their average daily intake of protein is x¯=75.6 grams per day with a standard deviation of s=3.5 grams. Construct a 95% confidence interval for the average daily intake of protein for men.</p>
+<p>The confidence interval is</p>
+<p>$$ n = 50 \ {x} = 75.6 \ s = 3.5\ = 0.05 \</p>
+<p>{x} Z_{/2}SE_{{x}} \</p>
+<p>SE_{{x}} =  =  \ Z_{/2} = Z_{0.05/2} = 1.96\</p>
+<p>{x} 1.96 \ {x} 0.970 \ 75.6 0.97 \ (74.63, 76.57) $$</p>
+<p>The 95% confidence interval is (74.63, 76.57).</p>
+<p>A random sample of n=985 Queensland residents seeking their opinions on how the Queensland State Government was handling the COVID-19 crisis. Of those surveyed, x=592 indicated that they approved of the current government’s handling of the COVID-19 crisis. Construct a 90% confidence interval for the proportion of the population that approves of the current government’s handling of the COVID-19 crisis.</p>
+<p>$$ n = 985\ x = 592\  =  =  0.60 \</p>
+<p>= (1 - 0.9) = 0.1, \text{90% confidence interval} \</p>
+<p>SE_{} =  \ =  \ 0.0156\ Z_{/2} = Z_{0.1/2} 1.645\</p>
+<p> Z_{/2}SE_{} \ 0.60 1.645 0.0156 \ 0.60 0.0256\</p>
+<p>(0.574, 0.625) $$</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fl">0.6</span> <span class="op">+</span><span class="st"> </span><span class="fl">1.645</span> <span class="op">*</span><span class="st"> </span><span class="fl">0.0156</span></span></code></pre></div>
+<pre><code>## [1] 0.625662</code></pre>
+</div>
+<div id="practical-question-2" class="section level3">
+<h3>Practical Question 2</h3>
+<p>Find the confidence interval for the mean of the IMDB.Ranking for Star Trek (The Original Series).</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">library</span>(MXB107)</span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="kw">data</span>(episodes)</span>
+<span id="cb9-3"><a href="#cb9-3"></a></span>
+<span id="cb9-4"><a href="#cb9-4"></a>original_episodes &lt;-<span class="st"> </span>episodes <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Series.Name <span class="op">==</span><span class="st"> &quot;The Original Series&quot;</span>)</span>
+<span id="cb9-5"><a href="#cb9-5"></a></span>
+<span id="cb9-6"><a href="#cb9-6"></a><span class="co"># Stating your variables</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a>x_bar &lt;-<span class="st"> </span>original_episodes<span class="op">$</span>IMDB.Ranking <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">mean</span>()</span>
+<span id="cb9-8"><a href="#cb9-8"></a>n &lt;-<span class="st"> </span><span class="kw">nrow</span>(original_episodes)</span>
+<span id="cb9-9"><a href="#cb9-9"></a>s &lt;-<span class="st"> </span>original_episodes<span class="op">$</span>IMDB.Ranking <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">sd</span>()</span>
+<span id="cb9-10"><a href="#cb9-10"></a></span>
+<span id="cb9-11"><a href="#cb9-11"></a><span class="co"># Find Standard Error</span></span>
+<span id="cb9-12"><a href="#cb9-12"></a>se &lt;-<span class="st"> </span>s <span class="op">/</span><span class="st"> </span><span class="kw">sqrt</span>(n)</span>
+<span id="cb9-13"><a href="#cb9-13"></a><span class="kw">print</span>(se)</span></code></pre></div>
+<pre><code>## [1] 0.08987058</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># Find critical Z score</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a>alpha &lt;-<span class="st"> </span><span class="fl">0.05</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a>Z_alpha_half &lt;-<span class="st"> </span><span class="kw">qnorm</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>alpha<span class="op">/</span><span class="dv">2</span>)</span>
+<span id="cb11-4"><a href="#cb11-4"></a></span>
+<span id="cb11-5"><a href="#cb11-5"></a><span class="co"># Apply confidence interval formula</span></span>
+<span id="cb11-6"><a href="#cb11-6"></a>upper_limit &lt;-<span class="st"> </span>x_bar <span class="op">+</span><span class="st"> </span>Z_alpha_half <span class="op">*</span><span class="st"> </span>se</span>
+<span id="cb11-7"><a href="#cb11-7"></a>lower_limit &lt;-<span class="st"> </span>x_bar <span class="op">-</span><span class="st"> </span>Z_alpha_half <span class="op">*</span><span class="st"> </span>se</span>
+<span id="cb11-8"><a href="#cb11-8"></a></span>
+<span id="cb11-9"><a href="#cb11-9"></a><span class="co"># Display results</span></span>
+<span id="cb11-10"><a href="#cb11-10"></a>lower_limit</span></code></pre></div>
+<pre><code>## [1] 7.360107</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>upper_limit</span></code></pre></div>
+<pre><code>## [1] 7.712393</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>params&lt;-episodes<span class="op">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="st">  </span><span class="kw">filter</span>(Series <span class="op">==</span><span class="st"> &quot;TOS&quot;</span>)<span class="op">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">xbar =</span> <span class="kw">mean</span>(IMDB.Ranking),<span class="dt">std_dev =</span> <span class="kw">sd</span>(IMDB.Ranking), <span class="dt">N =</span> <span class="kw">n</span>())</span>
+<span id="cb15-4"><a href="#cb15-4"></a></span>
+<span id="cb15-5"><a href="#cb15-5"></a>xbar &lt;-<span class="st"> </span><span class="kw">pull</span>(params,xbar)</span>
+<span id="cb15-6"><a href="#cb15-6"></a>s &lt;-<span class="st"> </span><span class="kw">pull</span>(params,std_dev)</span>
+<span id="cb15-7"><a href="#cb15-7"></a>n &lt;-<span class="st"> </span><span class="kw">pull</span>(params,N)</span>
+<span id="cb15-8"><a href="#cb15-8"></a></span>
+<span id="cb15-9"><a href="#cb15-9"></a>SE&lt;-s<span class="op">/</span><span class="kw">sqrt</span>(n)</span>
+<span id="cb15-10"><a href="#cb15-10"></a></span>
+<span id="cb15-11"><a href="#cb15-11"></a>UCL&lt;-xbar<span class="fl">+1.96</span><span class="op">*</span>SE</span>
+<span id="cb15-12"><a href="#cb15-12"></a></span>
+<span id="cb15-13"><a href="#cb15-13"></a>LCL&lt;-xbar<span class="fl">-1.96</span><span class="op">*</span>SE</span>
+<span id="cb15-14"><a href="#cb15-14"></a></span>
+<span id="cb15-15"><a href="#cb15-15"></a>LCL</span></code></pre></div>
+<pre><code>## [1] 7.360104</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>UCL</span></code></pre></div>
+<pre><code>## [1] 7.712396</code></pre>
+<p><span class="math display">\[
+\]</span></p>
+</div>
 </div>
 <div id="workshop-8-20922" class="section level2">
 <h2>Workshop 8 (20/9/22)</h2>

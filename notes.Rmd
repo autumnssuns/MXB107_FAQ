@@ -435,7 +435,7 @@ $$
 
 ### Bonus: Finding log likelihood of Poisson
 
-$$\
+$$
 \begin{aligned}
 
 L(x|\mathbf{x}) &= \prod_{i=1}^{n}\dfrac{\lambda^{x_i}}{x_i!}e^{-\lambda} \\
@@ -625,7 +625,7 @@ Which one would you pick?
 
 #### Are they both good?
 
-It is generally believe that a good product should have an average rating of at least 4.25 (or 85%). Given the reviews above, is there enough evidence to conclude that both Airbuds are good products, given a Type I error rate of 0.05?
+It is generally believed that a good product should have an average rating of at least 4.25 (or 85%). Given the reviews above, is there enough evidence to conclude that both Airbuds are good products, given a Type I error rate of 0.05?
 
 #### Which pair is better, statistically?
 

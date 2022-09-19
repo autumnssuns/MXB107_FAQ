@@ -58,12 +58,23 @@ library(MXB107)
 
 ## Question 2
 
-Find a critical Z value, from a normal distribution, given a type I error rate $\alpha = 0.05$:
+Since $n=30$, you can use either the Gaussian or Student' t distribution.
+
+Find a critical Z value, from a Gaussian distribution, given a type I error rate $\alpha = 0.05$:
 
 ```{r}
 alpha <- 0.05
 Z_alpha_half <- qnorm(1 - alpha/2)
 Z_alpha_half
+```
+
+Find a critical T value, from a Student' t distribution, given a type I error rate $\alpha = 0.05$ and degree of freedom $\nu = 16$:
+
+```{r}
+alpha <- 0.05
+nu <- 16
+T_critical <- qt(1 - alpha/2, nu)
+T_critical
 ```
 
 # Assignment 1

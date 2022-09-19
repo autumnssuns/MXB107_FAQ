@@ -18,6 +18,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(MXB107)
 ```
 
 Workshop Recordings can be found on the Learning Resources Site: <https://blackboard.qut.edu.au/bbcswebdav/pid-1481644-dt-announcement-rid-58665563_1/courses/MXB107_22se2/_site/videos.html>.
@@ -566,10 +567,69 @@ LCL
 UCL
 ```
 
-$$
-$$
-
 ## Workshop 8 (20/9/22)
+
+### Online Shopping Example
+
+The quality of a product can be reflected by their star ratings.
+
+When browsing for a new pair of Airbuds on JB Hifi, I found two choices with the following rating distributions.
+
+Sources:
+https://www.jbhifi.com.au/products/lg-tone-free-fp9a-wireless-anc-in-ear-headphones-with-plug-play#reviews
+https://www.jbhifi.com.au/products/sony-wf-1000xm4-truly-wireless-noise-cancelling-in-ear-headphones-black#reviews
+
+```{r}
+earphones <- data.frame(
+  "Ratings" = 1:5,
+  "Sony" = c(67, 48, 94, 273, 759),
+  "LG" = c(4,5,3,25,109)
+)
+
+earphones %>%
+  pivot_longer(c("Sony","LG")) %>%
+  ggplot(aes(x = Ratings, y=value)) +
+  geom_histogram(stat="identity") +
+  geom_text(aes(label=value), vjust=-0.25)+
+  facet_wrap(~name)+
+  xlab("Rating")+
+  ylab("Number of customers")+
+  ggtitle("Customer Ratings on JB Hifi for LG and Sony Airbuds")
+```
+
+Some of their important statistics can also be calculated:
+
+```{r}
+n_lg <- sum(earphones$LG)
+n_sony <- sum(earphones$Sony)
+
+averages <- earphones %>% summarise_at(c("Sony","LG"), funs(average = sum(Ratings*.)/sum(.)))
+lg_bar <- averages$LG_average
+lg_s <- sum((earphones$Ratings - lg_bar)^2 * earphones$LG) / (sum(earphones$LG) - 1)
+
+sony_bar <-averages$Sony_average
+sony_s <- sum((earphones$Ratings - sony_bar)^2 * earphones$Sony) / (sum(earphones$Sony) - 1)
+
+Z_critical <- qnorm(1 - alpha)
+cat("LG Size:\t", n_lg, "\n")
+cat("LG Average:\t", lg_bar, "\n")
+cat("LG sd:\t\t", lg_s, "\n")
+cat("Sony Size:\t", n_sony, "\n")
+cat("Sony Average:\t", sony_bar, "\n")
+cat("Sony sd:\t", sony_s, "\n")
+```
+
+Which one would you pick?
+
+**Go to www.menti.com and use the code 2380 3183**
+
+#### Are they both good?
+
+It is generally believe that a good product should have an average rating of at least 4.25 (or 85%). Given the reviews above, is there enough evidence to conclude that both Airbuds are good products, given a Type I error rate of 0.05?
+
+#### Which pair is better, statistically?
+
+Perform a test to check if the LG buds are statistically better than the Sony buds.
 
 ## Workshop 9 (4/10/22)
 

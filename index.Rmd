@@ -43,13 +43,13 @@ If you prefer the PDF, find them on my [**[GitHub]**](https://github.com/autumns
 Set up the MXB107 package. The commented lines can be used to install dependencies (only when required by R).
 
 ```{r}
-# install.packages(c( "tidyverse", "knitr", "rmarkdown", "pander",
-# "ggforce", "kableExtra", "gridExtra"))
+install.packages(c( "tidyverse", "knitr", "rmarkdown", "pander",
+"ggforce", "kableExtra", "gridExtra"))
 
 # Use knitr to install tinytex
-# library(knitr)
-# install.packages("tinytex")
-# tinytex::install_tinytex()
+library(knitr)
+install.packages("tinytex")
+tinytex::install_tinytex()
 install.packages("MXB107_1.0.0.2022.zip", repos = NULL, type="source")
 library(MXB107)
 ```
@@ -75,6 +75,23 @@ alpha <- 0.05
 nu <- 16
 T_critical <- qt(1 - alpha/2, nu)
 T_critical
+```
+
+## Question 5
+
+Given code in assignment template (swimmer data).
+
+```{r}
+df<-data.frame(s1 = c(59.62,59.74,59.48,59.43,59.65,59.72,59.50,59.63,60.01,59.68),s2 = c(59.81,59.41,59.32,59.63,59.76,59.50,59.64,59.83,59.86,59.51))
+
+kable(df,col.names=c("Swimmer 1","Swimmer 2"),booktabs = TRUE, linesep = "") %>%
+  kable_styling(position = "center",full_width = FALSE)
+```
+
+Find the mean and variance of the two swimmers.
+
+```{r}
+df %>% summarise_all(funs(mean = mean, sd = sd))
 ```
 
 # Assignment 1

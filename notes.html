@@ -11,7 +11,7 @@
 
 <meta name="author" content="Dan Tran" />
 
-<meta name="date" content="2022-09-20" />
+<meta name="date" content="2022-10-03" />
 
 <title>Workshop Notes</title>
 
@@ -2858,7 +2858,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Workshop Notes</h1>
 <h4 class="author">Dan Tran</h4>
-<h4 class="date">2022-09-20</h4>
+<h4 class="date">2022-10-03</h4>
 
 </div>
 
@@ -3438,25 +3438,38 @@ Pr(Z &gt; Z_\alpha) = 1 - \alpha
 <span id="cb21-2"><a href="#cb21-2"></a>n_lg &lt;-<span class="st"> </span><span class="kw">sum</span>(earphones<span class="op">$</span>LG)</span>
 <span id="cb21-3"><a href="#cb21-3"></a>n_sony &lt;-<span class="st"> </span><span class="kw">sum</span>(earphones<span class="op">$</span>Sony)</span>
 <span id="cb21-4"><a href="#cb21-4"></a></span>
-<span id="cb21-5"><a href="#cb21-5"></a>averages &lt;-<span class="st"> </span>earphones <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise_at</span>(<span class="kw">c</span>(<span class="st">&quot;Sony&quot;</span>,<span class="st">&quot;LG&quot;</span>), <span class="kw">funs</span>(<span class="dt">average =</span> <span class="kw">sum</span>(Ratings<span class="op">*</span>.)<span class="op">/</span><span class="kw">sum</span>(.)))</span>
-<span id="cb21-6"><a href="#cb21-6"></a>lg_bar &lt;-<span class="st"> </span>averages<span class="op">$</span>LG_average</span>
-<span id="cb21-7"><a href="#cb21-7"></a>lg_s &lt;-<span class="st"> </span><span class="kw">sum</span>((earphones<span class="op">$</span>Ratings <span class="op">-</span><span class="st"> </span>lg_bar)<span class="op">^</span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>earphones<span class="op">$</span>LG) <span class="op">/</span><span class="st"> </span>(<span class="kw">sum</span>(earphones<span class="op">$</span>LG) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)</span>
-<span id="cb21-8"><a href="#cb21-8"></a></span>
-<span id="cb21-9"><a href="#cb21-9"></a>sony_bar &lt;-averages<span class="op">$</span>Sony_average</span>
-<span id="cb21-10"><a href="#cb21-10"></a>sony_s &lt;-<span class="st"> </span><span class="kw">sum</span>((earphones<span class="op">$</span>Ratings <span class="op">-</span><span class="st"> </span>sony_bar)<span class="op">^</span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>earphones<span class="op">$</span>Sony) <span class="op">/</span><span class="st"> </span>(<span class="kw">sum</span>(earphones<span class="op">$</span>Sony) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)</span>
-<span id="cb21-11"><a href="#cb21-11"></a></span>
-<span id="cb21-12"><a href="#cb21-12"></a>Z_critical &lt;-<span class="st"> </span><span class="kw">qnorm</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>alpha)</span>
-<span id="cb21-13"><a href="#cb21-13"></a><span class="kw">cat</span>(<span class="st">&quot;LG Size:</span><span class="ch">\t</span><span class="st">&quot;</span>, n_lg, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<span id="cb21-5"><a href="#cb21-5"></a>averages &lt;-<span class="st"> </span>earphones <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise_at</span>(<span class="kw">c</span>(<span class="st">&quot;Sony&quot;</span>,<span class="st">&quot;LG&quot;</span>), <span class="kw">funs</span>(<span class="dt">average =</span> <span class="kw">sum</span>(Ratings<span class="op">*</span>.)<span class="op">/</span><span class="kw">sum</span>(.)))</span></code></pre></div>
+<pre><code>## Warning: `funs()` was deprecated in dplyr 0.8.0.
+## Please use a list of either functions or lambdas: 
+## 
+##   # Simple named list: 
+##   list(mean = mean, median = median)
+## 
+##   # Auto named with `tibble::lst()`: 
+##   tibble::lst(mean, median)
+## 
+##   # Using lambdas
+##   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>lg_bar &lt;-<span class="st"> </span>averages<span class="op">$</span>LG_average</span>
+<span id="cb23-2"><a href="#cb23-2"></a>lg_s &lt;-<span class="st"> </span><span class="kw">sum</span>((earphones<span class="op">$</span>Ratings <span class="op">-</span><span class="st"> </span>lg_bar)<span class="op">^</span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>earphones<span class="op">$</span>LG) <span class="op">/</span><span class="st"> </span>(<span class="kw">sum</span>(earphones<span class="op">$</span>LG) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)</span>
+<span id="cb23-3"><a href="#cb23-3"></a></span>
+<span id="cb23-4"><a href="#cb23-4"></a>sony_bar &lt;-averages<span class="op">$</span>Sony_average</span>
+<span id="cb23-5"><a href="#cb23-5"></a>sony_s &lt;-<span class="st"> </span><span class="kw">sum</span>((earphones<span class="op">$</span>Ratings <span class="op">-</span><span class="st"> </span>sony_bar)<span class="op">^</span><span class="dv">2</span> <span class="op">*</span><span class="st"> </span>earphones<span class="op">$</span>Sony) <span class="op">/</span><span class="st"> </span>(<span class="kw">sum</span>(earphones<span class="op">$</span>Sony) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)</span>
+<span id="cb23-6"><a href="#cb23-6"></a></span>
+<span id="cb23-7"><a href="#cb23-7"></a>Z_critical &lt;-<span class="st"> </span><span class="kw">qnorm</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>alpha)</span>
+<span id="cb23-8"><a href="#cb23-8"></a><span class="kw">cat</span>(<span class="st">&quot;LG Size:</span><span class="ch">\t</span><span class="st">&quot;</span>, n_lg, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
 <pre><code>## LG Size:  146</code></pre>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="kw">cat</span>(<span class="st">&quot;LG Average:</span><span class="ch">\t</span><span class="st">&quot;</span>, lg_bar, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="kw">cat</span>(<span class="st">&quot;LG Average:</span><span class="ch">\t</span><span class="st">&quot;</span>, lg_bar, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
 <pre><code>## LG Average:   4.575342</code></pre>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="kw">cat</span>(<span class="st">&quot;LG sd:</span><span class="ch">\t\t</span><span class="st">&quot;</span>, lg_s, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="kw">cat</span>(<span class="st">&quot;LG sd:</span><span class="ch">\t\t</span><span class="st">&quot;</span>, lg_s, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
 <pre><code>## LG sd:        0.8253188</code></pre>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a><span class="kw">cat</span>(<span class="st">&quot;Sony Size:</span><span class="ch">\t</span><span class="st">&quot;</span>, n_sony, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="kw">cat</span>(<span class="st">&quot;Sony Size:</span><span class="ch">\t</span><span class="st">&quot;</span>, n_sony, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
 <pre><code>## Sony Size:    1241</code></pre>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="kw">cat</span>(<span class="st">&quot;Sony Average:</span><span class="ch">\t</span><span class="st">&quot;</span>, sony_bar, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="kw">cat</span>(<span class="st">&quot;Sony Average:</span><span class="ch">\t</span><span class="st">&quot;</span>, sony_bar, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
 <pre><code>## Sony Average:     4.296535</code></pre>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="kw">cat</span>(<span class="st">&quot;Sony sd:</span><span class="ch">\t</span><span class="st">&quot;</span>, sony_s, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a><span class="kw">cat</span>(<span class="st">&quot;Sony sd:</span><span class="ch">\t</span><span class="st">&quot;</span>, sony_s, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
 <pre><code>## Sony sd:  1.241028</code></pre>
 <p>Which one would you pick?</p>
 <p>We all lean towards the Sony one with more ratings, but lower average.</p>
@@ -3473,9 +3486,9 @@ H_A = \mu \geq 4.25
 H_0 = \mu &lt; 4.25
 \]</span></p>
 <p>For a type I error rate of <span class="math inline">\(\alpha = 0.05\)</span>, the critical value is:</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>alpha &lt;-<span class="st"> </span><span class="fl">0.05</span></span>
-<span id="cb33-2"><a href="#cb33-2"></a>Z_critical &lt;-<span class="st"> </span><span class="kw">qnorm</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>alpha) <span class="co"># Since this is a one sided test</span></span>
-<span id="cb33-3"><a href="#cb33-3"></a>Z_critical</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a>alpha &lt;-<span class="st"> </span><span class="fl">0.05</span></span>
+<span id="cb35-2"><a href="#cb35-2"></a>Z_critical &lt;-<span class="st"> </span><span class="kw">qnorm</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>alpha) <span class="co"># Since this is a one sided test</span></span>
+<span id="cb35-3"><a href="#cb35-3"></a>Z_critical</span></code></pre></div>
 <pre><code>## [1] 1.644854</code></pre>
 <p><span class="math display">\[
 Z_{\alpha} = Z_{0.05} \approx 1.645
@@ -3503,7 +3516,7 @@ Z = 1.334 &lt; 1.645
 \]</span></p>
 <p>This means our test statistics does not pass the test. We fail to reject the null hypothesis.</p>
 <p>Alternately, we say that the Sony earbuds may not be a good product.</p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a>(<span class="fl">4.297</span> <span class="op">-</span><span class="st"> </span><span class="fl">4.25</span>)<span class="op">/</span>(<span class="fl">1.241</span><span class="op">/</span><span class="kw">sqrt</span>(<span class="dv">1241</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a>(<span class="fl">4.297</span> <span class="op">-</span><span class="st"> </span><span class="fl">4.25</span>)<span class="op">/</span>(<span class="fl">1.241</span><span class="op">/</span><span class="kw">sqrt</span>(<span class="dv">1241</span>))</span></code></pre></div>
 <pre><code>## [1] 1.334172</code></pre>
 <ol start="2" style="list-style-type: lower-alpha">
 <li>For the LG earbuds:</li>
@@ -3522,7 +3535,7 @@ Z &amp;= \dfrac{\bar{x} - \mu_0}{s/\sqrt{n}}\\
 \end{aligned}
 \]</span></p>
 <p>We reject the null hypothesis and accept that the LG earbuds is a good product.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a>(<span class="fl">4.575</span> <span class="op">-</span><span class="st"> </span><span class="fl">4.25</span>) <span class="op">/</span><span class="st"> </span>(<span class="fl">0.825</span><span class="op">/</span><span class="kw">sqrt</span>(<span class="dv">146</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a>(<span class="fl">4.575</span> <span class="op">-</span><span class="st"> </span><span class="fl">4.25</span>) <span class="op">/</span><span class="st"> </span>(<span class="fl">0.825</span><span class="op">/</span><span class="kw">sqrt</span>(<span class="dv">146</span>))</span></code></pre></div>
 <pre><code>## [1] 4.759988</code></pre>
 </div>
 <div id="which-pair-is-better-statistically" class="section level4">
@@ -3561,9 +3574,9 @@ Z &amp;= \dfrac{(\bar{x_{lg}} - \bar{x_{sony}})-\Delta_0}{\sqrt{\dfrac{s_{lg}^2}
 &amp;\approx 3.618
 \end{aligned}
 \]</span></p>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a>num &lt;-<span class="st"> </span><span class="fl">4.575</span> <span class="op">-</span><span class="st"> </span><span class="fl">4.297</span></span>
-<span id="cb39-2"><a href="#cb39-2"></a>den &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="fl">0.825</span><span class="op">^</span><span class="dv">2</span><span class="op">/</span><span class="dv">146</span> <span class="op">+</span><span class="st"> </span><span class="fl">1.241</span><span class="op">^</span><span class="dv">2</span><span class="op">/</span><span class="dv">1241</span>)</span>
-<span id="cb39-3"><a href="#cb39-3"></a>num<span class="op">/</span>den</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1"></a>num &lt;-<span class="st"> </span><span class="fl">4.575</span> <span class="op">-</span><span class="st"> </span><span class="fl">4.297</span></span>
+<span id="cb41-2"><a href="#cb41-2"></a>den &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="fl">0.825</span><span class="op">^</span><span class="dv">2</span><span class="op">/</span><span class="dv">146</span> <span class="op">+</span><span class="st"> </span><span class="fl">1.241</span><span class="op">^</span><span class="dv">2</span><span class="op">/</span><span class="dv">1241</span>)</span>
+<span id="cb41-3"><a href="#cb41-3"></a>num<span class="op">/</span>den</span></code></pre></div>
 <pre><code>## [1] 3.618389</code></pre>
 <p>Test if the test statistics is greater than the critical statistic (<span class="math inline">\(Z_{\alpha} = 1.645\)</span>).</p>
 <p><span class="math display">\[

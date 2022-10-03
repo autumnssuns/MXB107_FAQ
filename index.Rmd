@@ -47,10 +47,10 @@ install.packages(c( "tidyverse", "knitr", "rmarkdown", "pander",
 "ggforce", "kableExtra", "gridExtra"))
 
 # Use knitr to install tinytex
-library(knitr)
-install.packages("tinytex")
-tinytex::install_tinytex()
-install.packages("MXB107_1.0.0.2022.zip", repos = NULL, type="source")
+# library(knitr)
+# install.packages("tinytex")
+# tinytex::install_tinytex(force = TRUE)
+# install.packages("MXB107_1.0.0.2022.zip", repos = NULL, type="source")
 library(MXB107)
 ```
 
@@ -88,10 +88,55 @@ kable(df,col.names=c("Swimmer 1","Swimmer 2"),booktabs = TRUE, linesep = "") %>%
   kable_styling(position = "center",full_width = FALSE)
 ```
 
-Find the mean and variance of the two swimmers.
+Find the mean, standard deviation and variance of the two swimmers.
 
 ```{r}
-df %>% summarise_all(funs(mean = mean, sd = sd))
+df %>% summarise_all(.funs = list(mean = ~mean(.), sd = ~sd(.), var = ~var(.)))
+```
+
+**Only use the following two snippets if needed for paired difference**:
+
+```{r}
+diff <- data.frame(Difference = df$s2 - df$s1)
+kable(diff,booktabs = FALSE,linesep="") %>%
+  kable_styling(position = "center", full_width = FALSE)
+```
+
+Find the mean and standard deviation of the difference:
+
+```{r}
+diff %>% summarise_at("Difference", .funs = list(mean = ~mean(.), sd = ~sd(.)))
+```
+
+## Question 6
+
+Given code in assignment template (experiment data).
+
+```{r}
+df<-data.frame(Person = c(1,2,3,4,5,6,7),Before = c(4,5,5,4,3,6,2),After = c(7,8,3,5,4,5,5))
+kable(df,booktabs = FALSE,linesep="") %>%
+  kable_styling(position = "center", full_width = FALSE)
+```
+
+Find mean, standard deviation and variance before and after the experiment:
+```{r}
+df %>% summarise_at(c("Before", "After"), .funs = list(mean = ~mean(.), sd = ~sd(.), var = ~var(.)))
+```
+
+**Only use the following two snippets if needed for paired difference**:
+
+Find the difference between after and before the experiment:
+
+```{r}
+diff <- data.frame(Person = df$Person, Difference = df$After - df$Before)
+kable(diff,booktabs = FALSE,linesep="") %>%
+  kable_styling(position = "center", full_width = FALSE)
+```
+
+Find the mean and standard deviation of the difference:
+
+```{r}
+diff %>% summarise_at("Difference", .funs = list(mean = ~mean(.), sd = ~sd(.)))
 ```
 
 # Assignment 1

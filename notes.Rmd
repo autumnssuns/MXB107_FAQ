@@ -271,6 +271,34 @@ Hence the variance of X is 5.83 and the standard deviation is 2.41.
 
 ## Workshop 6 (6/9/22)
 
+### Cummulative Probability Distribution
+
+Given a PDF:
+
+$$
+f(x) = \dfrac{3x^2}{8}, 0<x<2
+$$
+
+Then the CDF is:
+
+$$
+\begin{aligned}
+F(x) &= \int_{-\infty}^{x}f(u)du\\
+&= \int_{-\infty}^{0}f(u)du + \int_{0}^xf(u)du\\
+&= 0 + \int_0^xf(u)du\\
+&= \int_0^x\dfrac{3u^2}{8}du\\
+&= \left[\dfrac{3u^3}{3\times8}\right]_0^x\\
+&= \dfrac{x^3}{8} - 0\\
+&= \dfrac{x^3}{8}
+\end{aligned}
+$$
+
+Check if the CDF of the upper limit is 1.
+
+$$
+F(2) = \dfrac{2^3}{8} = 1
+$$
+
 ### Butter weight
 
 Example: A dairy produces packages of butter using a machine that is set
@@ -958,6 +986,8 @@ $$
 \dfrac{s_1^2}{s_2^2} = \dfrac{0.064^2}{0.032^2} \approx 4 > 3
 $$
 Therefore, we need to use unequal variances.
+
+**Note: If the two variances are equal, use** $\nu = n_1 + n_2 - 2$. Otherwise, use the below formula for unequal variance.
 
 Hence the degree of freedom (for the t test is):
 

@@ -3165,6 +3165,29 @@ Var[X] &amp;= E[(X-\mu]^2]\\
 </div>
 <div id="workshop-6-6922" class="section level2">
 <h2>Workshop 6 (6/9/22)</h2>
+<div id="cummulative-probability-distribution" class="section level3">
+<h3>Cummulative Probability Distribution</h3>
+<p>Given a PDF:</p>
+<p><span class="math display">\[
+f(x) = \dfrac{3x^2}{8}, 0&lt;x&lt;2
+\]</span></p>
+<p>Then the CDF is:</p>
+<p><span class="math display">\[
+\begin{aligned}
+F(x) &amp;= \int_{-\infty}^{x}f(u)du\\
+&amp;= \int_{-\infty}^{0}f(u)du + \int_{0}^xf(u)du\\
+&amp;= 0 + \int_0^xf(u)du\\
+&amp;= \int_0^x\dfrac{3u^2}{8}du\\
+&amp;= \left[\dfrac{3u^3}{3\times8}\right]_0^x\\
+&amp;= \dfrac{x^3}{8} - 0\\
+&amp;= \dfrac{x^3}{8}
+\end{aligned}
+\]</span></p>
+<p>Check if the CDF of the upper limit is 1.</p>
+<p><span class="math display">\[
+F(2) = \dfrac{2^3}{8} = 1
+\]</span></p>
+</div>
 <div id="butter-weight" class="section level3">
 <h3>Butter weight</h3>
 <p>Example: A dairy produces packages of butter using a machine that is set to produce 250 g block of butter with a standard deviation of 10 g. A sample of size n=13 blocks of butter produce an average weight of <span class="math inline">\(\bar{x}\)</span>=253 g. What is the probability of observing a sample average weight of 253 g or more?</p>
@@ -3669,6 +3692,7 @@ s_2 \approx 0.032\\
 <p>Check if we need to use unequal variances</p>
 <p>$$  &gt; 3 ?\</p>
 <p> =  4 &gt; 3 $$ Therefore, we need to use unequal variances.</p>
+<p><strong>Note: If the two variances are equal, use</strong> <span class="math inline">\(\nu = n_1 + n_2 - 2\)</span>. Otherwise, use the below formula for unequal variance.</p>
 <p>Hence the degree of freedom (for the t test is):</p>
 <p><span class="math display">\[
 \nu \approx \dfrac{(\dfrac{s_1^2}{n_1} + \dfrac{s_2^2}{n_2})^2}{\dfrac{(s_1^2/n_1)^2}{n_1-1} + \dfrac{(s_2^2/n_2)^2}{n_2-1}}\\

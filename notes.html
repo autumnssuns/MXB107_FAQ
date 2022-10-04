@@ -11,7 +11,7 @@
 
 <meta name="author" content="Dan Tran" />
 
-<meta name="date" content="2022-10-03" />
+<meta name="date" content="2022-10-04" />
 
 <title>Workshop Notes</title>
 
@@ -2858,7 +2858,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Workshop Notes</h1>
 <h4 class="author">Dan Tran</h4>
-<h4 class="date">2022-10-03</h4>
+<h4 class="date">2022-10-04</h4>
 
 </div>
 
@@ -3590,6 +3590,171 @@ Z &gt; Z_\alpha\\
 </div>
 <div id="workshop-9-41022" class="section level2">
 <h2>Workshop 9 (4/10/22)</h2>
+<div id="example-1-synthetic-diamonds" class="section level3">
+<h3>Example 1 Synthetic Diamonds</h3>
+<p>A new process for producing synthetic diamonds is only profitable if the average weight of the diamonds produced is greater than 0.5 carats. Six samples from the new process are created weighing: (0.46,0.61,0.52,0.48,0.57,0.54) carats. Set up a hypotheses test to determine whether or not the process is profitable. Assume a Type I error rate of α=0.05.</p>
+<p>The altnerate hypothesis is “the average weight of the diamonds produced is greater than 0.5 carats”.</p>
+<p><span class="math display">\[
+H_A: \mu &gt; 0.5\\
+H_0: \mu \leq 0.5\\
+\]</span></p>
+<p>Given variables:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\alpha &amp;= 0.05\\
+n &amp;= 6\\
+\end{aligned}
+\]</span> Find mean <span class="math inline">\(\bar{x}\)</span> and standard deviation <span class="math inline">\(s\)</span>:</p>
+<p><span class="math display">\[
+\begin{aligned}
+\bar{x} &amp;= \dfrac{0.46+0.61+0.52+0.48+0.57+0.54}{6}\\
+&amp;= 0.53\\
+s &amp;= \sqrt{\dfrac{\sum(x-\bar{x})^2}{n-1}}\\
+&amp;= \sqrt{\dfrac{(0.46 - 0.53)^2+(0.61-0.53)^2+(0.52-0.53)^2+(0.48-0.53)^2+(0.57-0.53)^2+(0.54-0.53)^2}{6 - 1}}\\
+&amp;\approx 0.056
+\end{aligned}
+\]</span></p>
+<p>(Or find the mean and standard deviation using R)</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1"></a>x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.46</span>,<span class="fl">0.61</span>,<span class="fl">0.52</span>,<span class="fl">0.48</span>,<span class="fl">0.57</span>, <span class="fl">0.54</span>)</span>
+<span id="cb43-2"><a href="#cb43-2"></a></span>
+<span id="cb43-3"><a href="#cb43-3"></a><span class="kw">mean</span>(x)</span></code></pre></div>
+<pre><code>## [1] 0.53</code></pre>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1"></a><span class="kw">sd</span>(x)</span></code></pre></div>
+<pre><code>## [1] 0.05585696</code></pre>
+<p>The degree of freedom is <span class="math inline">\(\nu=n -1= 6 - 1 = 5\)</span>. Therefore, the critical test statistics is <span class="math inline">\(t_{\nu,\alpha} = t_{5, 0.05} = 2.015\)</span> (using the t distribution table).</p>
+<p>(Or confirm using r)</p>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1"></a>alpha &lt;-<span class="st"> </span><span class="fl">0.05</span></span>
+<span id="cb47-2"><a href="#cb47-2"></a>nu &lt;-<span class="st"> </span><span class="dv">5</span></span>
+<span id="cb47-3"><a href="#cb47-3"></a>t_critical &lt;-<span class="st"> </span><span class="kw">qt</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>alpha, <span class="dv">5</span>)</span>
+<span id="cb47-4"><a href="#cb47-4"></a>t_critical</span></code></pre></div>
+<pre><code>## [1] 2.015048</code></pre>
+<p>And the test statistics is <span class="math inline">\(T = \sqrt{n}\dfrac{\bar{x}-\mu_0}{s}\)</span>.</p>
+<p><span class="math display">\[
+\begin{aligned}
+T &amp;= \sqrt{6}\dfrac{0.53-0.5}{0.056}\\
+&amp;= 1.316 &lt; T_{5, 0.05}
+\end{aligned}
+\]</span> Since the test statistic is less than the critical test statistics (in the case of <span class="math inline">\(H_0:\mu &lt; \mu_0\)</span>, we check if <span class="math inline">\(T &gt; T_{\nu,\alpha}\)</span>), we failed to reject the null hypothesis. Hence we conclude that there is not enough evidence to statistically confirm that the diamond-making process is profitable.</p>
+</div>
+<div id="example-4-unequal-variances" class="section level3">
+<h3>Example 4: Unequal variances</h3>
+<p>Data are collected to measure the impact strength of two different packaging materials</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1"></a>df &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="st">&#39;Material 1&#39;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="fl">1.25</span>,<span class="fl">1.16</span>,<span class="fl">1.33</span>,<span class="fl">1.15</span>,<span class="fl">1.23</span>,<span class="fl">1.20</span>,<span class="fl">1.32</span>,<span class="fl">1.28</span>,<span class="fl">1.21</span>),</span>
+<span id="cb49-2"><a href="#cb49-2"></a>              <span class="st">&#39;Material 2&#39;</span> =<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.89</span>,<span class="fl">0.91</span>,<span class="fl">0.97</span>,<span class="fl">0.95</span>,<span class="fl">0.94</span>,<span class="fl">0.92</span>,<span class="fl">0.98</span>,<span class="fl">0.96</span>,<span class="fl">0.98</span>))</span></code></pre></div>
+<p>Is there a difference between the strengths of the two packing materials? Test this using the appropriate hypotheses at the Type I Error Rate of α=0.05.</p>
+<p>Our alternate hypothesis is that <strong>there is a difference</strong>:</p>
+<p><span class="math display">\[
+H_A: \mu_1 \neq \mu_2\\
+H_A: \mu_1 -\mu_2 \neq \Delta_0
+\]</span></p>
+<p>Where in our case, <span class="math inline">\(\Delta_0 = 0\)</span>.</p>
+<p><span class="math display">\[
+\alpha = 0.05\\
+n_1 = n_2 = 9
+\]</span></p>
+<p>Find the mean and standard deviation using R:</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1"></a>stats &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise_at</span>(<span class="kw">c</span>(<span class="st">&quot;Material 1&quot;</span>, <span class="st">&quot;Material 2&quot;</span>), <span class="dt">.funs =</span> <span class="kw">list</span>(<span class="dt">mean =</span> <span class="op">~</span><span class="kw">mean</span>(.), <span class="dt">sd =</span> <span class="op">~</span><span class="kw">sd</span>(.)))</span>
+<span id="cb50-2"><a href="#cb50-2"></a>stats</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Material 1_mean"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Material 2_mean"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Material 1_sd"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Material 2_sd"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"1.236667","2":"0.9444444","3":"0.06442049","4":"0.03205897"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p><span class="math display">\[
+\bar{x_1} \approx 1.24\\
+\bar{x_2} \approx 0.94\\
+s_1 \approx 0.064\\
+s_2 \approx 0.032\\
+\]</span></p>
+<p>Check if we need to use unequal variances</p>
+<p>$$  &gt; 3 ?\</p>
+<p> =  4 &gt; 3 $$ Therefore, we need to use unequal variances.</p>
+<p>Hence the degree of freedom (for the t test is):</p>
+<p><span class="math display">\[
+\nu \approx \dfrac{(\dfrac{s_1^2}{n_1} + \dfrac{s_2^2}{n_2})^2}{\dfrac{(s_1^2/n_1)^2}{n_1-1} + \dfrac{(s_2^2/n_2)^2}{n_2-1}}\\
+\nu = \dfrac{(\dfrac{0.064^2}{9} + \dfrac{0.032^2}{9})^2}{\dfrac{(0.064^2/9)^2}{9-1} + \dfrac{(0.032^2/9)^2}{9-1}}\\
+\]</span></p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1"></a>x_<span class="dv">1</span>_bar &lt;-<span class="st"> </span>stats<span class="op">$</span><span class="st">`</span><span class="dt">Material 1_mean</span><span class="st">`</span></span>
+<span id="cb51-2"><a href="#cb51-2"></a>x_<span class="dv">2</span>_bar &lt;-<span class="st"> </span>stats<span class="op">$</span><span class="st">`</span><span class="dt">Material 2_mean</span><span class="st">`</span></span>
+<span id="cb51-3"><a href="#cb51-3"></a>s_<span class="dv">1</span> &lt;-<span class="st"> </span>stats<span class="op">$</span><span class="st">`</span><span class="dt">Material 1_sd</span><span class="st">`</span></span>
+<span id="cb51-4"><a href="#cb51-4"></a>s_<span class="dv">2</span> &lt;-<span class="st"> </span>stats<span class="op">$</span><span class="st">`</span><span class="dt">Material 2_sd</span><span class="st">`</span></span>
+<span id="cb51-5"><a href="#cb51-5"></a>n_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="dv">9</span></span>
+<span id="cb51-6"><a href="#cb51-6"></a>n_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="dv">9</span></span>
+<span id="cb51-7"><a href="#cb51-7"></a></span>
+<span id="cb51-8"><a href="#cb51-8"></a>num &lt;-<span class="st"> </span>(s_<span class="dv">1</span><span class="op">^</span><span class="dv">2</span><span class="op">/</span>n_<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>s_<span class="dv">2</span><span class="op">^</span><span class="dv">2</span><span class="op">/</span>n_<span class="dv">2</span>)<span class="op">^</span><span class="dv">2</span></span>
+<span id="cb51-9"><a href="#cb51-9"></a>den &lt;-<span class="st"> </span>(s_<span class="dv">1</span><span class="op">^</span><span class="dv">2</span><span class="op">/</span>n_<span class="dv">1</span>)<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span>(n_<span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span>(s_<span class="dv">2</span><span class="op">^</span><span class="dv">2</span><span class="op">/</span>n_<span class="dv">2</span>)<span class="op">^</span><span class="dv">2</span> <span class="op">/</span><span class="st"> </span>(n_<span class="dv">2</span> <span class="op">-</span><span class="st"> </span><span class="dv">1</span>)</span>
+<span id="cb51-10"><a href="#cb51-10"></a></span>
+<span id="cb51-11"><a href="#cb51-11"></a>nu &lt;-<span class="st"> </span>num <span class="op">/</span><span class="st"> </span>den</span>
+<span id="cb51-12"><a href="#cb51-12"></a>nu</span></code></pre></div>
+<pre><code>## [1] 11.73352</code></pre>
+<p>We found that <span class="math inline">\(\nu \approx 11.73\)</span>.</p>
+<p>Find the critical test statistics using R:</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1"></a>alpha &lt;-<span class="st"> </span><span class="fl">0.05</span></span>
+<span id="cb53-2"><a href="#cb53-2"></a></span>
+<span id="cb53-3"><a href="#cb53-3"></a>t_critical &lt;-<span class="st"> </span><span class="kw">qt</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>alpha <span class="op">/</span><span class="st"> </span><span class="dv">2</span>, nu) <span class="co"># alpha / 2 because we are using a two-sided test</span></span>
+<span id="cb53-4"><a href="#cb53-4"></a>t_critical</span></code></pre></div>
+<pre><code>## [1] 2.184314</code></pre>
+<p>So the critical test statistics is <span class="math inline">\(T_{\nu,\alpha/2} \approx 2.18\)</span>. We reject the null hypothesis if <span class="math inline">\(T &gt; |T_{\nu,\alpha/2}|\)</span>.</p>
+<p>Find the test statistics:</p>
+<p><span class="math display">\[
+\begin{aligned}
+T &amp;= \dfrac{(\bar{x_1} - \bar{x_2}) - \Delta_0}{s_p}\\
+s_p &amp;= \sqrt{\dfrac{s_1^2}{n_1} + \dfrac{s_2^2}{n_2}}\\
+&amp;= \sqrt{\dfrac{0.064^2}{9} + \dfrac{0.032^2}{9}}\\
+&amp;\approx 0.024 \\
+T &amp;= \frac{1.24 - 0.94}{s_p}\\
+&amp;= 12.5 &gt; |2.18|
+\end{aligned}
+\]</span></p>
+<p>Hence, we reject the null hypothesis and we say that there is a statistically significant difference between the two materials.</p>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1"></a><span class="kw">sqrt</span>(<span class="fl">0.064</span><span class="op">^</span><span class="dv">2</span><span class="op">/</span><span class="dv">9</span> <span class="op">+</span><span class="st"> </span><span class="fl">0.032</span><span class="op">^</span><span class="dv">2</span><span class="op">/</span><span class="dv">9</span>)</span></code></pre></div>
+<pre><code>## [1] 0.02385139</code></pre>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1"></a>(<span class="fl">1.24</span> <span class="op">-</span><span class="st"> </span><span class="fl">0.94</span>) <span class="op">/</span><span class="st"> </span><span class="fl">0.024</span></span></code></pre></div>
+<pre><code>## [1] 12.5</code></pre>
+</div>
+<div id="example-5-paired-difference" class="section level3">
+<h3>Example 5: Paired Difference</h3>
+<p>We test the difference between two types of tyre (Type A and Type B) by selecting one tyre of each type at random and then fitting them to the rear wheels of one of five cars. Each car is driven for a specified number of kilometres, and the observed wear is measured.</p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1"></a>df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">A =</span> <span class="kw">c</span>(<span class="fl">10.6</span>,<span class="fl">9.8</span>,<span class="fl">12.3</span>,<span class="fl">9.7</span>,<span class="fl">8.8</span>), <span class="dt">B =</span> <span class="kw">c</span>(<span class="fl">10.2</span>,<span class="fl">9.4</span>,<span class="fl">11.8</span>,<span class="fl">9.1</span>,<span class="fl">8.3</span>))</span></code></pre></div>
+<p><span class="math display">\[
+\alpha = 0.05\\
+n = 5\\
+\]</span></p>
+<p>Since each sample (row) also depends on the car, the two groups of measurements are not independent and we can use the paired difference.</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1"></a>diff &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">Difference =</span> df<span class="op">$</span>A <span class="op">-</span><span class="st"> </span>df<span class="op">$</span>B)</span>
+<span id="cb60-2"><a href="#cb60-2"></a>diff</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Difference"],"name":[1],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.4"},{"1":"0.4"},{"1":"0.5"},{"1":"0.6"},{"1":"0.5"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Form the hypothesises:</p>
+<p><span class="math display">\[
+H_A: \mu_d \neq 0 \\
+H_0: \mu_d = 0
+\]</span></p>
+<p>Then we can find the mean and standard deviation of the difference (either by hand or using R):</p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1"></a>diff <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise_at</span>(<span class="kw">c</span>(<span class="st">&quot;Difference&quot;</span>), <span class="dt">.funs =</span> <span class="kw">list</span>(<span class="dt">mean =</span> <span class="op">~</span><span class="kw">mean</span>(.), <span class="dt">sd =</span> <span class="op">~</span><span class="kw">sd</span>(.)))</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["mean"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["sd"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"0.48","2":"0.083666"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p><span class="math display">\[
+\bar{d} = 0.48\\
+s = 0.084\\
+\]</span></p>
+<p>Small sample, so need to use t-distribution, where the degree of freedom is <span class="math inline">\(\nu = n - 1=5-1=4\)</span>. Hence the critical test statistics (using the t table):</p>
+<p><span class="math display">\[
+T_{\nu, \alpha/2} = T_{4, 0.025} \approx 2.776
+\]</span></p>
+<p>And we would reject the null hypothesis if <span class="math inline">\(T &gt; |T_{\nu, \alpha/2}|\)</span>. The test statistics is:</p>
+<p><span class="math display">\[
+T = \sqrt{n}\dfrac{\bar{d} - 0}{s} \\
+= \sqrt{5}\dfrac{0.48}{0.084}\\
+= 12.78 &gt; |2.776|
+\]</span> Since <span class="math inline">\(T &gt; |T_{\nu, \alpha/2}|\)</span>, we reject the null hypothesis and conclude that there is enough evidence showing that there is a difference between the two tyres.</p>
+</div>
 </div>
 <div id="workshop-10-111022" class="section level2">
 <h2>Workshop 10 (11/10/22)</h2>

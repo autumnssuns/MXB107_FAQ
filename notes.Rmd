@@ -3,16 +3,16 @@ title: "Workshop Notes"
 author: "Dan Tran"
 date: "`r Sys.Date()`"
 output:
-  pdf_document:
-    toc: true
-    toc_depth: 3
-    df_print: kable
-    highlight: zenburn
   html_document:
     toc: true
     toc_float: true
     theme: bootstrap
     df_print: paged
+    highlight: zenburn
+  pdf_document:
+    toc: true
+    toc_depth: 3
+    df_print: kable
     highlight: zenburn
 editor_options: 
   markdown: 
@@ -270,6 +270,34 @@ $$
 Hence the variance of X is 5.83 and the standard deviation is 2.41.
 
 ## Workshop 6 (6/9/22)
+
+### Cummulative Probability Distribution
+
+Given a PDF:
+
+$$
+f(x) = \dfrac{3x^2}{8}, 0<x<2
+$$
+
+Then the CDF is:
+
+$$
+\begin{aligned}
+F(x) &= \int_{-\infty}^{x}f(u)du\\
+&= \int_{-\infty}^{0}f(u)du + \int_{0}^xf(u)du\\
+&= 0 + \int_0^xf(u)du\\
+&= \int_0^x\dfrac{3u^2}{8}du\\
+&= \left[\dfrac{3u^3}{3\times8}\right]_0^x\\
+&= \dfrac{x^3}{8} - 0\\
+&= \dfrac{x^3}{8}
+\end{aligned}
+$$
+
+Check if the CDF of the upper limit is 1.
+
+$$
+F(2) = \dfrac{2^3}{8} = 1
+$$
 
 ### Butter weight
 
@@ -885,6 +913,10 @@ $$
 (Or find the mean and standard deviation using R)
 ```{r}
 x <- c(0.46,0.61,0.52,0.48,0.57, 0.54)
+<<<<<<< HEAD
+=======
+
+>>>>>>> e33dcaf0764a08a6cabd9ed8e9a5fc1fccf40d27
 mean(x)
 sd(x)
 ```
@@ -914,6 +946,10 @@ Since the test statistic is less than the critical test statistics (in the case 
 Data are collected to measure the impact strength of two different packaging materials
 
 ```{r}
+<<<<<<< HEAD
+=======
+
+>>>>>>> e33dcaf0764a08a6cabd9ed8e9a5fc1fccf40d27
 df <- tibble('Material 1' = c(1.25,1.16,1.33,1.15,1.23,1.20,1.32,1.28,1.21),
               'Material 2' = c(0.89,0.91,0.97,0.95,0.94,0.92,0.98,0.96,0.98))
 ```
@@ -973,8 +1009,15 @@ s_1 <- stats$`Material 1_sd`
 s_2 <- stats$`Material 2_sd`
 n_1 <- 9
 n_2 <- 9
+<<<<<<< HEAD
 num <- (s_1^2/n_1 + s_2^2/n_2)^2
 den <- (s_1^2/n_1)^2 / (n_1 - 1) + (s_2^2/n_2)^2 / (n_2 - 1)
+=======
+
+num <- (s_1^2/n_1 + s_2^2/n_2)^2
+den <- (s_1^2/n_1)^2 / (n_1 - 1) + (s_2^2/n_2)^2 / (n_2 - 1)
+
+>>>>>>> e33dcaf0764a08a6cabd9ed8e9a5fc1fccf40d27
 nu <- num / den
 nu
 ```
@@ -985,6 +1028,10 @@ Find the critical test statistics using R:
 
 ```{r}
 alpha <- 0.05
+<<<<<<< HEAD
+=======
+
+>>>>>>> e33dcaf0764a08a6cabd9ed8e9a5fc1fccf40d27
 t_critical <- qt(1 - alpha / 2, nu) # alpha / 2 because we are using a two-sided test
 t_critical
 ```
@@ -1066,6 +1113,8 @@ T = \sqrt{n}\dfrac{\bar{d} - 0}{s} \\
 $$
 Since $T > |T_{\nu, \alpha/2}|$, we reject the null hypothesis and conclude that there is enough evidence showing that there is a difference between the two tyres.
 
+
+**Notes**
 Confidence interval for the difference in sample means
 
 $$

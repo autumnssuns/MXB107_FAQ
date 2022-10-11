@@ -851,7 +851,370 @@ better than the Sony buds in terms of ratings.
 
 ## Workshop 9 (4/10/22)
 
+### Example 1 Synthetic Diamonds
+
+A new process for producing synthetic diamonds is only profitable if the average weight of the diamonds produced is greater than 0.5 carats. Six samples from the new process are created weighing: (0.46,0.61,0.52,0.48,0.57,0.54) carats. Set up a hypotheses test to determine whether or not the process is profitable. Assume a Type I error rate of α=0.05.
+
+The altnerate hypothesis is "the average weight of the diamonds produced is greater than 0.5 carats".
+
+$$
+H_A: \mu > 0.5\\
+H_0: \mu \leq 0.5\\
+$$
+
+Given variables:
+
+$$
+\begin{aligned}
+\alpha &= 0.05\\
+n &= 6\\
+\end{aligned}
+$$
+Find mean $\bar{x}$ and standard deviation $s$:
+
+$$
+\begin{aligned}
+\bar{x} &= \dfrac{0.46+0.61+0.52+0.48+0.57+0.54}{6}\\
+&= 0.53\\
+s &= \sqrt{\dfrac{\sum(x-\bar{x})^2}{n-1}}\\
+&= \sqrt{\dfrac{(0.46 - 0.53)^2+(0.61-0.53)^2+(0.52-0.53)^2+(0.48-0.53)^2+(0.57-0.53)^2+(0.54-0.53)^2}{6 - 1}}\\
+&\approx 0.056
+\end{aligned}
+$$
+
+(Or find the mean and standard deviation using R)
+```{r}
+x <- c(0.46,0.61,0.52,0.48,0.57, 0.54)
+mean(x)
+sd(x)
+```
+
+The degree of freedom is $\nu=n -1= 6 - 1 = 5$. Therefore, the critical test statistics is $t_{\nu,\alpha} = t_{5, 0.05} = 2.015$ (using the t distribution table).
+
+(Or confirm using r)
+```{r}
+alpha <- 0.05
+nu <- 5
+t_critical <- qt(1 - alpha, 5)
+t_critical
+```
+
+And the test statistics is $T = \sqrt{n}\dfrac{\bar{x}-\mu_0}{s}$.
+
+$$
+\begin{aligned}
+T &= \sqrt{6}\dfrac{0.53-0.5}{0.056}\\
+&= 1.316 < T_{5, 0.05}
+\end{aligned}
+$$
+Since the test statistic is less than the critical test statistics (in the case of $H_0:\mu < \mu_0$, we check if $T > T_{\nu,\alpha}$), we failed to reject the null hypothesis. Hence we conclude that there is not enough evidence to statistically confirm that the diamond-making process is profitable.
+
+### Example 4: Unequal variances
+
+Data are collected to measure the impact strength of two different packaging materials
+
+```{r}
+df <- tibble('Material 1' = c(1.25,1.16,1.33,1.15,1.23,1.20,1.32,1.28,1.21),
+              'Material 2' = c(0.89,0.91,0.97,0.95,0.94,0.92,0.98,0.96,0.98))
+```
+
+Is there a difference between the strengths of the two packing materials? Test this using the appropriate hypotheses at the Type I Error Rate of α=0.05.
+
+Our alternate hypothesis is that **there is a difference**:
+
+$$
+H_A: \mu_1 \neq \mu_2\\
+H_A: \mu_1 -\mu_2 \neq \Delta_0
+$$
+
+Where in our case, $\Delta_0 = 0$.
+
+$$
+\alpha = 0.05\\
+n_1 = n_2 = 9
+$$
+
+Find the mean and standard deviation using R:
+
+```{r}
+stats <- df %>% summarise_at(c("Material 1", "Material 2"), .funs = list(mean = ~mean(.), sd = ~sd(.)))
+stats
+```
+
+$$
+\bar{x_1} \approx 1.24\\
+\bar{x_2} \approx 0.94\\
+s_1 \approx 0.064\\
+s_2 \approx 0.032\\
+$$
+
+Check if we need to use unequal variances
+
+$$
+\dfrac{max(s^2)}{min(s^2)} > 3 ?\\
+
+\dfrac{s_1^2}{s_2^2} = \dfrac{0.064^2}{0.032^2} \approx 4 > 3
+$$
+Therefore, we need to use unequal variances.
+
+**Note: If the two variances are equal, use** $\nu = n_1 + n_2 - 2$. Otherwise, use the below formula for unequal variance.
+
+Hence the degree of freedom (for the t test is):
+
+$$
+\nu \approx \dfrac{(\dfrac{s_1^2}{n_1} + \dfrac{s_2^2}{n_2})^2}{\dfrac{(s_1^2/n_1)^2}{n_1-1} + \dfrac{(s_2^2/n_2)^2}{n_2-1}}\\
+\nu = \dfrac{(\dfrac{0.064^2}{9} + \dfrac{0.032^2}{9})^2}{\dfrac{(0.064^2/9)^2}{9-1} + \dfrac{(0.032^2/9)^2}{9-1}}\\
+$$
+
+```{r}
+x_1_bar <- stats$`Material 1_mean`
+x_2_bar <- stats$`Material 2_mean`
+s_1 <- stats$`Material 1_sd`
+s_2 <- stats$`Material 2_sd`
+n_1 <- 9
+n_2 <- 9
+num <- (s_1^2/n_1 + s_2^2/n_2)^2
+den <- (s_1^2/n_1)^2 / (n_1 - 1) + (s_2^2/n_2)^2 / (n_2 - 1)
+nu <- num / den
+nu
+```
+
+We found that $\nu \approx 11.73$.
+
+Find the critical test statistics using R:
+
+```{r}
+alpha <- 0.05
+t_critical <- qt(1 - alpha / 2, nu) # alpha / 2 because we are using a two-sided test
+t_critical
+```
+
+So the critical test statistics is $T_{\nu,\alpha/2} \approx 2.18$. We reject the null hypothesis if $T > |T_{\nu,\alpha/2}|$.
+
+Find the test statistics:
+
+$$
+\begin{aligned}
+T &= \dfrac{(\bar{x_1} - \bar{x_2}) - \Delta_0}{s_p}\\
+s_p &= \sqrt{\dfrac{s_1^2}{n_1} + \dfrac{s_2^2}{n_2}}\\
+&= \sqrt{\dfrac{0.064^2}{9} + \dfrac{0.032^2}{9}}\\
+&\approx 0.024 \\
+T &= \frac{1.24 - 0.94}{s_p}\\
+&= 12.5 > |2.18|
+\end{aligned}
+$$
+
+Hence, we reject the null hypothesis and we say that there is a statistically significant difference between the two materials.
+
+
+```{r}
+sqrt(0.064^2/9 + 0.032^2/9)
+(1.24 - 0.94) / 0.024
+```
+
+### Example 5: Paired Difference
+
+We test the difference between two types of tyre (Type A and Type B) by selecting one tyre of each type at random and then fitting them to the rear wheels of one of five cars. Each car is driven for a specified number of kilometres, and the observed wear is measured.
+
+```{r}
+df <- data.frame(A = c(10.6,9.8,12.3,9.7,8.8), B = c(10.2,9.4,11.8,9.1,8.3))
+```
+
+$$
+\alpha = 0.05\\
+n = 5\\
+$$
+
+Since each sample (row) also depends on the car, the two groups of measurements are not independent and we can use the paired difference.
+
+```{r}
+diff <- data.frame(Difference = df$A - df$B)
+diff
+```
+
+Form the hypothesises:
+
+$$
+H_A: \mu_d \neq 0 \\
+H_0: \mu_d = 0
+$$
+
+
+Then we can find the mean and standard deviation of the difference (either by hand or using R):
+
+```{r}
+diff %>% summarise_at(c("Difference"), .funs = list(mean = ~mean(.), sd = ~sd(.)))
+```
+
+$$
+\bar{d} = 0.48\\
+s = 0.084\\
+$$
+
+Small sample, so need to use t-distribution, where the degree of freedom is $\nu = n - 1=5-1=4$. Hence the critical test statistics (using the t table):
+
+$$
+T_{\nu, \alpha/2} = T_{4, 0.025} \approx 2.776
+$$
+
+And we would reject the null hypothesis if $T > |T_{\nu, \alpha/2}|$. The test statistics is:
+
+$$
+T = \sqrt{n}\dfrac{\bar{d} - 0}{s} \\
+= \sqrt{5}\dfrac{0.48}{0.084}\\
+= 12.78 > |2.776|
+$$
+Since $T > |T_{\nu, \alpha/2}|$, we reject the null hypothesis and conclude that there is enough evidence showing that there is a difference between the two tyres.
+
+Confidence interval for the difference in sample means
+
+$$
+\bar{x} - \bar{y} \pm T_{\nu,\alpha/2} \sqrt{s_p^2\left(\dfrac{1}{n_x} + \dfrac{1}{n_y}\right)}
+$$
+
 ## Workshop 10 (11/10/22)
+
+```{r}
+y <- c(4.13,4.07,4.04,4.07,4.05,4.04,4.02,4.06,4.10,4.04,
+       3.86,3.85,4.08,4.11,4.08,4.01,4.02,4.04,3.97,3.95,
+       4.00,4.02,4.01,4.01,4.04,3.99,4.03,3.97,3.98,3.98,
+       3.88,3.88,3.91,3.95,3.92,3.97,3.92,3.90,3.97,3.90,
+       4.02,3.95,4.02,3.89,3.91,4.01,3.89,3.89,3.99,4.00,
+       4.02,3.86,3.96,3.97,4.00,3.82,3.98,3.99,4.02,3.93,
+       4.00,4.02,4.03,4.04,4.10,3.81,3.91,3.96,4.05,4.06)
+labs <- c(rep("Lab 1", 10),rep("Lab 2", 10), rep("Lab 3",10), rep("Lab 4",10),
+          rep("Lab 5",10), rep("Lab 6",10),rep("Lab 7",10))
+
+df <- tibble(y = y, lab = labs)
+df %>%
+  ggplot(aes(x = lab, y = y)) +
+  geom_boxplot()
+df
+```
+
+```{r}
+model <- lm(y ~ lab, data = df)
+panderOptions('missing',"")
+model%>%aov()%>%pander()
+```
+```{r}
+total_variance <- var(df$y)
+total_variance
+
+lab_1_variance <- (df%>%filter(lab=="Lab 1"))$y%>%var()
+lab_1_variance
+```
+
+```{r}
+alpha <- 0.05
+F_critical <- qf(1 - alpha, 6, 63)
+F_critical
+```
+
+According to the ANOVA result table, the test F statistic is 5.66, which is greater than the critical F statistic (begin approximately 2.25). Therefore, we reject the null hypothesis that all the lab means are the same.
+
+We conclude that the means of some labs are different from the others.
+
+```{r}
+0.02079 / 0.003673 # Calculating F statistic treatment mean squared error / residuals mean squared error
+1 - pf(5.66, 6, 63)
+```
+
+### Tukey Honest Significant Difference (HSD) Test
+
+```{r}
+anova_model <- model%>%aov()
+tukey_model <- anova_model%>%TukeyHSD()
+
+# Round the result to look nicer
+tukey_model$lab%>%round(3)
+```
+
+According to the Tukey HSD result table, the following pairs are different:
+
+* Lab 4 and Lab 1
+* Lab 5 and Lab 1
+* Lab 6 and Lab 1
+* Lab 4 and Lab 3
+
+### Pr(>F) and hypothesis testing
+
+$$
+Pr(F > F_{\alpha}) = \alpha\\
+F_{test} > F_{\alpha}?\\
+Pr(F > F_{test}) < \alpha
+$$
+
+### Mobile Phone Usage
+
+```{r}
+df <- tibble(`Usage_Level` = c("Low", "Medium","High"),A = c(27,68,308), B = c(24,76,326), C = c(31,65,312), D = c(23,67,300))
+long_df <- df %>% pivot_longer(cols = c("A","B","C","D"))
+model_noblocking <- lm(value~name, data = long_df)
+anova_model <- model_noblocking%>%aov()
+anova_model%>%pander()
+long_df
+```
+
+Using the non-blocking method, we reject the null hypothesis and conclude that that the prices are not different between different companies.
+
+```{r}
+model_blocking <- lm(value~Usage_Level + name, data = long_df)
+anova_model_blocking <- model_blocking%>%aov()
+anova_model_blocking %>% pander()
+```
+
+We see that the Pr(>F) has dropped quite significantly (from 0.9997 to 0.2404), however, since this new value is still much greater than the desired type I error rate of $\alpha = 0.05$, we fail to reject the null hypothesis and conclude that the prices are not really different between different companies.
+
+
+```{r}
+long_df
+```
+
+### Two-factor experiment
+
+Similar to blocking, but both variables are observed and intereted in.
+
+```{r}
+df <- tibble(Supervisor = c(1,1,1,2,2,2)%>%as.factor(), 
+             Day = c(571,610,625,480,516,465), 
+             Swing = c(480,474,540,625,600,581),
+             Night = c(470,430,450,630,680,661))
+
+long_df <- df %>% pivot_longer(cols = c("Day", "Swing", "Night"), names_to = "ShiftTime")
+linear_model <- lm(value ~ Supervisor + ShiftTime + Supervisor:ShiftTime, data = long_df)
+linear_model %>% aov() %>%pander()
+```
+
+Base on the analysis of variance model for the two factors (Supervisor and ShiftTime), we see that Supervisor has a significant effect on the production (with a Pr(>F) of 0.0002351) and also, the combination of Supervisor and ShiftTime also has a significant effect.
+
+Use Tukey HSD to find the paired difference:
+
+```{r}
+aov_model <- linear_model %>% aov()
+hsd <- aov_model%>%TukeyHSD()
+hsd$"Supervisor:ShiftTime" %>% round(3) %>% pander()
+```
+
+
+
+Using the significant rows:
+* **2:Day-1:Day**     -115   -188.6   -41.41   0.002 : Supervisor 1 is better than 2 during the day (due to the negative difference 2 - 1)
+* **1:Night-1:Day**    -152   -225.6   -78.41     0  : super visor 1 does better in day than night shifts (due to the negative difference Night - Day)
+* **1:Swing-1:Day**    -104   -177.6   -30.41   0.005: Supervisor 1 does better in day than swing shifts
+* **2:Night-2:Day**    170    96.41    243.6      0  : Supervisor 2 does better in night than day shifts
+* **2:Swing-2:Day**    115    41.41    188.6    0.002: Supervisor 2 does better in night than swing shifts
+* ..
+
+**Key Takeaway: Compare the final columns of result tables (Pr(>F) or p adj) with the type I error rate.**
+
+If it is less than the type I error rate, then conclude there is a significant difference between the means (for ANOVA) or the means of a pair (for TukeyHSD). 
+
+The rest is deciding your linear model (lm):
+
+For one-factor: lm(value ~ Factor)
+For blocking: lm(value ~ Factor + Blocking)
+For two-factor: lm(value ~ Factor_1 + Factor_2 + Factor_1:Factor_2)
 
 ## Workshop 11 (18/10/22)
 

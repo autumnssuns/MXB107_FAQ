@@ -1251,3 +1251,5 @@ For two-factor: lm(value ~ Factor_1 + Factor_2 + Factor_1:Factor_2)
 ## Workshop 11 (18/10/22)
 
 ## Workshop 12 (23/10/22)
+
+Work through examples while revising marginal probabilities.

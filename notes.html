@@ -11,7 +11,7 @@
 
 <meta name="author" content="Dan Tran" />
 
-<meta name="date" content="2022-10-04" />
+<meta name="date" content="2022-10-17" />
 
 <title>Workshop Notes</title>
 
@@ -2720,8 +2720,8 @@ pre code {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -2729,16 +2729,9 @@ pre code {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -2858,7 +2851,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Workshop Notes</h1>
 <h4 class="author">Dan Tran</h4>
-<h4 class="date">2022-10-04</h4>
+<h4 class="date">2022-10-17</h4>
 
 </div>
 
@@ -3639,8 +3632,7 @@ s &amp;= \sqrt{\dfrac{\sum(x-\bar{x})^2}{n-1}}\\
 \]</span></p>
 <p>(Or find the mean and standard deviation using R)</p>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1"></a>x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.46</span>,<span class="fl">0.61</span>,<span class="fl">0.52</span>,<span class="fl">0.48</span>,<span class="fl">0.57</span>, <span class="fl">0.54</span>)</span>
-<span id="cb43-2"><a href="#cb43-2"></a></span>
-<span id="cb43-3"><a href="#cb43-3"></a><span class="kw">mean</span>(x)</span></code></pre></div>
+<span id="cb43-2"><a href="#cb43-2"></a><span class="kw">mean</span>(x)</span></code></pre></div>
 <pre><code>## [1] 0.53</code></pre>
 <div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1"></a><span class="kw">sd</span>(x)</span></code></pre></div>
 <pre><code>## [1] 0.05585696</code></pre>
@@ -3714,9 +3706,8 @@ s_2 \approx 0.032\\
 <p>We found that <span class="math inline">\(\nu \approx 11.73\)</span>.</p>
 <p>Find the critical test statistics using R:</p>
 <div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1"></a>alpha &lt;-<span class="st"> </span><span class="fl">0.05</span></span>
-<span id="cb53-2"><a href="#cb53-2"></a></span>
-<span id="cb53-3"><a href="#cb53-3"></a>t_critical &lt;-<span class="st"> </span><span class="kw">qt</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>alpha <span class="op">/</span><span class="st"> </span><span class="dv">2</span>, nu) <span class="co"># alpha / 2 because we are using a two-sided test</span></span>
-<span id="cb53-4"><a href="#cb53-4"></a>t_critical</span></code></pre></div>
+<span id="cb53-2"><a href="#cb53-2"></a>t_critical &lt;-<span class="st"> </span><span class="kw">qt</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>alpha <span class="op">/</span><span class="st"> </span><span class="dv">2</span>, nu) <span class="co"># alpha / 2 because we are using a two-sided test</span></span>
+<span id="cb53-3"><a href="#cb53-3"></a>t_critical</span></code></pre></div>
 <pre><code>## [1] 2.184314</code></pre>
 <p>So the critical test statistics is <span class="math inline">\(T_{\nu,\alpha/2} \approx 2.18\)</span>. We reject the null hypothesis if <span class="math inline">\(T &gt; |T_{\nu,\alpha/2}|\)</span>.</p>
 <p>Find the test statistics:</p>
@@ -3778,16 +3769,458 @@ T = \sqrt{n}\dfrac{\bar{d} - 0}{s} \\
 = \sqrt{5}\dfrac{0.48}{0.084}\\
 = 12.78 &gt; |2.776|
 \]</span> Since <span class="math inline">\(T &gt; |T_{\nu, \alpha/2}|\)</span>, we reject the null hypothesis and conclude that there is enough evidence showing that there is a difference between the two tyres.</p>
+<p><strong>Notes</strong> Confidence interval for the difference in sample means</p>
+<p><span class="math display">\[
+\bar{x} - \bar{y} \pm T_{\nu,\alpha/2} \sqrt{s_p^2\left(\dfrac{1}{n_x} + \dfrac{1}{n_y}\right)}
+\]</span></p>
 </div>
 </div>
 <div id="workshop-10-111022" class="section level2">
 <h2>Workshop 10 (11/10/22)</h2>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1"></a>y &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">4.13</span>,<span class="fl">4.07</span>,<span class="fl">4.04</span>,<span class="fl">4.07</span>,<span class="fl">4.05</span>,<span class="fl">4.04</span>,<span class="fl">4.02</span>,<span class="fl">4.06</span>,<span class="fl">4.10</span>,<span class="fl">4.04</span>,</span>
+<span id="cb62-2"><a href="#cb62-2"></a>       <span class="fl">3.86</span>,<span class="fl">3.85</span>,<span class="fl">4.08</span>,<span class="fl">4.11</span>,<span class="fl">4.08</span>,<span class="fl">4.01</span>,<span class="fl">4.02</span>,<span class="fl">4.04</span>,<span class="fl">3.97</span>,<span class="fl">3.95</span>,</span>
+<span id="cb62-3"><a href="#cb62-3"></a>       <span class="fl">4.00</span>,<span class="fl">4.02</span>,<span class="fl">4.01</span>,<span class="fl">4.01</span>,<span class="fl">4.04</span>,<span class="fl">3.99</span>,<span class="fl">4.03</span>,<span class="fl">3.97</span>,<span class="fl">3.98</span>,<span class="fl">3.98</span>,</span>
+<span id="cb62-4"><a href="#cb62-4"></a>       <span class="fl">3.88</span>,<span class="fl">3.88</span>,<span class="fl">3.91</span>,<span class="fl">3.95</span>,<span class="fl">3.92</span>,<span class="fl">3.97</span>,<span class="fl">3.92</span>,<span class="fl">3.90</span>,<span class="fl">3.97</span>,<span class="fl">3.90</span>,</span>
+<span id="cb62-5"><a href="#cb62-5"></a>       <span class="fl">4.02</span>,<span class="fl">3.95</span>,<span class="fl">4.02</span>,<span class="fl">3.89</span>,<span class="fl">3.91</span>,<span class="fl">4.01</span>,<span class="fl">3.89</span>,<span class="fl">3.89</span>,<span class="fl">3.99</span>,<span class="fl">4.00</span>,</span>
+<span id="cb62-6"><a href="#cb62-6"></a>       <span class="fl">4.02</span>,<span class="fl">3.86</span>,<span class="fl">3.96</span>,<span class="fl">3.97</span>,<span class="fl">4.00</span>,<span class="fl">3.82</span>,<span class="fl">3.98</span>,<span class="fl">3.99</span>,<span class="fl">4.02</span>,<span class="fl">3.93</span>,</span>
+<span id="cb62-7"><a href="#cb62-7"></a>       <span class="fl">4.00</span>,<span class="fl">4.02</span>,<span class="fl">4.03</span>,<span class="fl">4.04</span>,<span class="fl">4.10</span>,<span class="fl">3.81</span>,<span class="fl">3.91</span>,<span class="fl">3.96</span>,<span class="fl">4.05</span>,<span class="fl">4.06</span>)</span>
+<span id="cb62-8"><a href="#cb62-8"></a>labs &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="kw">rep</span>(<span class="st">&quot;Lab 1&quot;</span>, <span class="dv">10</span>),<span class="kw">rep</span>(<span class="st">&quot;Lab 2&quot;</span>, <span class="dv">10</span>), <span class="kw">rep</span>(<span class="st">&quot;Lab 3&quot;</span>,<span class="dv">10</span>), <span class="kw">rep</span>(<span class="st">&quot;Lab 4&quot;</span>,<span class="dv">10</span>),</span>
+<span id="cb62-9"><a href="#cb62-9"></a>          <span class="kw">rep</span>(<span class="st">&quot;Lab 5&quot;</span>,<span class="dv">10</span>), <span class="kw">rep</span>(<span class="st">&quot;Lab 6&quot;</span>,<span class="dv">10</span>),<span class="kw">rep</span>(<span class="st">&quot;Lab 7&quot;</span>,<span class="dv">10</span>))</span>
+<span id="cb62-10"><a href="#cb62-10"></a></span>
+<span id="cb62-11"><a href="#cb62-11"></a>df &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">y =</span> y, <span class="dt">lab =</span> labs)</span>
+<span id="cb62-12"><a href="#cb62-12"></a>df <span class="op">%&gt;%</span></span>
+<span id="cb62-13"><a href="#cb62-13"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> lab, <span class="dt">y =</span> y)) <span class="op">+</span></span>
+<span id="cb62-14"><a href="#cb62-14"></a><span class="st">  </span><span class="kw">geom_boxplot</span>()</span></code></pre></div>
+<p><img src="data:image/png;base64,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" width="672" /></p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1"></a>df</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["y"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["lab"],"name":[2],"type":["chr"],"align":["left"]}],"data":[{"1":"4.13","2":"Lab 1"},{"1":"4.07","2":"Lab 1"},{"1":"4.04","2":"Lab 1"},{"1":"4.07","2":"Lab 1"},{"1":"4.05","2":"Lab 1"},{"1":"4.04","2":"Lab 1"},{"1":"4.02","2":"Lab 1"},{"1":"4.06","2":"Lab 1"},{"1":"4.10","2":"Lab 1"},{"1":"4.04","2":"Lab 1"},{"1":"3.86","2":"Lab 2"},{"1":"3.85","2":"Lab 2"},{"1":"4.08","2":"Lab 2"},{"1":"4.11","2":"Lab 2"},{"1":"4.08","2":"Lab 2"},{"1":"4.01","2":"Lab 2"},{"1":"4.02","2":"Lab 2"},{"1":"4.04","2":"Lab 2"},{"1":"3.97","2":"Lab 2"},{"1":"3.95","2":"Lab 2"},{"1":"4.00","2":"Lab 3"},{"1":"4.02","2":"Lab 3"},{"1":"4.01","2":"Lab 3"},{"1":"4.01","2":"Lab 3"},{"1":"4.04","2":"Lab 3"},{"1":"3.99","2":"Lab 3"},{"1":"4.03","2":"Lab 3"},{"1":"3.97","2":"Lab 3"},{"1":"3.98","2":"Lab 3"},{"1":"3.98","2":"Lab 3"},{"1":"3.88","2":"Lab 4"},{"1":"3.88","2":"Lab 4"},{"1":"3.91","2":"Lab 4"},{"1":"3.95","2":"Lab 4"},{"1":"3.92","2":"Lab 4"},{"1":"3.97","2":"Lab 4"},{"1":"3.92","2":"Lab 4"},{"1":"3.90","2":"Lab 4"},{"1":"3.97","2":"Lab 4"},{"1":"3.90","2":"Lab 4"},{"1":"4.02","2":"Lab 5"},{"1":"3.95","2":"Lab 5"},{"1":"4.02","2":"Lab 5"},{"1":"3.89","2":"Lab 5"},{"1":"3.91","2":"Lab 5"},{"1":"4.01","2":"Lab 5"},{"1":"3.89","2":"Lab 5"},{"1":"3.89","2":"Lab 5"},{"1":"3.99","2":"Lab 5"},{"1":"4.00","2":"Lab 5"},{"1":"4.02","2":"Lab 6"},{"1":"3.86","2":"Lab 6"},{"1":"3.96","2":"Lab 6"},{"1":"3.97","2":"Lab 6"},{"1":"4.00","2":"Lab 6"},{"1":"3.82","2":"Lab 6"},{"1":"3.98","2":"Lab 6"},{"1":"3.99","2":"Lab 6"},{"1":"4.02","2":"Lab 6"},{"1":"3.93","2":"Lab 6"},{"1":"4.00","2":"Lab 7"},{"1":"4.02","2":"Lab 7"},{"1":"4.03","2":"Lab 7"},{"1":"4.04","2":"Lab 7"},{"1":"4.10","2":"Lab 7"},{"1":"3.81","2":"Lab 7"},{"1":"3.91","2":"Lab 7"},{"1":"3.96","2":"Lab 7"},{"1":"4.05","2":"Lab 7"},{"1":"4.06","2":"Lab 7"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1"></a>model &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>lab, <span class="dt">data =</span> df)</span>
+<span id="cb64-2"><a href="#cb64-2"></a><span class="kw">panderOptions</span>(<span class="st">&#39;missing&#39;</span>,<span class="st">&quot;&quot;</span>)</span>
+<span id="cb64-3"><a href="#cb64-3"></a>model<span class="op">%&gt;%</span><span class="kw">aov</span>()<span class="op">%&gt;%</span><span class="kw">pander</span>()</span></code></pre></div>
+<table style="width:87%;">
+<caption>Analysis of Variance Model</caption>
+<colgroup>
+<col width="22%"></col>
+<col width="6%"></col>
+<col width="12%"></col>
+<col width="15%"></col>
+<col width="13%"></col>
+<col width="16%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Df</th>
+<th align="center">Sum Sq</th>
+<th align="center">Mean Sq</th>
+<th align="center">F value</th>
+<th align="center">Pr(&gt;F)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>lab</strong></td>
+<td align="center">6</td>
+<td align="center">0.1247</td>
+<td align="center">0.02079</td>
+<td align="center">5.66</td>
+<td align="center">9.453e-05</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Residuals</strong></td>
+<td align="center">63</td>
+<td align="center">0.2314</td>
+<td align="center">0.003673</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1"></a>total_variance &lt;-<span class="st"> </span><span class="kw">var</span>(df<span class="op">$</span>y)</span>
+<span id="cb65-2"><a href="#cb65-2"></a>total_variance</span></code></pre></div>
+<pre><code>## [1] 0.005161408</code></pre>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1"></a>lab_<span class="dv">1</span>_variance &lt;-<span class="st"> </span>(df<span class="op">%&gt;%</span><span class="kw">filter</span>(lab<span class="op">==</span><span class="st">&quot;Lab 1&quot;</span>))<span class="op">$</span>y<span class="op">%&gt;%</span><span class="kw">var</span>()</span>
+<span id="cb67-2"><a href="#cb67-2"></a>lab_<span class="dv">1</span>_variance</span></code></pre></div>
+<pre><code>## [1] 0.001062222</code></pre>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1"></a>alpha &lt;-<span class="st"> </span><span class="fl">0.05</span></span>
+<span id="cb69-2"><a href="#cb69-2"></a>F_critical &lt;-<span class="st"> </span><span class="kw">qf</span>(<span class="dv">1</span> <span class="op">-</span><span class="st"> </span>alpha, <span class="dv">6</span>, <span class="dv">63</span>)</span>
+<span id="cb69-3"><a href="#cb69-3"></a>F_critical</span></code></pre></div>
+<pre><code>## [1] 2.246408</code></pre>
+<p>According to the ANOVA result table, the test F statistic is 5.66, which is greater than the critical F statistic (begin approximately 2.25). Therefore, we reject the null hypothesis that all the lab means are the same.</p>
+<p>We conclude that the means of some labs are different from the others.</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1"></a><span class="fl">0.02079</span> <span class="op">/</span><span class="st"> </span><span class="fl">0.003673</span> <span class="co"># Calculating F statistic treatment mean squared error / residuals mean squared error</span></span></code></pre></div>
+<pre><code>## [1] 5.660223</code></pre>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1"></a><span class="dv">1</span> <span class="op">-</span><span class="st"> </span><span class="kw">pf</span>(<span class="fl">5.66</span>, <span class="dv">6</span>, <span class="dv">63</span>)</span></code></pre></div>
+<pre><code>## [1] 9.453964e-05</code></pre>
+<div id="tukey-honest-significant-difference-hsd-test" class="section level3">
+<h3>Tukey Honest Significant Difference (HSD) Test</h3>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1"></a>anova_model &lt;-<span class="st"> </span>model<span class="op">%&gt;%</span><span class="kw">aov</span>()</span>
+<span id="cb75-2"><a href="#cb75-2"></a>tukey_model &lt;-<span class="st"> </span>anova_model<span class="op">%&gt;%</span><span class="kw">TukeyHSD</span>()</span>
+<span id="cb75-3"><a href="#cb75-3"></a></span>
+<span id="cb75-4"><a href="#cb75-4"></a><span class="co"># Round the result to look nicer</span></span>
+<span id="cb75-5"><a href="#cb75-5"></a>tukey_model<span class="op">$</span>lab<span class="op">%&gt;%</span><span class="kw">round</span>(<span class="dv">3</span>)</span></code></pre></div>
+<pre><code>##               diff    lwr    upr p adj
+## Lab 2-Lab 1 -0.065 -0.148  0.018 0.217
+## Lab 3-Lab 1 -0.059 -0.142  0.024 0.323
+## Lab 4-Lab 1 -0.142 -0.225 -0.059 0.000
+## Lab 5-Lab 1 -0.105 -0.188 -0.022 0.005
+## Lab 6-Lab 1 -0.107 -0.190 -0.024 0.004
+## Lab 7-Lab 1 -0.064 -0.147  0.019 0.232
+## Lab 3-Lab 2  0.006 -0.077  0.089 1.000
+## Lab 4-Lab 2 -0.077 -0.160  0.006 0.083
+## Lab 5-Lab 2 -0.040 -0.123  0.043 0.758
+## Lab 6-Lab 2 -0.042 -0.125  0.041 0.714
+## Lab 7-Lab 2  0.001 -0.082  0.084 1.000
+## Lab 4-Lab 3 -0.083 -0.166  0.000 0.048
+## Lab 5-Lab 3 -0.046 -0.129  0.037 0.620
+## Lab 6-Lab 3 -0.048 -0.131  0.035 0.572
+## Lab 7-Lab 3 -0.005 -0.088  0.078 1.000
+## Lab 5-Lab 4  0.037 -0.046  0.120 0.818
+## Lab 6-Lab 4  0.035 -0.048  0.118 0.853
+## Lab 7-Lab 4  0.078 -0.005  0.161 0.076
+## Lab 6-Lab 5 -0.002 -0.085  0.081 1.000
+## Lab 7-Lab 5  0.041 -0.042  0.124 0.736
+## Lab 7-Lab 6  0.043 -0.040  0.126 0.691</code></pre>
+<p>According to the Tukey HSD result table, the following pairs are different:</p>
+<ul>
+<li>Lab 4 and Lab 1</li>
+<li>Lab 5 and Lab 1</li>
+<li>Lab 6 and Lab 1</li>
+<li>Lab 4 and Lab 3</li>
+</ul>
+</div>
+<div id="prf-and-hypothesis-testing" class="section level3">
+<h3>Pr(&gt;F) and hypothesis testing</h3>
+<p><span class="math display">\[
+Pr(F &gt; F_{\alpha}) = \alpha\\
+F_{test} &gt; F_{\alpha}?\\
+Pr(F &gt; F_{test}) &lt; \alpha
+\]</span></p>
+</div>
+<div id="mobile-phone-usage" class="section level3">
+<h3>Mobile Phone Usage</h3>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1"></a>df &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="st">`</span><span class="dt">Usage_Level</span><span class="st">`</span> =<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Low&quot;</span>, <span class="st">&quot;Medium&quot;</span>,<span class="st">&quot;High&quot;</span>),<span class="dt">A =</span> <span class="kw">c</span>(<span class="dv">27</span>,<span class="dv">68</span>,<span class="dv">308</span>), <span class="dt">B =</span> <span class="kw">c</span>(<span class="dv">24</span>,<span class="dv">76</span>,<span class="dv">326</span>), <span class="dt">C =</span> <span class="kw">c</span>(<span class="dv">31</span>,<span class="dv">65</span>,<span class="dv">312</span>), <span class="dt">D =</span> <span class="kw">c</span>(<span class="dv">23</span>,<span class="dv">67</span>,<span class="dv">300</span>))</span>
+<span id="cb77-2"><a href="#cb77-2"></a>long_df &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pivot_longer</span>(<span class="dt">cols =</span> <span class="kw">c</span>(<span class="st">&quot;A&quot;</span>,<span class="st">&quot;B&quot;</span>,<span class="st">&quot;C&quot;</span>,<span class="st">&quot;D&quot;</span>))</span>
+<span id="cb77-3"><a href="#cb77-3"></a>model_noblocking &lt;-<span class="st"> </span><span class="kw">lm</span>(value<span class="op">~</span>name, <span class="dt">data =</span> long_df)</span>
+<span id="cb77-4"><a href="#cb77-4"></a>anova_model &lt;-<span class="st"> </span>model_noblocking<span class="op">%&gt;%</span><span class="kw">aov</span>()</span>
+<span id="cb77-5"><a href="#cb77-5"></a>anova_model<span class="op">%&gt;%</span><span class="kw">pander</span>()</span></code></pre></div>
+<table style="width:86%;">
+<caption>Analysis of Variance Model</caption>
+<colgroup>
+<col width="22%"></col>
+<col width="6%"></col>
+<col width="12%"></col>
+<col width="13%"></col>
+<col width="15%"></col>
+<col width="15%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Df</th>
+<th align="center">Sum Sq</th>
+<th align="center">Mean Sq</th>
+<th align="center">F value</th>
+<th align="center">Pr(&gt;F)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>name</strong></td>
+<td align="center">3</td>
+<td align="center">222.2</td>
+<td align="center">74.08</td>
+<td align="center">0.003126</td>
+<td align="center">0.9997</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Residuals</strong></td>
+<td align="center">8</td>
+<td align="center">189577</td>
+<td align="center">23697</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1"></a>long_df</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Usage_Level"],"name":[1],"type":["chr"],"align":["left"]},{"label":["name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["value"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Low","2":"A","3":"27"},{"1":"Low","2":"B","3":"24"},{"1":"Low","2":"C","3":"31"},{"1":"Low","2":"D","3":"23"},{"1":"Medium","2":"A","3":"68"},{"1":"Medium","2":"B","3":"76"},{"1":"Medium","2":"C","3":"65"},{"1":"Medium","2":"D","3":"67"},{"1":"High","2":"A","3":"308"},{"1":"High","2":"B","3":"326"},{"1":"High","2":"C","3":"312"},{"1":"High","2":"D","3":"300"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Using the non-blocking method, we reject the null hypothesis and conclude that that the prices are not different between different companies.</p>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1"></a>model_blocking &lt;-<span class="st"> </span><span class="kw">lm</span>(value<span class="op">~</span>Usage_Level <span class="op">+</span><span class="st"> </span>name, <span class="dt">data =</span> long_df)</span>
+<span id="cb79-2"><a href="#cb79-2"></a>anova_model_blocking &lt;-<span class="st"> </span>model_blocking<span class="op">%&gt;%</span><span class="kw">aov</span>()</span>
+<span id="cb79-3"><a href="#cb79-3"></a>anova_model_blocking <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pander</span>()</span></code></pre></div>
+<table style="width:89%;">
+<caption>Analysis of Variance Model</caption>
+<colgroup>
+<col width="25%"></col>
+<col width="6%"></col>
+<col width="12%"></col>
+<col width="13%"></col>
+<col width="13%"></col>
+<col width="16%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Df</th>
+<th align="center">Sum Sq</th>
+<th align="center">Mean Sq</th>
+<th align="center">F value</th>
+<th align="center">Pr(&gt;F)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Usage_Level</strong></td>
+<td align="center">2</td>
+<td align="center">189335</td>
+<td align="center">94668</td>
+<td align="center">2352</td>
+<td align="center">2.067e-09</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>name</strong></td>
+<td align="center">3</td>
+<td align="center">222.3</td>
+<td align="center">74.08</td>
+<td align="center">1.841</td>
+<td align="center">0.2404</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Residuals</strong></td>
+<td align="center">6</td>
+<td align="center">241.5</td>
+<td align="center">40.25</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<p>We see that the Pr(&gt;F) has dropped quite significantly (from 0.9997 to 0.2404), however, since this new value is still much greater than the desired type I error rate of <span class="math inline">\(\alpha = 0.05\)</span>, we fail to reject the null hypothesis and conclude that the prices are not really different between different companies.</p>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1"></a>long_df</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Usage_Level"],"name":[1],"type":["chr"],"align":["left"]},{"label":["name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["value"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Low","2":"A","3":"27"},{"1":"Low","2":"B","3":"24"},{"1":"Low","2":"C","3":"31"},{"1":"Low","2":"D","3":"23"},{"1":"Medium","2":"A","3":"68"},{"1":"Medium","2":"B","3":"76"},{"1":"Medium","2":"C","3":"65"},{"1":"Medium","2":"D","3":"67"},{"1":"High","2":"A","3":"308"},{"1":"High","2":"B","3":"326"},{"1":"High","2":"C","3":"312"},{"1":"High","2":"D","3":"300"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div id="two-factor-experiment" class="section level3">
+<h3>Two-factor experiment</h3>
+<p>Similar to blocking, but both variables are observed and intereted in.</p>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1"></a>df &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">Supervisor =</span> <span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>)<span class="op">%&gt;%</span><span class="kw">as.factor</span>(), </span>
+<span id="cb81-2"><a href="#cb81-2"></a>             <span class="dt">Day =</span> <span class="kw">c</span>(<span class="dv">571</span>,<span class="dv">610</span>,<span class="dv">625</span>,<span class="dv">480</span>,<span class="dv">516</span>,<span class="dv">465</span>), </span>
+<span id="cb81-3"><a href="#cb81-3"></a>             <span class="dt">Swing =</span> <span class="kw">c</span>(<span class="dv">480</span>,<span class="dv">474</span>,<span class="dv">540</span>,<span class="dv">625</span>,<span class="dv">600</span>,<span class="dv">581</span>),</span>
+<span id="cb81-4"><a href="#cb81-4"></a>             <span class="dt">Night =</span> <span class="kw">c</span>(<span class="dv">470</span>,<span class="dv">430</span>,<span class="dv">450</span>,<span class="dv">630</span>,<span class="dv">680</span>,<span class="dv">661</span>))</span>
+<span id="cb81-5"><a href="#cb81-5"></a></span>
+<span id="cb81-6"><a href="#cb81-6"></a>long_df &lt;-<span class="st"> </span>df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pivot_longer</span>(<span class="dt">cols =</span> <span class="kw">c</span>(<span class="st">&quot;Day&quot;</span>, <span class="st">&quot;Swing&quot;</span>, <span class="st">&quot;Night&quot;</span>), <span class="dt">names_to =</span> <span class="st">&quot;ShiftTime&quot;</span>)</span>
+<span id="cb81-7"><a href="#cb81-7"></a>linear_model &lt;-<span class="st"> </span><span class="kw">lm</span>(value <span class="op">~</span><span class="st"> </span>Supervisor <span class="op">+</span><span class="st"> </span>ShiftTime <span class="op">+</span><span class="st"> </span>Supervisor<span class="op">:</span>ShiftTime, <span class="dt">data =</span> long_df)</span>
+<span id="cb81-8"><a href="#cb81-8"></a>linear_model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">aov</span>() <span class="op">%&gt;%</span><span class="kw">pander</span>()</span></code></pre></div>
+<table>
+<caption>Analysis of Variance Model</caption>
+<colgroup>
+<col width="36%"></col>
+<col width="6%"></col>
+<col width="12%"></col>
+<col width="13%"></col>
+<col width="13%"></col>
+<col width="16%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Df</th>
+<th align="center">Sum Sq</th>
+<th align="center">Mean Sq</th>
+<th align="center">F value</th>
+<th align="center">Pr(&gt;F)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Supervisor</strong></td>
+<td align="center">1</td>
+<td align="center">19208</td>
+<td align="center">19208</td>
+<td align="center">26.68</td>
+<td align="center">0.0002351</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>ShiftTime</strong></td>
+<td align="center">2</td>
+<td align="center">247</td>
+<td align="center">123.5</td>
+<td align="center">0.1715</td>
+<td align="center">0.8444</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Supervisor:ShiftTime</strong></td>
+<td align="center">2</td>
+<td align="center">81127</td>
+<td align="center">40564</td>
+<td align="center">56.34</td>
+<td align="center">7.95e-07</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Residuals</strong></td>
+<td align="center">12</td>
+<td align="center">8640</td>
+<td align="center">720</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<p>Base on the analysis of variance model for the two factors (Supervisor and ShiftTime), we see that Supervisor has a significant effect on the production (with a Pr(&gt;F) of 0.0002351) and also, the combination of Supervisor and ShiftTime also has a significant effect.</p>
+<p>Use Tukey HSD to find the paired difference:</p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1"></a>aov_model &lt;-<span class="st"> </span>linear_model <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">aov</span>()</span>
+<span id="cb82-2"><a href="#cb82-2"></a>hsd &lt;-<span class="st"> </span>aov_model<span class="op">%&gt;%</span><span class="kw">TukeyHSD</span>()</span>
+<span id="cb82-3"><a href="#cb82-3"></a>hsd<span class="op">$</span><span class="st">&quot;Supervisor:ShiftTime&quot;</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">round</span>(<span class="dv">3</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">pander</span>()</span></code></pre></div>
+<table style="width:78%;">
+<colgroup>
+<col width="30%"></col>
+<col width="9%"></col>
+<col width="12%"></col>
+<col width="12%"></col>
+<col width="12%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">diff</th>
+<th align="center">lwr</th>
+<th align="center">upr</th>
+<th align="center">p adj</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>2:Day-1:Day</strong></td>
+<td align="center">-115</td>
+<td align="center">-188.6</td>
+<td align="center">-41.41</td>
+<td align="center">0.002</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>1:Night-1:Day</strong></td>
+<td align="center">-152</td>
+<td align="center">-225.6</td>
+<td align="center">-78.41</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>2:Night-1:Day</strong></td>
+<td align="center">55</td>
+<td align="center">-18.59</td>
+<td align="center">128.6</td>
+<td align="center">0.195</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>1:Swing-1:Day</strong></td>
+<td align="center">-104</td>
+<td align="center">-177.6</td>
+<td align="center">-30.41</td>
+<td align="center">0.005</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>2:Swing-1:Day</strong></td>
+<td align="center">0</td>
+<td align="center">-73.59</td>
+<td align="center">73.59</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>1:Night-2:Day</strong></td>
+<td align="center">-37</td>
+<td align="center">-110.6</td>
+<td align="center">36.59</td>
+<td align="center">0.563</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>2:Night-2:Day</strong></td>
+<td align="center">170</td>
+<td align="center">96.41</td>
+<td align="center">243.6</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>1:Swing-2:Day</strong></td>
+<td align="center">11</td>
+<td align="center">-62.59</td>
+<td align="center">84.59</td>
+<td align="center">0.995</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>2:Swing-2:Day</strong></td>
+<td align="center">115</td>
+<td align="center">41.41</td>
+<td align="center">188.6</td>
+<td align="center">0.002</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>2:Night-1:Night</strong></td>
+<td align="center">207</td>
+<td align="center">133.4</td>
+<td align="center">280.6</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>1:Swing-1:Night</strong></td>
+<td align="center">48</td>
+<td align="center">-25.59</td>
+<td align="center">121.6</td>
+<td align="center">0.309</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>2:Swing-1:Night</strong></td>
+<td align="center">152</td>
+<td align="center">78.41</td>
+<td align="center">225.6</td>
+<td align="center">0</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>1:Swing-2:Night</strong></td>
+<td align="center">-159</td>
+<td align="center">-232.6</td>
+<td align="center">-85.41</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>2:Swing-2:Night</strong></td>
+<td align="center">-55</td>
+<td align="center">-128.6</td>
+<td align="center">18.59</td>
+<td align="center">0.195</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>2:Swing-1:Swing</strong></td>
+<td align="center">104</td>
+<td align="center">30.41</td>
+<td align="center">177.6</td>
+<td align="center">0.005</td>
+</tr>
+</tbody>
+</table>
+<p>Using the significant rows: * <strong>2:Day-1:Day</strong> -115 -188.6 -41.41 0.002 : Supervisor 1 is better than 2 during the day (due to the negative difference 2 - 1) * <strong>1:Night-1:Day</strong> -152 -225.6 -78.41 0 : super visor 1 does better in day than night shifts (due to the negative difference Night - Day) * <strong>1:Swing-1:Day</strong> -104 -177.6 -30.41 0.005: Supervisor 1 does better in day than swing shifts * <strong>2:Night-2:Day</strong> 170 96.41 243.6 0 : Supervisor 2 does better in night than day shifts * <strong>2:Swing-2:Day</strong> 115 41.41 188.6 0.002: Supervisor 2 does better in night than swing shifts * ..</p>
+<p><strong>Key Takeaway: Compare the final columns of result tables (Pr(&gt;F) or p adj) with the type I error rate.</strong></p>
+<p>If it is less than the type I error rate, then conclude there is a significant difference between the means (for ANOVA) or the means of a pair (for TukeyHSD).</p>
+<p>The rest is deciding your linear model (lm):</p>
+<p>For one-factor: lm(value ~ Factor) For blocking: lm(value ~ Factor + Blocking) For two-factor: lm(value ~ Factor_1 + Factor_2 + Factor_1:Factor_2)</p>
+</div>
 </div>
 <div id="workshop-11-181022" class="section level2">
 <h2>Workshop 11 (18/10/22)</h2>
 </div>
 <div id="workshop-12-231022" class="section level2">
 <h2>Workshop 12 (23/10/22)</h2>
+<p>Work through examples while revising marginal probabilities.</p>
 </div>
 
 

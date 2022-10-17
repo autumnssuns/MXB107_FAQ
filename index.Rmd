@@ -48,9 +48,10 @@ install.packages(c( "tidyverse", "knitr", "rmarkdown", "pander",
 
 # Use knitr to install tinytex
 # library(knitr)
+
 # install.packages("tinytex")
 # tinytex::install_tinytex(force = TRUE)
-# install.packages("MXB107_1.0.0.2022.zip", repos = NULL, type="source")
+install.packages("MXB107_1.0.0.2022.zip", repos = NULL, type="source")
 library(MXB107)
 ```
 

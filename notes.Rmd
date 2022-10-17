@@ -1250,6 +1250,39 @@ For two-factor: lm(value ~ Factor_1 + Factor_2 + Factor_1:Factor_2)
 
 ## Workshop 11 (18/10/22)
 
+### Simple Linear Regression
+
+```{r}
+df<-tibble(y = c(64,79,51,83,93,88,63,97,55,74), x = c(39,43,22,63,56,47,27,74,34,53))
+df %>% ggplot()+
+  geom_point(aes(x = x, y = y))
+
+model <- lm(y ~ x, df)
+```
+
+### EPA Data: Overview
+
+```{r}
+data("epa_data")
+
+df <- epa_data %>% filter(year == 1990)
+model<-lm(city~hwy,df)
+
+beta_0 <- model$coefficients[1]
+beta_1 <- model$coefficients[2]
+
+plt <- df %>% 
+  ggplot() +
+  geom_point(aes(x = hwy, y = city)) +
+  ggtitle("City Fuel Economy against Highway Fuel Economy") +
+  xlab("City Fuel Economy (mpg)") +
+  ylab("Highway Fuel Economy (mpg)")
+
+plt + geom_abline(intercept = beta_0, slope = beta_1, color="red", 
+                 linetype="solid", size=1)
+
+```
+
 ## Workshop 12 (23/10/22)
 
 Work through examples while revising marginal probabilities.

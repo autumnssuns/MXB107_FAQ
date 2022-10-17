@@ -913,10 +913,6 @@ $$
 (Or find the mean and standard deviation using R)
 ```{r}
 x <- c(0.46,0.61,0.52,0.48,0.57, 0.54)
-<<<<<<< HEAD
-=======
-
->>>>>>> e33dcaf0764a08a6cabd9ed8e9a5fc1fccf40d27
 mean(x)
 sd(x)
 ```
@@ -946,10 +942,6 @@ Since the test statistic is less than the critical test statistics (in the case 
 Data are collected to measure the impact strength of two different packaging materials
 
 ```{r}
-<<<<<<< HEAD
-=======
-
->>>>>>> e33dcaf0764a08a6cabd9ed8e9a5fc1fccf40d27
 df <- tibble('Material 1' = c(1.25,1.16,1.33,1.15,1.23,1.20,1.32,1.28,1.21),
               'Material 2' = c(0.89,0.91,0.97,0.95,0.94,0.92,0.98,0.96,0.98))
 ```
@@ -1009,15 +1001,10 @@ s_1 <- stats$`Material 1_sd`
 s_2 <- stats$`Material 2_sd`
 n_1 <- 9
 n_2 <- 9
-<<<<<<< HEAD
-num <- (s_1^2/n_1 + s_2^2/n_2)^2
-den <- (s_1^2/n_1)^2 / (n_1 - 1) + (s_2^2/n_2)^2 / (n_2 - 1)
-=======
 
 num <- (s_1^2/n_1 + s_2^2/n_2)^2
 den <- (s_1^2/n_1)^2 / (n_1 - 1) + (s_2^2/n_2)^2 / (n_2 - 1)
 
->>>>>>> e33dcaf0764a08a6cabd9ed8e9a5fc1fccf40d27
 nu <- num / den
 nu
 ```
@@ -1028,10 +1015,6 @@ Find the critical test statistics using R:
 
 ```{r}
 alpha <- 0.05
-<<<<<<< HEAD
-=======
-
->>>>>>> e33dcaf0764a08a6cabd9ed8e9a5fc1fccf40d27
 t_critical <- qt(1 - alpha / 2, nu) # alpha / 2 because we are using a two-sided test
 t_critical
 ```

@@ -1125,6 +1125,10 @@ df
 ```
 
 ```{r}
+sd(y)
+```
+
+```{r}
 model <- lm(y ~ lab, data = df)
 panderOptions('missing',"")
 model%>%aov()%>%pander()
@@ -1252,13 +1256,100 @@ For two-factor: lm(value ~ Factor_1 + Factor_2 + Factor_1:Factor_2)
 
 ### Simple Linear Regression
 
+$$
+S_{xy} = \sum(x_i - \bar{x})(y_i - \bar{y})\\
+S_{xx} = \sum(x_i - \bar{x})^2
+$$
+
 ```{r}
-df<-tibble(y = c(64,79,51,83,93,88,63,97,55,74), x = c(39,43,22,63,56,47,27,74,34,53))
-df %>% ggplot()+
+df<-tibble(y = c(64,79,51,83,93,88,63,97,55,74), 
+           x = c(39,43,22,63,56,47,27,74,34,53))
+plot <- df %>% ggplot()+
   geom_point(aes(x = x, y = y))
 
-model <- lm(y ~ x, df)
+x_bar <- mean(df$x)
+y_bar <- mean(df$y)
+
+S_xy <- sum((df$x - x_bar)*(df$y - y_bar))
+S_xx <- sum((df$x - x_bar)^2)
+
+beta_1 <- S_xy / S_xx
+beta_0 <- y_bar - beta_1 * x_bar
+
+plot + 
+  geom_abline(slope = beta_1, intercept = beta_0)
+
+model <- lm(y~ x, df)
+summary(model) %>% pander()
+
+beta_0
+beta_1
 ```
+
+### Anova for Linear Regression
+
+Firstly, see that without a linear model, the unexplained variance is high:
+
+```{r}
+S_yy <- sum((df$y - y_bar)^2)
+S_yy
+```
+Now that we perform linear regression on the x variable, we found that the x variable is responsible for a large proportion of the variance. Because of this, we found that the sum of unexplained variance has dropped down significantly (to 65.6).
+
+```{r}
+model%>%aov()%>%pander()
+```
+
+### Coefficient of Determination
+
+The coefficient of determination finds the proportion of variance explained by the regression model.
+
+$$
+R^2 = \dfrac{SSR}{SST}
+$$
+
+```{r}
+SSR <- 1773 # Found from the anova table
+SST <- S_yy
+R_2 <- SSR / SST
+R_2
+```
+
+### Testing the regression results
+
+Check if the error terms are normally distributed (i.e. the data points scatter randomly around the line of best fit). For this we can use a residual plot and a qq plot
+
+Residual Plot
+
+```{r}
+df.model <- data.frame(fitted.values = model$fitted.values,
+                       residuals = model$residuals)
+df.model %>% ggplot(aes(x = fitted.values,y = residuals))+
+  geom_point()+
+  geom_smooth(method = "lm",se = FALSE)
+```
+
+QQ Plot
+
+```{r}
+df.model %>% 
+  ggplot(aes(x = residuals)) +
+  geom_histogram()+
+  stat_function(fun = dnorm, args = list(mean = 0, sd = sd(df.model$residuals)))
+
+var(df.model$residuals)
+```
+
+We found that the histogram does not effectively show if the error terms are normally distributed. So we use a QQ plot
+
+```{r}
+ggplot(df.model,aes(sample = residuals))+
+  geom_qq_line()+
+  geom_qq()
+
+mean(df.model$residuals)
+```
+
 
 ### EPA Data: Overview
 
@@ -1281,6 +1372,13 @@ plt <- df %>%
 plt + geom_abline(intercept = beta_0, slope = beta_1, color="red", 
                  linetype="solid", size=1)
 
+```
+
+```{r}
+interested_epa_data <- epa_data %>% filter(year >= 2011 & year <= 2021) 
+
+epa_data_model <- lm(city ~ trans + disp + trans:disp, interested_epa_data)
+epa_data_model%>%aov()%>%pander()
 ```
 
 ## Workshop 12 (23/10/22)

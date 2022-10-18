@@ -140,6 +140,25 @@ Find the mean and standard deviation of the difference:
 diff %>% summarise_at("Difference", .funs = list(mean = ~mean(.), sd = ~sd(.)))
 ```
 
+## Question 8
+
+Plotting the distribution of residuals as a histogram (not required, but may help with your understanding)
+
+```{r}
+model_2 <- lm(height~age+Seed, data = Loblolly)
+
+model_2%>%aov()%>%pander()
+
+df <- tibble(Loblolly,resid = model_2$residuals, fitted.values = model_2$fitted.values)
+
+df %>% 
+  ggplot(aes(x = resid)) +
+  geom_histogram(bins = 30) +
+  ggtitle("Residual histogram") +
+  xlab("Residual") +
+  ylab("Count")
+```
+
 # Assignment 1
 
 Load the `episodes` data set.

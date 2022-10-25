@@ -1384,3 +1384,15 @@ epa_data_model%>%aov()%>%pander()
 ## Workshop 12 (23/10/22)
 
 Work through examples while revising marginal probabilities.
+
+```{r}
+Words <- c("a", "an", "this", "that", "with", "without")
+Admirer <- c(83,29,15,22,43,4)
+Austen <- c(434,62,86,236,161,38)
+
+df <- tibble(Words,Admirer,Austen)
+df %>% ggplot(aes(x = Words, y = Admirer)) +
+  geom_histogram(stat ="Identity")
+df %>% ggplot(aes(x = Words, y = Austen)) +
+  geom_histogram(stat ="Identity")
+```

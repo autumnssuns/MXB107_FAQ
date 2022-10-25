@@ -1383,7 +1383,13 @@ epa_data_model%>%aov()%>%pander()
 
 ## Workshop 12 (23/10/22)
 
-Work through examples while revising marginal probabilities.
+### Fisher's exact test
+
+![Page 1](Images/Page1.png)
+![Page 2](Images/Page2.png)
+![Page 3](Images/Page3.png)
+
+### Chi squared test
 
 ```{r}
 Words <- c("a", "an", "this", "that", "with", "without")
@@ -1396,3 +1402,8 @@ df %>% ggplot(aes(x = Words, y = Admirer)) +
 df %>% ggplot(aes(x = Words, y = Austen)) +
   geom_histogram(stat ="Identity")
 ```
+
+![Page 4](Images/Page4.png)
+![Page 5](Images/Page5.png)
+![Page 6](Images/Page6.png)
+![Page 7](Images/Page7.png)

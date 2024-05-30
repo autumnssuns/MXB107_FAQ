@@ -121,7 +121,9 @@ Renamed the above $P$ to $P_1$, we have:
 
 $$
 Pr(S|P_1) \approx 0.0901
-$$ For two tests, we have:
+$$ 
+
+For two tests, we have:
 
 $$
 Pr(S|P_2 \cap P_1) = \dfrac{Pr(P_2 \cap P_1 | S)Pr(S)}{Pr(P2\cap P_1|S)Pr(S) + Pr(P_2 \cap P_1|S^c)Pr(S^c)}
@@ -317,15 +319,21 @@ $$
 \mu = 250g\\
 \sigma = 10g\\
 n=13 \text{ blocks}
-$$ Apply the central limit theorem:
+$$ 
+
+Apply the central limit theorem:
 
 $$
 \bar{x} \sim N\left(\mu, \dfrac{\sigma^2}{n}\right)\\
 \bar{x} \sim N\left(250, \dfrac{10^2}{13}\right)\\
-$$ In a normal distribution, the first parameter is the mean, and second
+$$ 
+
+In a normal distribution, the first parameter is the mean, and second
 is the variance.
 
-And the standard deviation of the distribution of means is $$
+And the standard deviation of the distribution of means is 
+
+$$
 \begin{aligned}
 s &= \sqrt{\dfrac{\sigma^2}{n}} \\
 &= \dfrac{\sigma}{\sqrt{n}} \\
@@ -380,7 +388,9 @@ students preferred on-line workshops. What is the probability of
 observing the proportion from Semester 2, or more given the Semester 1
 results are accurate?
 
-The central limit theorem for a sample proportion has that: $$
+The central limit theorem for a sample proportion has that: 
+
+$$
 \hat{p} \sim N\left(p,\dfrac{p(1-p)}{n}\right)
 $$
 
@@ -442,7 +452,9 @@ $$
 $$
 m_1 = \dfrac{1}{\lambda} \\
 \lambda = \dfrac{1}{m_1}
-$$ Because we need to find an estimation from the sample mean, not an
+$$ 
+
+Because we need to find an estimation from the sample mean, not an
 exact population mean, change the notation accordingly:
 
 $$
@@ -497,19 +509,15 @@ $$
 
 Set the derivative to 0 and find $\lambda$.
 
-\$\$
-
-```{=tex}
+$$
 \begin{aligned}
-
-n \dfrac{1}{\lambda} - \sum_{i=1}^{n}x_i &= 0\\
-\dfrac{n}{\lambda} &= \sum_{i=1}^{n}x_i\\
-\lambda &= \dfrac{n}{\sum_{i=1}^{n}}\\
-\lambda &= \dfrac{1}{\dfrac{\sum_{i=1}^{n}x_i}{n}}\\
+n \dfrac{1}{\lambda} - \sum_{i=1}^{n}x_i &= 0 \\
+\dfrac{n}{\lambda} &= \sum_{i=1}^{n}x_i \\
+\lambda &= \dfrac{n}{\sum_{i=1}^{n}} \\
+\lambda &= \dfrac{1}{\dfrac{\sum_{i=1}^{n}x_i}{n}} \\
 \lambda &= \dfrac{1}{\bar{x}}
 \end{aligned}
-```
-\$\$
+$$
 
 Because we are finding and estimation,
 $\lambda \rightarrow \hat{\lambda}$
@@ -520,7 +528,7 @@ $$
 
 ### Bonus: Finding log likelihood of Poisson
 
-```{=tex}
+$$
 \begin{aligned}
 
 L(x|\mathbf{x}) &= \prod_{i=1}^{n}\dfrac{\lambda^{x_i}}{x_i!}e^{-\lambda} \\
@@ -530,7 +538,7 @@ l(x|\mathbf{x}) &= \sum_{i=1}^{n}log(\dfrac{\lambda^{x_i}}{x_i!}e^{-\lambda})\\
 &= \sum_{i=1}^{n}(x_ilog(\lambda) - log(x_i!) - \lambda)\\
 &= log(\lambda)\sum_{i=1}^{n}x_i- \sum_{i=1}^{n}log(x_i!)- n\lambda
 \end{aligned}
-```
+$$
 
 Z-score transformation
 
@@ -561,16 +569,22 @@ of protein for men.
 The confidence interval is
 
 $$
-n = 50 \\ \bar{x} = 75.6 \\ s = 3.5\\ \alpha = 0.05 \\
+\begin{align*}
+n &= 50 \\
+\bar{x} &= 75.6 \\
+s &= 3.5\\
+\alpha &= 0.05 \\
 
-\bar{x} \pm Z\_{\alpha/2}SE\_{\bar{x}} \\
+\bar{x} &\pm Z_{\alpha/2}SE_{\bar{x}} \\
 
-SE\_{\bar{x}} = \dfrac{s}{\sqrt{n}} = \dfrac{3.5}{\sqrt{50}} \\
-Z\_{\alpha/2} = Z\_{0.05/2} = 1.96\\
+SE_{\bar{x}} &= \dfrac{s}{\sqrt{n}} = \dfrac{3.5}{\sqrt{50}} \\
+Z_{\alpha/2} &= Z_{0.05/2} = 1.96\\
 
-\bar{x} \pm 1.96\\dfrac{3.5}{\\sqrt{50}} \\ \bar{x} \pm 0.970 \\ 75.6
-\pm 0.97 \\ (74.63, 76.57)
-
+\bar{x} &\pm 1.96\dfrac{3.5}{\sqrt{50}} \\
+\bar{x} &\pm 0.970 \\
+75.6 &\pm 0.97 \\
+&= (74.63, 76.57)
+\end{align*}
 $$
 
 The 95% confidence interval is (74.63, 76.57).
@@ -583,24 +597,27 @@ interval for the proportion of the population that approves of the
 current government's handling of the COVID-19 crisis.
 
 $$ 
-\begin{aligned}
-n &= 985\\ 
-x &= 592\\ 
-\Rightarrow \hat{p} &= \dfrac{x}{n} =
-\dfrac{592}{985} \approx 0.60 \\
+\begin{align*}
+n &= 985 \\ 
+x &= 592 \\ 
+\Rightarrow \hat{p} &= \dfrac{x}{n} = \dfrac{592}{985} \approx 0.60 \\
 
-\alpha &= (1 - 0.9) = 0.1, \text{90% confidence interval} \\
+\alpha &= (1 - 0.9) = 0.1, \text{90\% Confidence Interval} \\
 
-SE\_{\hat{p}} &= \sqrt{\dfrac{\hat{p}(1-\hat{p})}{n}} \\ 
-&=\sqrt{\dfrac{0.60(1 - 0.60)}{985}} \\ &\approx 0.0156\\ Z\_{\alpha/2} 
-&=Z\_{0.1/2} 
-\approx 1.645\\
+SE_{\hat{p}} &= \sqrt{\dfrac{\hat{p}(1-\hat{p})}{n}} \\ 
+&= \sqrt{\dfrac{0.60(1 - 0.60)}{985}} \\ 
+&\approx 0.0156 \\ 
 
-\hat{p} &\pm Z\_{\alpha/2}SE\_{\hat{p}} \\ 0.60 &\pm 1.645 \times 0.0156
-\\ 0.60 &\pm 0.0256\\
+Z_{\alpha/2} &= Z_{0.1/2} \approx 1.645 \\
 
-&(0.574, 0.625)
-\end{aligned}
+\hat{p} &\pm Z_{\alpha/2}SE_{\hat{p}} \\ 
+
+0.60 &\pm 1.645 \times 0.0156 \\ 
+
+0.60 &\pm 0.0256 \\
+
+&= (0.574, 0.625)
+\end{align*}
 $$
 
 ```{r}
@@ -1379,6 +1396,24 @@ interested_epa_data <- epa_data %>% filter(year >= 2011 & year <= 2021)
 
 epa_data_model <- lm(city ~ trans + disp + trans:disp, interested_epa_data)
 epa_data_model%>%aov()%>%pander()
+```
+
+## Workshop 12 (23/10/22)
+
+### Fisher's exact test
+
+### Chi squared test
+
+```{r}
+Words <- c("a", "an", "this", "that", "with", "without")
+Admirer <- c(83,29,15,22,43,4)
+Austen <- c(434,62,86,236,161,38)
+
+df <- tibble(Words,Admirer,Austen)
+df %>% ggplot(aes(x = Words, y = Admirer)) +
+  geom_histogram(stat ="Identity")
+df %>% ggplot(aes(x = Words, y = Austen)) +
+  geom_histogram(stat ="Identity")
 ```
 
 ## Workshop 12 (23/10/22)
